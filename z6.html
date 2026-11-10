@@ -326,6 +326,8 @@ body{margin:0}
 .simfb ul{margin:0;padding-left:18px;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){#chest.on,#pulseRing.on{animation-duration:var(--rr)}}
 </style>
+  <div class="row" id="simSel" role="group" aria-label="Симулятор"><button class="btn" data-s="simStart" aria-pressed="true">Сортування START</button><button class="btn" data-s="simDecon" aria-pressed="false">Деконтамінація</button></div>
+  <div id="simStart" class="stack">
   <div class="stack">
     <span class="eyebrow">Симулятор · на оцінку не впливає</span>
     <div class="sim-head"><h2>Сортування START</h2><span class="sim-score" id="simScore"></span></div>
@@ -373,6 +375,60 @@ body{margin:0}
     <div id="simSum"></div>
     <div class="row"><button class="btn primary" id="simNext" hidden>Наступний постраждалий</button></div>
   </div>
+  </div>
+<div id="simDecon" hidden class="stack">
+<style>
+.dc-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:760px){.dc-wrap{grid-template-columns:1fr}.dc-wrap>.stack:first-child{position:sticky;top:calc(env(safe-area-inset-top,0px) + 92px);z-index:3;background:var(--bg);padding-bottom:6px}.dc-stage{width:min(100%,40vh);margin:0 auto}}
+.dc-stage{position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:#5E625B;touch-action:manipulation}
+.dc-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .5s}
+.drop{position:absolute;width:9%;aspect-ratio:1.3/1;margin:-3.5% 0 0 -4.5%;border-radius:55% 45% 60% 40%;background:radial-gradient(circle at 35% 35%,#E9D27A,#A88A1E 60%,#6F5A0E);box-shadow:0 0 0 2px rgba(255,240,170,.35);cursor:pointer;transition:opacity .4s,transform .4s}
+.drop.gone{opacity:0;transform:scale(.4);pointer-events:none}
+.drop.smear{transform:scale(1.9,1.3);opacity:.85}
+.cutline{pointer-events:none;position:absolute;left:50%;top:36%;bottom:4%;width:0;border-left:3px dashed #F4F7EF;opacity:0;transition:opacity .3s}
+.cutline.on{opacity:1}
+.water{position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(120,190,255,.0) 0 14px,rgba(120,190,255,.35) 14px 18px);background-size:100% 36px;opacity:0;pointer-events:none}
+.water.on{opacity:1;animation:flow .6s linear infinite}
+@keyframes flow{to{background-position:0 36px}}
+.blanket{pointer-events:none;position:absolute;left:8%;right:8%;top:42%;bottom:0;background:linear-gradient(135deg,#8B6B4A,#6E5236);border-radius:16px 16px 0 0;opacity:0;transform:translateY(20%);transition:all .5s}
+.blanket.on{opacity:.95;transform:none}
+.dc-hud{pointer-events:none;position:absolute;left:8px;top:8px;right:8px;display:flex;gap:6px;flex-wrap:wrap}
+.dc-hud span{background:rgba(16,20,14,.78);color:#F4F7EF;font:600 12px var(--f-body);padding:3px 8px;border-radius:6px}
+.dc-hud span.ok{background:#2C7A3C}
+.dc-clock{pointer-events:none;position:absolute;right:10px;bottom:10px;background:rgba(16,20,14,.8);color:#B9F08C;font:700 18px var(--f-mono);padding:4px 10px;border-radius:8px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.tools button{text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:9px 10px;font:500 14px/1.3 var(--f-body);cursor:pointer;min-height:48px}
+.tools button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink);font-weight:600}
+.tools button.hold{background:var(--olive-soft)}
+.dc-log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.dc-log li{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:7px 10px;font-size:14px}
+.dc-log li small{display:block;color:var(--muted);font-size:12px}
+.dc-log li.err{border-left-color:var(--bad);background:var(--bad-soft)}
+</style>
+  <div class="note"><b>Ситуація.</b> У зоні деконтамінації (тепла зона, з навітряного боку) — постраждалий після хімічної атаки: на куртці маслянисті краплі, скаржиться на печіння шкіри передпліч і різь в одному оці. Він притомний, дихає, загроз життю немає. <b>Завдання:</b> провести безпечне видалення забрудненого одягу, первинну деконтамінацію шкіри та промивання очей.</div>
+  <p class="small muted">Навичка з РПОК: безпечне видалення забрудненого одягу, первинна деконтамінація шкіри та промивання очей. Оберіть дію або інструмент праворуч. Коли інструмент потребує дії на тілі — натисніть на постраждалого або на краплю. 1 с утримання кнопки води = 2 хв.</p>
+  <div class="dc-wrap">
+    <div class="stack">
+      <div class="dc-stage" id="dcStage">
+        <img id="dcImgA" src="img/s6-patient.webp" alt="Постраждалий у забрудненому одязі">
+        <img id="dcImgB" src="img/s6-undressed.webp" alt="Постраждалий після зняття одягу" style="opacity:0">
+        <div class="cutline" id="dcCut"></div>
+        <div id="dcDrops"></div>
+        <div class="water" id="dcWater"></div>
+        <div class="blanket" id="dcBlanket"></div>
+        <div class="dc-hud" id="dcHud"></div>
+        <div class="dc-clock" id="dcClock" hidden></div>
+      </div>
+      <div id="dcMsg"></div>
+    </div>
+    <div class="stack">
+      <div class="row" style="justify-content:space-between"><b>Дії та інструменти</b><span class="small muted" id="dcScore"></span></div>
+      <div class="tools" id="dcTools"></div>
+      <b>Виконано</b>
+      <ol class="dc-log" id="dcLog"></ol>
+    </div>
+  </div>
+</div>
 </section>
 
 <!-- ================= PRACTICE ================= -->
@@ -710,6 +766,72 @@ const SKILLS=[{"t": "Оцінювання хімічної небезпеки о
   $("#simNext").onclick=()=>{next();document.getElementById("ptChips").scrollIntoView({block:"start"})};
   newIncident();
 })();
+(function(){const sel=document.getElementById("simSel");if(!sel)return;sel.onclick=e=>{const b=e.target.closest("button");if(!b)return;
+  sel.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));["simStart","simDecon"].forEach(id=>document.getElementById(id).hidden=id!==b.dataset.s)}})();
+/* ---------- decontamination simulator ---------- */
+(function(){
+  if(!document.getElementById("simDecon"))return;
+  const q=s=>document.querySelector(s);
+  const ORDER=["ziz","explain","cut","bag","blot","wash","eyes","cover","reassess","doff"];
+  const NAME={ziz:"Надягнути ЗІЗ рятувальника",explain:"Пояснити дії, попросити закрити очі й затримати дихання",cut:"Розрізати і зняти одяг зверху вниз, вивертаючи",bag:"Скласти одяг у пакет, закрити, позначити",blot:"Суха деконтамінація крапель",wash:"Промивання шкіри водою з милом 15–20 хв",eyes:"Промивання ураженого ока 10–20 хв",cover:"Висушити і вкрити ковдрою",reassess:"Повторно оцінити стан, позначити деконтамінацію",doff:"Зняти власні ЗІЗ, вимити руки, задокументувати час"};
+  const WHY={ziz:"Безпека рятувальника — перша умова.",explain:"Зменшує ризик потрапляння речовини в очі й дихальні шляхи під час знімання одягу.",cut:"Зняття одягу видаляє значну частину забруднення; через голову не знімають.",bag:"Ізоляція запобігає вторинному забрудненню.",blot:"Розтирання збільшує площу контакту і всмоктування; кожна серветка — один раз.",wash:"Вода видаляє і розводить речовину; тривалість — за Порядком МОЗ № 441.",eyes:"Нахил у бік ураженого ока — стік не потрапляє у здорове око.",cover:"Після промивання — ризик переохолодження.",reassess:"Всмоктана речовина може дати відстрочене погіршення.",doff:"Профілактика вторинного забруднення персоналу."};
+  const TOOLS=[
+    ["ziz","ЗІЗ рятувальника: протигаз, рукавички"],["explain","Пояснити: «Закрийте очі, затримайте дихання»"],
+    ["cut","Ножиці: розрізати одяг"],["e_head","Зняти куртку через голову"],["e_shake","Струсити одяг"],["bag","Пакет: скласти одяг, закрити, позначити"],
+    ["blot","Серветка: промокнути краплю"],["e_rub","Серветка: протерти краплю"],["wash","Утримувати: лити воду з милом"],
+    ["eyesL","Нахилити голову вліво і промивати"],["eyesR","Нахилити голову вправо і промивати"],["e_soda","Сода: нейтралізувати"],["e_vinegar","Оцет: нейтралізувати"],
+    ["cover","Висушити промокаючи, вкрити ковдрою"],["reassess","Оцінити дихання, свідомість; позначити «деконтаміновано»"],["doff","Зняти свої ЗІЗ, вимити руки, записати час"]];
+  const ERR={e_head:"Типова помилка: одяг не знімають через голову — речовина потрапить на обличчя, в очі й дихальні шляхи.",e_shake:"Типова помилка: струшування піднімає речовину в повітря.",e_rub:"Типова помилка: розтирання збільшує площу контакту і всмоктування. Промокайте.",e_soda:"Типова помилка: нейтралізація виділяє тепло і поглиблює опік. Лише вода.",e_vinegar:"Типова помилка: нейтралізація виділяє тепло і поглиблює опік. Лише вода."};
+  let st,sel,mist,washMin,eyeMin,eye,holdT=null,drops;
+  const DROPS_A=[[36,56],[63,49],[46,72]],DROPS_B=[[19,86],[81,84],[49,42]];
+  function reset(){st=0;sel=null;mist=0;washMin=0;eyeMin=0;eye=Math.random()<.5?"L":"R";
+    q("#dcImgA").style.opacity=1;q("#dcImgB").style.opacity=0;q("#dcCut").classList.remove("on");q("#dcWater").classList.remove("on");q("#dcBlanket").classList.remove("on");q("#dcClock").hidden=true;
+    q("#dcLog").innerHTML="";drops=DROPS_A.map(p=>({p,gone:false}));drawDrops();msg("","");hud();tools();score()}
+  function hud(){const done=ORDER.slice(0,st);q("#dcHud").innerHTML=`<span class="${done.includes("ziz")?"ok":""}">ЗІЗ ${done.includes("ziz")?"✓":"—"}</span><span>Уражене око: ${eye==="L"?"ліве":"праве"}</span>`}
+  function tools(){q("#dcTools").innerHTML=TOOLS.map(([k,t])=>`<button data-k="${k}" class="${k==="wash"||k.startsWith("eyes")?"hold":""}" aria-pressed="${sel===k}">${t}</button>`).join("")}
+  function score(){q("#dcScore").textContent=`Помилок: ${mist}`}
+  function msg(c,t){q("#dcMsg").innerHTML=t?`<div class="fb ${c}">${t}</div>`:""}
+  function drawDrops(){q("#dcDrops").innerHTML=drops.map((d,i)=>`<span class="drop ${d.gone?"gone":""} ${d.smear?"smear":""}" data-i="${i}" style="left:${d.p[0]}%;top:${d.p[1]}%"></span>`).join("")}
+  function log(k,err){q("#dcLog").insertAdjacentHTML("beforeend",err?`<li class="err">${err}</li>`:`<li><b>${NAME[k]}</b><small>${WHY[k]}</small></li>`)}
+  function wrong(t){mist++;score();msg("no",t);log(null,t)}
+  function expect(k){const need=ORDER[st];if(k===need)return true;
+    const i=ORDER.indexOf(k);if(i>=0&&i<st){msg("no","Це вже виконано.");return false}
+    wrong(`Не за порядком. Спочатку: «${NAME[need]}».`);return false}
+  function advance(k){log(k);st++;hud();msg("ok","✓ "+NAME[k]+". "+WHY[k]);if(st===ORDER.length)finish()}
+  q("#dcTools").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const k=b.dataset.k;
+    if(ERR[k]&&k!=="e_rub"){wrong(ERR[k]);return}
+    if(k==="e_rub"||k==="blot"){if(st<ORDER.indexOf("blot")){expect("blot");return}sel=k;tools();msg("","Натисніть на краплю на шкірі постраждалого.");return}
+    if(k==="cut"){if(!expect("cut"))return;sel="cut";tools();msg("","Натисніть на постраждалого, щоб розрізати одяг зверху вниз.");return}
+    if(k==="wash"||k.startsWith("eyes"))return;
+    if(!expect(k))return;
+    if(k==="cover")q("#dcBlanket").classList.add("on");
+    advance(k)});
+  q("#dcStage").addEventListener("click",e=>{
+    const d=e.target.closest(".drop");
+    if(sel==="cut"&&ORDER[st]==="cut"){q("#dcCut").classList.add("on");setTimeout(()=>{q("#dcImgA").style.opacity=0;q("#dcImgB").style.opacity=1;q("#dcCut").classList.remove("on");drops=DROPS_B.map(p=>({p,gone:false}));drawDrops()},700);sel=null;tools();advance("cut");return}
+    if(d&&(sel==="blot"||sel==="e_rub")){const i=+d.dataset.i;
+      if(ORDER[st]!=="blot"){expect("blot");return}
+      if(sel==="e_rub"){drops[i].smear=true;drawDrops();wrong(ERR.e_rub);return}
+      drops[i].gone=true;drawDrops();
+      if(drops.every(x=>x.gone)){sel=null;tools();advance("blot")}else msg("ok",`Промокнуто. Візьміть нову серветку — лишилось крапель: ${drops.filter(x=>!x.gone).length}.`)}});
+  function holdStart(k){
+    if(k==="wash"){if(!expect("wash"))return}
+    else{if(ORDER[st]!=="eyes"){expect("eyes");return}
+      if(k!=="eyes"+eye){wrong(`Голову нахиляють у бік ураженого (${eye==="L"?"лівого":"правого"}) ока, інакше стік потрапить у здорове око.`);return}}
+    q("#dcWater").classList.add("on");q("#dcClock").hidden=false;
+    holdT=setInterval(()=>{if(k==="wash"){washMin+=2;q("#dcClock").textContent=washMin+" хв";if(washMin>=20)holdEnd(k)}else{eyeMin+=2;q("#dcClock").textContent="очі "+eyeMin+" хв";if(eyeMin>=20)holdEnd(k)}},1000)}
+  function holdEnd(k){if(!holdT)return;clearInterval(holdT);holdT=null;q("#dcWater").classList.remove("on");
+    if(k==="wash"){if(washMin>=15)advance("wash");else msg("no",`Промито ${washMin} хв — замало. Потрібно не менше 15–20 хв. Утримуйте ще.`)}
+    else{if(eyeMin>=10)advance("eyes");else msg("no",`Очі промито ${eyeMin} хв — замало. Потрібно 10–20 хв, від внутрішнього кута до зовнішнього.`)}}
+  let holding=null;
+  q("#dcTools").addEventListener("pointerdown",e=>{const b=e.target.closest("button.hold");if(!b)return;e.preventDefault();holding=b.dataset.k;holdStart(holding)});
+  const stop=()=>{if(holding){holdEnd(holding);holding=null}};
+  q("#dcTools").addEventListener("pointerup",stop);q("#dcTools").addEventListener("pointerleave",stop);q("#dcTools").addEventListener("pointercancel",stop);
+  function finish(){msg(mist?"no":"ok",`<b>Навичку виконано. Помилок: ${mist}.</b> Критерії: ЗІЗ — першими; одяг розрізано, не знято через голову, ізольовано; суха обробка без розтирання; шкіра 15–20 хв, очі 10–20 хв; без нейтралізації; зігріто, стан переоцінено. <button class="btn" id="dcAgain" style="margin-left:6px">Ще раз</button>`);
+    q("#dcAgain").onclick=reset}
+  reset();
+})();
+
 /* ---------- practice ---------- */
 (function(){
   const PQ=T1.concat(T2);let right=0,done=0;
