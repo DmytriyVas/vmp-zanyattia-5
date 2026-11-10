@@ -96,8 +96,8 @@ label.chk input{margin-top:5px;accent-color:var(--olive)}
 .case .opt{background:var(--surface)}
 .opt .L{font:600 13px/22px var(--f-mono);color:var(--muted)}
 .opt:hover:not([disabled]){border-color:var(--olive)}
-.opt[aria-pressed="true"]{border-color:var(--olive);background:var(--olive-soft)}
-.opt[aria-pressed="true"] .L{color:var(--olive)}
+.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 1px var(--ink);font-weight:600}
+.opt[aria-pressed="true"] .L{color:var(--surface);background:var(--ink);border-radius:50%;text-align:center;width:22px}
 .opt[disabled]{cursor:default}
 .opt.right{background:var(--ok-soft);border-color:var(--ok)}
 .opt.right .L{color:var(--ok)}
@@ -203,9 +203,9 @@ body{margin:0}
       <ol class="small" style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px">
         <li>Введіть прізвище, ім’я, групу і <b>номер варіанта, який назвав викладач</b>. Натисніть «Почати».</li>
         <li>Виконайте всі 4 блоки. Тести: оберіть одну відповідь. Розрахункові задачі: впишіть число (дробову частину через кому). Ситуаційні задачі: прочитайте умову і дайте відповіді на питання під нею. Відповідність: оберіть пару в кожному рядку. Послідовність: натискайте кроки по черзі.</li>
-        <li>Відповіді можна змінювати, поки не натиснули «Завершити». Внизу видно, скільки завдань уже виконано.</li>
-        <li>Натисніть «Завершити і отримати оцінку». Сторінка порахує бали і виставить оцінку.</li>
-        <li><b>Покажіть екран з результатом викладачу</b>, потім розберіть свої помилки.</li>
+        <li>Відповіді можна змінювати, поки не натиснули «Завершити». Завершити можна лише після відповіді на всі завдання. Внизу видно, скільки вже виконано.</li>
+        <li>Натисніть «Завершити і отримати оцінку». Результат автоматично потрапить до викладача. Пройти контроль можна один раз.</li>
+        <li><b>Покажіть екран з результатом викладачу.</b></li>
       </ol>
       <p class="small muted">Якщо сторінку випадково закрили — відкрийте посилання знову на тому самому пристрої: відповіді збережуться.</p>
     </div>
@@ -215,7 +215,7 @@ body{margin:0}
       <div><b>26</b><span>питань до 10 ситуаційних задач, по 1 балу</span></div>
       <div><b>4</b><span>завдання на відповідність і послідовність, по 2 бали</span></div>
     </div>
-    <p class="small muted">Усього 68 балів. Оцінка за часткою балів: 90–100 % «відмінно», 75–89 % «добре», 60–74 % «задовільно», менше 60 % «незадовільно».</p>
+    <p class="small muted">Усього 68 балів. Оцінка за 5-бальною шкалою: 90–100 % — «5», 75–89 % — «4», 60–74 % — «3», менше 60 % — «2».</p>
     <form id="startForm" class="panel stack" novalidate>
       <div class="start">
         <label class="f">Прізвище, ім’я<input type="text" id="sName" autocomplete="name" placeholder="Петренко Олена"></label>
@@ -300,7 +300,7 @@ body{margin:0}
   <div class="wrap">
     <div class="prog"><span class="t" id="progT"></span><div class="track"><i id="progI"></i></div></div>
     <div class="row" id="barBtns"><button class="btn primary" id="finish">Завершити і отримати оцінку</button></div>
-    <div class="row" id="barConfirm" hidden><span class="small" id="confirmT"></span><button class="btn" id="cBack">Повернутися</button><button class="btn primary" id="cGo">Завершити</button></div>
+    <div class="row" id="barConfirm" hidden><span class="small" id="confirmT"></span><button class="btn" id="cBack">Повернутися</button><button class="btn primary" id="cGo" hidden>Завершити</button></div>
   </div>
 </div>
 
@@ -467,29 +467,29 @@ function score(it){const a=S.ans[it.id];if(!answered(it))return 0;
   if(it.type==="num"){const v=parseNum(a),t=it.answer;return Math.abs(v-t)<=Math.max(0.011,Math.abs(t)*0.02)?it.pts:0}
   if(it.type==="match"){const ok=a.filter((x,k)=>+x===it.m[3][k]).length;return Math.round(it.pts*ok/a.length*100)/100}
   if(it.type==="seq"){const ok=a.filter((x,k)=>x===k).length;return Math.round(it.pts*ok/a.length*100)/100}}
-const grade=p=>p>=90?["відмінно","g5"]:p>=75?["добре","g4"]:p>=60?["задовільно","g3"]:["незадовільно","g2"];
+const grade=p=>p>=90?["відмінно","g5",5]:p>=75?["добре","g4",4]:p>=60?["задовільно","g3",3]:["незадовільно","g2",2];
 
 /* ---------- render control ---------- */
 let S=load(), ITEMS=[];
 function renderItem(it,num){
-  const done=S.done,a=S.ans[it.id];
+  const done=S.done,a=S.ans[it.id],rv=false;
   const head=`<span class="qn"><span>№ ${num}</span><span>${it.pts} ${it.pts===1?"бал":"бали"}</span></span>`;
   let body="",fb="";
   if(it.type==="mc"){
-    body=`<div class="qt">${esc(it.q)}</div><div class="opts">${it.order.map((oi,k)=>{let c="";if(done){if(oi===it.correct)c="right";else if(a===oi)c="wrong"}return `<button class="opt ${c}" data-id="${it.id}" data-o="${oi}" aria-pressed="${a===oi}" ${done?"disabled":""}><span class="L">${L[k]}</span><span>${esc(it.opts[oi])}</span></button>`}).join("")}</div>`;
-    if(done){const ok=a===it.correct;fb=`<div class="fb ${ok?"ok":"no"}">${ok?"Правильно.":a==null?"Без відповіді.":"Неправильно."} ${esc(it.expl)}</div>`}
+    body=`<div class="qt">${esc(it.q)}</div><div class="opts">${it.order.map((oi,k)=>{let c="";if(rv){if(oi===it.correct)c="right";else if(a===oi)c="wrong"}return `<button class="opt ${c}" data-id="${it.id}" data-o="${oi}" aria-pressed="${a===oi}" ${done?"disabled":""}><span class="L">${L[k]}</span><span>${esc(it.opts[oi])}</span></button>`}).join("")}</div>`;
+    if(rv){const ok=a===it.correct;fb=`<div class="fb ${ok?"ok":"no"}">${ok?"Правильно.":a==null?"Без відповіді.":"Неправильно."} ${esc(it.expl)}</div>`}
   } else if(it.type==="num"){
     const ok=done&&score(it)>0;
-    body=`<div class="qt">${esc(it.q)}</div><div class="numin"><input inputmode="decimal" id="in_${it.id}" data-id="${it.id}" value="${esc(a||"")}" placeholder="0,0" ${done?"disabled":""} class="${done?(ok?"right":"wrong"):""}" aria-label="Відповідь"><span>${esc(it.unit)}</span></div><p class="small muted">Дробову частину пишіть через кому, до сотих.</p>`;
-    if(done)fb=`<div class="fb ${ok?"ok":"no"}">${ok?"Правильно.":"Правильна відповідь: "+fmt(it.answer)+" "+esc(it.unit)+"."} ${esc(it.expl)}</div>`;
+    body=`<div class="qt">${esc(it.q)}</div><div class="numin"><input inputmode="decimal" id="in_${it.id}" data-id="${it.id}" value="${esc(a||"")}" placeholder="0,0" ${done?"disabled":""} class="${rv?(ok?"right":"wrong"):""}" aria-label="Відповідь"><span>${esc(it.unit)}</span></div><p class="small muted">Дробову частину пишіть через кому, до сотих.</p>`;
+    if(rv)fb=`<div class="fb ${ok?"ok":"no"}">${ok?"Правильно.":"Правильна відповідь: "+fmt(it.answer)+" "+esc(it.unit)+"."} ${esc(it.expl)}</div>`;
   } else if(it.type==="match"){
     const m=it.m,sel=a||[];
-    body=`<div class="qt">Установіть відповідність: ${esc(m[0])}</div><div class="match">${m[1].map((l,k)=>{let c="";if(done)c=(+sel[k]===m[3][k]&&sel[k]!=="")?"right":"wrong";return `<div>${k+1}) ${esc(l)}</div><select id="sel_${it.id}_${k}" data-id="${it.id}" data-k="${k}" class="${c}" ${done?"disabled":""} aria-label="${esc(l)}"><option value="">—</option>${it.rightOrder.map((j,x)=>`<option value="${j}" ${String(sel[k])===String(j)?"selected":""}>${L[x]}) ${esc(m[2][j])}</option>`).join("")}</select>`}).join("")}</div>`;
-    if(done){const sc=score(it);fb=`<div class="fb ${sc===it.pts?"ok":sc>0?"part":"no"}">${fmt(sc,2)} з ${it.pts}. Ключ: ${m[1].map((l,k)=>esc(l)+" — "+esc(m[2][m[3][k]])).join("; ")}.</div>`}
+    body=`<div class="qt">Установіть відповідність: ${esc(m[0])}</div><div class="match">${m[1].map((l,k)=>{let c="";if(rv)c=(+sel[k]===m[3][k]&&sel[k]!=="")?"right":"wrong";return `<div>${k+1}) ${esc(l)}</div><select id="sel_${it.id}_${k}" data-id="${it.id}" data-k="${k}" class="${c}" ${done?"disabled":""} aria-label="${esc(l)}"><option value="">—</option>${it.rightOrder.map((j,x)=>`<option value="${j}" ${String(sel[k])===String(j)?"selected":""}>${L[x]}) ${esc(m[2][j])}</option>`).join("")}</select>`}).join("")}</div>`;
+    if(rv){const sc=score(it);fb=`<div class="fb ${sc===it.pts?"ok":sc>0?"part":"no"}">${fmt(sc,2)} з ${it.pts}. Ключ: ${m[1].map((l,k)=>esc(l)+" — "+esc(m[2][m[3][k]])).join("; ")}.</div>`}
   } else if(it.type==="seq"){
     const s=it.s,cur=a||[];
-    body=`<div class="qt">Установіть послідовність: ${esc(s[0])}</div><p class="small muted">Натискайте кроки по черзі, від першого до останнього.</p><div class="seq">${it.order.map(j=>`<button data-id="${it.id}" data-j="${j}" ${done||cur.includes(j)?"disabled":""}>${esc(s[1][j])}</button>`).join("")}</div><div class="seqout">${cur.map((j,k)=>`<div class="${done?(j===k?"right":"wrong"):""}"><span>${k+1}</span><span>${esc(s[1][j])}</span></div>`).join("")}</div>${done?"":`<div class="row"><button class="btn" data-undo="${it.id}" ${cur.length?"":"disabled"}>Скинути порядок</button></div>`}`;
-    if(done){const sc=score(it);fb=`<div class="fb ${sc===it.pts?"ok":sc>0?"part":"no"}">${fmt(sc,2)} з ${it.pts}. Правильно: ${s[1].map((t,k)=>(k+1)+". "+esc(t)).join(" → ")}</div>`}
+    body=`<div class="qt">Установіть послідовність: ${esc(s[0])}</div><p class="small muted">Натискайте кроки по черзі, від першого до останнього.</p><div class="seq">${it.order.map(j=>`<button data-id="${it.id}" data-j="${j}" ${done||cur.includes(j)?"disabled":""}>${esc(s[1][j])}</button>`).join("")}</div><div class="seqout">${cur.map((j,k)=>`<div class="${rv?(j===k?"right":"wrong"):""}"><span>${k+1}</span><span>${esc(s[1][j])}</span></div>`).join("")}</div>${done?"":`<div class="row"><button class="btn" data-undo="${it.id}" ${cur.length?"":"disabled"}>Скинути порядок</button></div>`}`;
+    if(rv){const sc=score(it);fb=`<div class="fb ${sc===it.pts?"ok":sc>0?"part":"no"}">${fmt(sc,2)} з ${it.pts}. Правильно: ${s[1].map((t,k)=>(k+1)+". "+esc(t)).join(" → ")}</div>`}
   }
   return `<div class="q" id="q_${it.id}">${head}${body}${fb}</div>`;
 }
@@ -513,25 +513,43 @@ function progress(){
   $("#progT").innerHTML=`Відповіли <b>${d} / ${tot}</b>`;
   $("#progI").style.width=(d/tot*100)+"%";
 }
-function renderResult(){
+function computeResult(){
   const rows=["A","B","C","D"].map(b=>{const its=ITEMS.filter(i=>i.block===b);return [BLOCKS[b],its.reduce((s,i)=>s+score(i),0),its.reduce((s,i)=>s+i.pts,0)]});
-  const got=rows.reduce((s,x)=>s+x[1],0),max=rows.reduce((s,x)=>s+x[2],0),p=Math.round(got/max*100),[g,gc]=grade(p);
+  const got=rows.reduce((s,x)=>s+x[1],0),max=rows.reduce((s,x)=>s+x[2],0),p=Math.round(got/max*100);
+  return {rows,got,max,p,g:grade(p)};
+}
+function renderResult(){
+  const {rows,got,max,p,g:[g,gc,gn]}=computeResult();
   const dt=new Date(S.doneAt);
   $("#resultBox").hidden=false;
-  $("#resultBox").innerHTML=`<div class="result"><div class="top"><div class="who"><span class="eyebrow">Результат</span><b>${esc(S.name)}</b><span class="muted">Група ${esc(S.group)}</span></div><div class="gradebox"><div class="g ${gc}">«${g}»</div><div class="p">${fmt(got,2)} з ${max} балів · ${p} %</div></div></div>
+  $("#resultBox").innerHTML=`<div class="result"><div class="top"><div class="who"><span class="eyebrow">Результат</span><b>${esc(S.name)}</b><span class="muted">Група ${esc(S.group)}</span></div><div class="gradebox"><div class="g ${gc}">${gn} <span style="font-size:.6em">(${g})</span></div><div class="p">${fmt(got,2)} з ${max} балів · ${p} %</div></div></div>
   <div class="tablebox" style="border:0;border-top:1px solid var(--line);border-radius:0"><table><tr><th>Блок</th><th class="num">Бали</th></tr>${rows.map(x=>`<tr><td>${x[0]}</td><td class="num">${fmt(x[1],2)} / ${x[2]}</td></tr>`).join("")}</table></div>
-  <div class="lcd"><span>Заняття № 5 · варіант ${S.variant||"тренувальний"}</span><b>${dt.toLocaleDateString("uk-UA")} ${dt.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})}</b></div></div>
-  <p class="small muted">Покажіть цей результат викладачу. Нижче розбір кожного завдання з правильними відповідями.</p>
-  <div class="row" id="againRow"><button class="btn" id="again">Потренуватися на новому варіанті</button></div>`;
-  $("#again").onclick=()=>{$("#againRow").innerHTML=`<span class="small">Поточний результат буде видалено з цієї сторінки.</span><button class="btn" id="aNo">Скасувати</button><button class="btn danger" id="aYes">Почати новий</button>`;
-    $("#aNo").onclick=renderResult;$("#aYes").onclick=()=>{S={name:S.name,group:S.group,variant:0,seed:Math.floor(Math.random()*1e9),started:true,ans:{}};save();renderControl();window.scrollTo(0,0)}};
+  <div class="lcd"><span>Заняття № 5 · варіант ${S.variant}</span><b>${dt.toLocaleDateString("uk-UA")} ${dt.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})}</b></div></div>
+  <p class="small muted">Результат передано викладачу. Розбір завдань буде на занятті.</p>`;
+}
+
+function errList(){
+  const out=[];let n=0;
+  ["A","B","C","D"].forEach(b=>ITEMS.filter(i=>i.block===b).forEach(it=>{n++;const sc=score(it);if(sc>=it.pts)return;const a=S.ans[it.id];
+    if(it.type==="mc")out.push(`№${n}: ${L[it.order.indexOf(a)]||"—"} (треба ${L[it.order.indexOf(it.correct)]})`);
+    else if(it.type==="num")out.push(`№${n}: ${a||"—"} (треба ${fmt(it.answer)})`);
+    else out.push(`№${n}: ${fmt(sc,2)}/${it.pts}`);}));
+  return out.join("; ")||"без помилок";
+}
+/* ---------- send to teacher's register ---------- */
+const ENDPOINT="";
+function send(type){
+  if(!ENDPOINT)return;
+  const d={type,attempt:S.attempt,name:S.name,group:S.group,variant:S.variant,answered:ITEMS.filter(answered).length,total:ITEMS.length,device:navigator.userAgent.slice(0,120)};
+  if(type==="finish"){const r=computeResult();Object.assign(d,{score:Math.round(r.got*100)/100,max:r.max,pct:r.p,grade:r.g[2],blocks:r.rows.map(x=>x[0]+": "+fmt(x[1],2)+"/"+x[2]).join("; "),errors:errList()})}
+  try{fetch(ENDPOINT,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)}).catch(()=>{})}catch(e){}
 }
 
 $("#startForm").addEventListener("submit",e=>{
   e.preventDefault();const n=$("#sName").value.trim(),g=$("#sGroup").value.trim(),v=parseInt($("#sVar").value,10);
   const err=n.length<3?"Вкажіть прізвище та ім’я.":!g?"Вкажіть групу.":!(v>=1&&v<=30)?"Вкажіть номер варіанта від 1 до 30, який назвав викладач.":"";
   if(err){$("#sErr").hidden=false;$("#sErr").textContent=err;return}
-  S={name:n,group:g,variant:v,seed:v*104729+7,started:true,ans:{}};save();renderControl();window.scrollTo(0,0);
+  S={name:n,group:g,variant:v,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0);
 });
 $("#testBox").addEventListener("click",e=>{
   if(S.done)return;
@@ -548,11 +566,11 @@ $("#testBox").addEventListener("input",e=>{
   if(t.matches("input[data-id]")){S.ans[t.dataset.id]=t.value;save();progress()}
   if(t.matches("select[data-id]")){const id=t.dataset.id,it=ITEMS.find(i=>i.id===id);const a=(S.ans[id]||Array(it.m[1].length).fill("")).slice();a[+t.dataset.k]=t.value;S.ans[id]=a;save();progress()}
 });
-function finish(){S.done=true;S.doneAt=Date.now();save();$("#barConfirm").hidden=true;$("#barBtns").hidden=false;renderControl();window.scrollTo(0,0)}
+function finish(){S.done=true;S.doneAt=Date.now();save();send("finish");$("#barConfirm").hidden=true;$("#barBtns").hidden=false;renderControl();window.scrollTo(0,0)}
 $("#finish").onclick=()=>{const left=ITEMS.length-ITEMS.filter(answered).length;if(left===0){finish();return}
-  $("#confirmT").textContent=`Без відповіді: ${left}. Після завершення змінити відповіді не можна.`;$("#barBtns").hidden=true;$("#barConfirm").hidden=false};
+  $("#confirmT").textContent=`Без відповіді: ${left}. Дайте відповідь на всі завдання, тоді можна завершити.`;$("#barBtns").hidden=true;$("#barConfirm").hidden=false};
 $("#cBack").onclick=()=>{$("#barConfirm").hidden=true;$("#barBtns").hidden=false;const f=ITEMS.find(i=>!answered(i));if(f)$("#q_"+f.id).scrollIntoView({block:"center"})};
-$("#cGo").onclick=finish;
+
 
 if(S&&S.name){$("#sName").value=S.name;$("#sGroup").value=S.group||""}
 renderControl();
