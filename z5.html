@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Бойовий стрес і радіаційні ураження</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: sticky header with two views (control, trainers); one column max 860px; numeric answers and tools styled as dosimeter readouts */
+:root{
+  --bg:#EDF0E8; --surface:#FFFFFF; --surface-2:#F5F7F1; --ink:#1C2219; --muted:#5A6455; --line:#CDD4C5;
+  --olive:#3E5A2C; --olive-soft:#E1E9D6; --signal:#E3AE00; --signal-soft:#FBF0C9; --signal-ink:#3B2F00;
+  --ok:#2C7A3C; --ok-soft:#DDF0E0; --bad:#B0281F; --bad-soft:#F8E0DD;
+  --lcd-bg:#1D2919; --lcd-fg:#B9F08C; --lcd-dim:#7E9F67; --on-olive:#FFFFFF;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10140E; --surface:#181E15; --surface-2:#1D2419; --ink:#E3E9DC; --muted:#9BA693; --line:#2D3627;
+  --olive:#A4CB80; --olive-soft:#26331E; --signal:#F0C445; --signal-soft:#3A3115; --signal-ink:#F7E3A4;
+  --ok:#73C886; --ok-soft:#1C3322; --bad:#F08B82; --bad-soft:#3D1D1A;
+  --lcd-bg:#0A0F08; --lcd-fg:#B9F08C; --lcd-dim:#6E8F57; --on-olive:#10140E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10140E; --surface:#181E15; --surface-2:#1D2419; --ink:#E3E9DC; --muted:#9BA693; --line:#2D3627;
+  --olive:#A4CB80; --olive-soft:#26331E; --signal:#F0C445; --signal-soft:#3A3115; --signal-ink:#F7E3A4;
+  --ok:#73C886; --ok-soft:#1C3322; --bad:#F08B82; --bad-soft:#3D1D1A;
+  --lcd-bg:#0A0F08; --lcd-fg:#B9F08C; --lcd-dim:#6E8F57; --on-olive:#10140E; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;padding-block:10px 2px;font-size:13px;color:var(--muted)}
+.brand b{color:var(--ink);font-weight:600}
+.tri{width:18px;height:18px;flex:none}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-block:4px 0}
+nav.tabs a{flex:none;text-decoration:none;color:var(--muted);font-weight:500;font-size:15px;padding:8px 12px;border-bottom:3px solid transparent;white-space:nowrap}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--signal)}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+main{padding-block:28px 120px}
+section.view{display:flex;flex-direction:column;gap:22px}
+section.view[hidden],[hidden]{display:none!important}
+h1,h2,h3{text-wrap:balance;margin:0}
+h1{font:700 clamp(22px,4.2vw,32px)/1.18 var(--f-display);letter-spacing:-.01em}
+h2{font:700 20px/1.25 var(--f-display)}
+h3{font:600 17px/1.35 var(--f-body)}
+p{margin:0}
+.lead{font-size:17px;color:var(--muted);max-width:65ch}
+.eyebrow{font:600 12px/1 var(--f-body);text-transform:uppercase;letter-spacing:.08em;color:var(--olive)}
+.stack{display:flex;flex-direction:column;gap:12px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.muted{color:var(--muted)} .small{font-size:14px}
+.note{background:var(--signal-soft);color:var(--signal-ink);border-left:4px solid var(--signal);padding:12px 16px;border-radius:0 8px 8px 0;font-size:15px}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font-weight:600;background:var(--surface-2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+
+button{font:inherit;cursor:pointer}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 16px;border-radius:8px;font-weight:500;font-size:15px}
+.btn:hover{border-color:var(--olive)}
+.btn.primary{background:var(--olive);border-color:var(--olive);color:var(--on-olive)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:500;color:var(--muted)}
+input[type=text],input[type=number],input[inputmode],select{font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px;min-width:0;width:100%}
+label.chk{display:flex;gap:8px;align-items:flex-start;font-size:15px;cursor:pointer}
+label.chk input{margin-top:5px;accent-color:var(--olive)}
+.err{color:var(--bad);font-size:14px}
+
+/* start */
+.start{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.blocks div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.blocks b{font:700 22px var(--f-mono);color:var(--olive)}
+.blocks span{font-size:14px;color:var(--muted)}
+
+/* blocks of the control */
+.bhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-top:10px}
+.bhead small{font:500 13px var(--f-mono);color:var(--muted)}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.q .qn{font:600 12px var(--f-mono);color:var(--olive);display:flex;justify-content:space-between;gap:8px}
+.q .qt{font-weight:600}
+.case{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.case>.ct{display:flex;flex-direction:column;gap:6px}
+.case .tag{font:600 12px var(--f-mono);color:var(--olive)}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:start;text-align:left;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);padding:9px 12px;border-radius:8px;font-size:15px}
+.case .opt{background:var(--surface)}
+.opt .L{font:600 13px/22px var(--f-mono);color:var(--muted)}
+.opt:hover:not([disabled]){border-color:var(--olive)}
+.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 1px var(--ink);font-weight:600}
+.opt[aria-pressed="true"] .L{color:var(--surface);background:var(--ink);border-radius:50%;text-align:center;width:22px}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.right .L{color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt.wrong .L{color:var(--bad)}
+.formula{font:500 15px var(--f-mono);background:var(--surface-2);border:1px dashed var(--line);border-radius:8px;padding:8px 12px;margin:0}
+.formula b{color:var(--olive)}
+.numin{display:flex;gap:8px;align-items:center;max-width:320px}
+.numin input{font-family:var(--f-mono);font-size:18px;background:var(--lcd-bg);color:var(--lcd-fg);border-color:var(--lcd-bg)}
+.numin span{font:500 14px var(--f-mono);color:var(--muted);white-space:nowrap}
+.numin input.right{outline:2px solid var(--ok)} .numin input.wrong{outline:2px solid var(--bad)}
+.fb{font-size:14px;padding:9px 12px;border-radius:8px}
+.fb.ok{background:var(--ok-soft);color:var(--ok)}
+.fb.no{background:var(--bad-soft);color:var(--bad)}
+.fb.part{background:var(--signal-soft);color:var(--signal-ink)}
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:8px 12px;align-items:center}
+.match select.right{border-color:var(--ok);background:var(--ok-soft)}
+.match select.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.seq{display:flex;flex-wrap:wrap;gap:6px}
+.seq button{border:1px dashed var(--line);background:var(--surface-2);color:var(--ink);padding:7px 10px;border-radius:8px;font-size:14px;text-align:left}
+.seq button[disabled]{opacity:.35}
+.seqout{display:flex;flex-direction:column;gap:4px;font-size:15px}
+.seqout div{display:flex;gap:8px}
+.seqout div span:first-child{font:600 13px/24px var(--f-mono);color:var(--olive);min-width:20px}
+.seqout div.right span:first-child{color:var(--ok)} .seqout div.wrong span:first-child{color:var(--bad)}
+
+/* bottom bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:10px}
+.prog{flex:1 1 200px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.prog .t{font-size:13px;color:var(--muted)}
+.prog .t b{color:var(--ink);font-variant-numeric:tabular-nums}
+.track{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.track i{display:block;height:100%;background:var(--olive);width:0;transition:width .2s}
+
+/* result */
+.result{background:var(--surface);border:2px solid var(--ink);border-radius:14px;overflow:hidden}
+.result .top{display:grid;grid-template-columns:1fr auto;gap:16px;padding:18px 20px;align-items:center}
+.result .who{display:flex;flex-direction:column;gap:2px}
+.result .who b{font-size:18px}
+.gradebox{text-align:right}
+.gradebox .g{font:700 clamp(22px,5vw,30px)/1.1 var(--f-display)}
+.gradebox .p{font:700 15px var(--f-mono);color:var(--muted)}
+.g5{color:var(--ok)} .g4{color:var(--olive)} .g3{color:var(--signal-ink)} .g2{color:var(--bad)}
+.result .lcd{background:var(--lcd-bg);color:var(--lcd-fg);font:500 13px var(--f-mono);padding:10px 20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.result .lcd span{color:var(--lcd-dim)}
+@media (max-width:520px){.result .top{grid-template-columns:1fr}.gradebox{text-align:left}}
+
+/* trainers */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tool .head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tool .head small{font:500 12px var(--f-mono);color:var(--muted)}
+.tool .inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding:16px 18px}
+.lcd2{background:var(--lcd-bg);color:var(--lcd-fg);font-family:var(--f-mono);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.lcd2 .big{font-size:clamp(24px,6vw,36px);font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;overflow-wrap:anywhere}
+.lcd2 .big small{font-size:.5em;font-weight:500;color:var(--lcd-dim);margin-left:6px}
+.lcd2 .sub{font-size:13px;color:var(--lcd-dim)}
+.lcd2 .sub b{color:var(--lcd-fg);font-weight:500}
+.tool .expl{padding:14px 18px;font-size:15px;display:flex;flex-direction:column;gap:8px}
+.verdict{display:inline-flex;align-self:flex-start;font:600 13px var(--f-body);padding:4px 10px;border-radius:6px}
+.v-ok{background:var(--ok-soft);color:var(--ok)} .v-warn{background:var(--signal-soft);color:var(--signal-ink)} .v-bad{background:var(--bad-soft);color:var(--bad)}
+.hero{position:relative;border-radius:14px;overflow:hidden;background:var(--lcd-bg)}
+.hero img{display:block;width:100%;height:auto;aspect-ratio:16/7;object-fit:cover;object-position:center 40%}
+.hero-t{position:absolute;inset:0 45% 0 0;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:28px;background:linear-gradient(90deg,rgba(14,20,11,.82),rgba(14,20,11,.55) 70%,rgba(14,20,11,0))}
+.hero-t .eyebrow{color:#E9C64A}
+.hero-t h1{color:#F4F7EF}
+@media (max-width:640px){.hero-t{position:static;inset:auto;background:var(--lcd-bg);padding:16px 18px}.hero img{aspect-ratio:16/8}}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap}
+.ptabs button{border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:7px 14px;border-radius:999px;font-size:14px;font-weight:500}
+.ptabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pq .opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.pq .opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.pscore{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom,0px));align-self:flex-start;background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font:600 14px var(--f-body);display:flex;gap:10px;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.card{perspective:800px;min-height:160px;border:0;background:none;padding:0;text-align:left;color:var(--ink);cursor:pointer}
+.card .in{position:relative;width:100%;height:100%;min-height:160px;transition:transform .45s;transform-style:preserve-3d}
+.card.flip .in{transform:rotateY(180deg)}
+.card .fc,.card .bc{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);overflow:auto}
+.card .fc{background:var(--surface);font-weight:600}
+.card .fc small{font:500 12px var(--f-mono);color:var(--muted)}
+.card .bc{background:var(--olive-soft);transform:rotateY(180deg);font-size:15px}
+@media (prefers-reduced-motion:reduce){.card .in{transition:none}}
+footer{border-top:1px solid var(--line);padding-block:20px 90px;font-size:13px;color:var(--muted)}
+[hidden]{display:none!important}
+body{margin:0}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg class="tri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--signal)"/><path d="M12 12 L7.2 3.7 A9.6 9.6 0 0 1 16.8 3.7 Z M12 12 L21.6 12 A9.6 9.6 0 0 1 16.8 20.3 Z M12 12 L7.2 20.3 A9.6 9.6 0 0 1 2.4 12 Z" fill="var(--ink)"/><circle cx="12" cy="12" r="3.6" fill="var(--signal)"/><circle cx="12" cy="12" r="2.2" fill="var(--ink)"/></svg>
+      <span><a href="./" style="color:inherit">← Усі заняття</a> · <b>Практичне заняття № 5</b></span>
+    </div>
+    <nav class="tabs" aria-label="Розділи">
+      <a href="#control">Підсумковий контроль</a>
+      <a href="#practice">Тренування</a>
+      <a href="#tools">Калькулятори</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================= CONTROL ================= -->
+<section class="view" id="v-control">
+  <div class="hero">
+    <img src="img/hero5.webp" alt="Дозиметр-радіометр, респіратор, аптечка, турнікет і таблетки калію йодиду на польовому брезенті" width="1100" height="614">
+    <div class="hero-t">
+      <span class="eyebrow">Військово-польова терапія · бойовий стрес · радіаційні ураження</span>
+      <h1>Підсумковий контроль до заняття № 5</h1>
+    </div>
+  </div>
+
+  <!-- start screen -->
+  <div id="startBox" class="stack">
+    <p class="lead">Працюйте самостійно, без підручника і без обговорення з сусідами. Час — до кінця пари.</p>
+    <div class="panel stack">
+      <h3>Як виконувати</h3>
+      <ol class="small" style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px">
+        <li>Введіть прізвище, ім’я, групу і <b>номер варіанта, який назвав викладач</b>. Натисніть «Почати».</li>
+        <li>Виконайте всі 4 блоки. Тести: оберіть одну відповідь. Розрахункові задачі: впишіть число (дробову частину через кому). Ситуаційні задачі: прочитайте умову і дайте відповіді на питання під нею. Відповідність: оберіть пару в кожному рядку. Послідовність: натискайте кроки по черзі.</li>
+        <li>Відповіді можна змінювати, поки не натиснули «Завершити». Завершити можна лише після відповіді на всі завдання. Внизу видно, скільки вже виконано.</li>
+        <li>Натисніть «Завершити і отримати оцінку». Результат автоматично потрапить до викладача. Пройти контроль можна один раз.</li>
+        <li><b>Покажіть екран з результатом викладачу.</b></li>
+      </ol>
+      <p class="small muted">Якщо сторінку випадково закрили — відкрийте посилання знову на тому самому пристрої: відповіді збережуться.</p>
+    </div>
+    <div class="blocks">
+      <div><b>20</b><span>тестів І і ІІ рівня, по 1 балу</span></div>
+      <div><b>7</b><span>розрахункових задач, по 2 бали</span></div>
+      <div><b>26</b><span>питань до 10 ситуаційних задач, по 1 балу</span></div>
+      <div><b>4</b><span>завдання на відповідність і послідовність, по 2 бали</span></div>
+    </div>
+    <p class="small muted">Усього 68 балів. Оцінка за 5-бальною шкалою: 90–100 % — «5», 75–89 % — «4», 60–74 % — «3», менше 60 % — «2».</p>
+    <form id="startForm" class="panel stack" novalidate>
+      <div class="start">
+        <label class="f">Прізвище, ім’я<input type="text" id="sName" autocomplete="name" placeholder="Петренко Олена"></label>
+        <label class="f">Група<input type="text" id="sGroup" placeholder="напр. 3-Б"></label>
+        <label class="f">Номер варіанта (1–30)<input type="number" id="sVar" min="1" max="30" step="1" inputmode="numeric" placeholder="від викладача"></label>
+      </div>
+      <p class="err" id="sErr" hidden></p>
+      <div class="row"><button class="btn primary" type="submit">Почати</button></div>
+    </form>
+  </div>
+
+  <!-- result -->
+  <div id="resultBox" hidden></div>
+
+  <!-- items -->
+  <div id="testBox" class="stack" hidden></div>
+</section>
+
+<!-- ================= PRACTICE ================= -->
+<section class="view" id="v-practice" hidden>
+  <div class="stack">
+    <span class="eyebrow">Тренування · на оцінку не впливає</span>
+    <h2>Тренування перед контролем</h2>
+    <p class="muted">Тут відповідь видно одразу. Результати нікуди не надсилаються.</p>
+    <div class="ptabs" id="ptabs"><button data-k="t" aria-pressed="true">Тести з відповіддю</button><button data-k="c" aria-pressed="false">Флешкартки</button></div>
+  </div>
+  <div id="pTests" class="stack"></div>
+  <div id="pCards" class="stack" hidden>
+    <div class="row"><button class="btn" id="cShuffle">Перемішати</button><button class="btn" id="cReset">Повернути всі</button>
+      <div class="ptabs" id="ctabs"><button data-k="q" aria-pressed="true">Експрес-питання</button><button data-k="g" aria-pressed="false">Терміни</button></div></div>
+    <p class="small muted">Натисніть картку, щоб перевернути.</p>
+    <div class="cards" id="cardsBox"></div>
+  </div>
+</section>
+
+<!-- ================= TOOLS ================= -->
+<section class="view" id="v-tools" hidden>
+  <div class="stack">
+    <span class="eyebrow">Тренажери</span>
+    <h2>Потренуйтеся перед контролем</h2>
+    <p class="muted">Розрахунки навчальні. Реальні рішення приймають за показами приладів, інструкціями та офіційними вказівками.</p>
+  </div>
+
+  <div class="tool">
+    <div class="head"><h3>Накопичена доза</h3><small>D = P × t</small></div>
+    <div class="inputs">
+      <label class="f">Потужність дози<input type="number" id="dP" value="15" min="0" step="any"></label>
+      <label class="f">Одиниця<select id="dU"><option value="1">мкЗв/год</option><option value="1000">мЗв/год</option></select></label>
+      <label class="f">Години<input type="number" id="dH" value="0" min="0" step="any"></label>
+      <label class="f">Хвилини<input type="number" id="dM" value="40" min="0" step="any"></label>
+    </div>
+    <div class="lcd2"><div class="big" id="dOut">—</div><div class="sub" id="dSub"></div></div>
+    <div class="expl" id="dExpl"></div>
+  </div>
+
+  <div class="tool">
+    <div class="head"><h3>Захист відстанню</h3><small>P₂ = P₁ × (r₁ / r₂)²</small></div>
+    <div class="inputs">
+      <label class="f">P₁, мкЗв/год<input type="number" id="rP" value="40" min="0" step="any"></label>
+      <label class="f">r₁, м<input type="number" id="r1" value="2" min="0.01" step="any"></label>
+      <label class="f">r₂, м<input type="number" id="r2" value="6" min="0.01" step="any"></label>
+    </div>
+    <div class="lcd2"><div class="big" id="rOut">—</div><div class="sub" id="rSub"></div></div>
+    <div class="expl"><p>Правило працює для <b>точкового джерела</b>. На рівномірно забрудненій території так спрощено не рахують.</p></div>
+  </div>
+
+  <div class="tool">
+    <div class="head"><h3>Йодна профілактика</h3><small>Регламент МОЗ № 408 · пам’ятка 2022</small></div>
+    <div class="inputs">
+      <label class="chk" style="grid-column:1/-1"><input type="checkbox" id="kOff"> Є <b>офіційне повідомлення</b> уповноважених органів для цієї території</label>
+      <label class="f">Вік<input type="number" id="kAge" value="8" min="0" step="any"></label>
+      <label class="f">Одиниця<select id="kUnit"><option value="d">днів</option><option value="w">тижнів</option><option value="m">місяців</option><option value="y" selected>років</option></select></label>
+      <label class="chk"><input type="checkbox" id="kPreg"> Вагітна або годує груддю</label>
+      <label class="chk"><input type="checkbox" id="kThy"> Хвороба щитоподібної залози або алергія на йод</label>
+    </div>
+    <div class="lcd2"><div class="big" id="kOut">—</div><div class="sub" id="kSub"></div></div>
+    <div class="expl" id="kExpl"></div>
+  </div>
+
+  <div class="tool">
+    <div class="head"><h3>Первинна реакція на опромінення</h3><small>орієнтир, не діагноз</small></div>
+    <div class="inputs">
+      <label class="f" style="grid-column:1/-1">Коли почалося блювання після можливого опромінення?
+        <select id="pT">
+          <option value="0">Протягом 30 хв, нестримне</option>
+          <option value="1" selected>Через 0,5–1 год, багаторазове</option>
+          <option value="2">Через 1–2 год, повторне</option>
+          <option value="3">Через 2 год і пізніше, одноразове</option>
+          <option value="4">Блювання немає</option>
+        </select></label>
+    </div>
+    <div class="lcd2"><div class="big" id="pOut">—</div><div class="sub" id="pSub"></div></div>
+    <div class="expl" id="pExpl"></div>
+  </div>
+</section>
+</main>
+
+<div class="bar" id="bar" hidden>
+  <div class="wrap">
+    <div class="prog"><span class="t" id="progT"></span><div class="track"><i id="progI"></i></div></div>
+    <div class="row" id="barBtns"><button class="btn primary" id="finish">Завершити і отримати оцінку</button></div>
+    <div class="row" id="barConfirm" hidden><span class="small" id="confirmT"></span><button class="btn" id="cBack">Повернутися</button><button class="btn primary" id="cGo" hidden>Завершити</button></div>
+  </div>
+</div>
+
+<footer><div class="wrap">КЗ «Одеський обласний базовий медичний фаховий коледж» · Циклова комісія хірургічних дисциплін, екстреної медицини та цивільного захисту · Викладач Паламарчук Д. В. · 2026</div></footer>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const L="АБВГДЕ";
+const fmt=(n,d=3)=>{if(!isFinite(n))return "—";return String(parseFloat(n.toFixed(d))).replace(".",",")};
+const KEY="vmp5-control-v1";
+const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||null}catch(e){return null}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+/* ---------- routing ---------- */
+const views=["control","practice","tools"].filter(v=>document.getElementById("v-"+v));
+function route(){
+  let h=(location.hash||"").slice(1); if(!views.includes(h)) h="control";
+  views.forEach(v=>{$("#v-"+v).hidden=v!==h});
+  document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.getAttribute("href")==="#"+h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  $("#bar").hidden=!(h==="control"&&S&&S.started&&!S.done);
+}
+window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0)});
+
+/* ---------- seeded random ---------- */
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const shuffle=(arr,r)=>{const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+
+/* ---------- banks ---------- */
+const LESSON=5;
+const T1=[
+["Що НЕ належить до предмета військово-польової терапії?",["Ураження отруйними речовинами","Бойова психічна травма","Хірургічна обробка ран","Гостра променева хвороба","Захворювання внутрішніх органів при травмі"],2,"Хірургічна обробка ран — предмет військово-польової хірургії."],
+["Гостра реакція на стрес виникає",["Лише при травмі голови","Протягом хвилин–годин після екстремальної події","Лише при отруєнні","Лише в дітей","Через роки після події"],1,"ГРС розвивається протягом хвилин–годин і триває від годин до кількох діб."],
+["Який симптом характерний для ПТСР?",["Перелом","Опік шкіри","Нав’язливі спогади і кошмари","Гарячка","Кровотеча"],2,"Повторне переживання (флешбеки, кошмари) — група симптомів ПТСР."],
+["Що є першою дією при наданні психологічної допомоги?",["Оцінити безпеку","Розпитати про всі подробиці події","Дати заспокійливі препарати","Сфотографувати постраждалого","Покричати, щоб привести до тями"],0,"Безпека — перша потреба і умова допомоги."],
+["Яка фраза відповідає принципам ППД?",["«Інші ж тримаються»","«Розкажи все детально»","«Нічого страшного не сталося»","«Я поруч. Що вам зараз потрібно найбільше?»","«Візьми себе в руки»"],3,"Присутність і з’ясування потреби без знецінення та примусу."],
+["Який чинник ядерного вибуху спричиняє опіки шкіри і ураження очей?",["Шум","Ударна хвиля","Світлове випромінювання","Електромагнітний імпульс","Радіоактивне забруднення"],2,"Світлове випромінювання, ≈ 35 % енергії."],
+["Який вид вибуху спричиняє найсильніше радіоактивне забруднення місцевості?",["Космічний","Будь-який однаково","Високий повітряний","Наземний","Підводний на великій глибині"],3,"При наземному вибуху в хмару втягується велика кількість ґрунту."],
+["Яке випромінювання має найбільшу проникну здатність серед наведених?",["Альфа","Гамма","Бета","Ультрафіолетове","Видиме світло"],1,"Гамма проходить крізь тіло і конструкції."],
+["Які тканини найбільш чутливі до іонізуючого випромінювання?",["Кістковий мозок","Кісткова тканина","М’язова тканина","Нервова тканина","Сухожилля"],0,"Найчутливіші тканини з активним поділом клітин."],
+["Одиниця активності радіоактивної речовини — це",["Бекерель","Зіверт","Рентген","Ват","Грей"],0,"Бекерель = 1 розпад за секунду."],
+["Скільки мкЗв у 0,5 мЗв?",["0,005","5","50","5000","500"],4,"1 мЗв = 1000 мкЗв."],
+["Потужність дози 0,2 мкЗв/год, перебування 5 год. Накопичена доза?",["0,04 мкЗв","1 мкЗв","10 мкЗв","25 мкЗв","5,2 мкЗв"],1,"0,2 × 5 = 1 мкЗв."],
+["Прилад для вимірювання забрудненості поверхонь — це",["Пульсоксиметр","Тонометр","Барометр","Термометр","Радіометр"],4,"Радіометр вимірює активність і забрудненість."],
+["Збільшення відстані від точкового джерела вдвічі зменшує потужність дози в",["Не змінює","8 разів","4 рази","10 разів","2 рази"],2,"Обернено пропорційно квадрату відстані: 2² = 4."],
+["Від чого захищають ЗІЗ шкіри та органів дихання при радіаційній небезпеці?",["Від шуму","Від радіоактивного пилу","Від нейтронів","Від усіх видів випромінювання","Від гамма-випромінювання"],1,"Від гамма захищають час, відстань, екран."],
+["Як знімають забруднений верхній одяг?",["Обережно, вивертаючи назовні, без струшування","Струшуючи","Розрізають і розкидають","Через голову, швидко","Залишають на собі"],0,"Забруднення лишається всередині згортка."],
+["Від чого захищає калію йодид?",["Від нудоти","Від усієї радіації","Від гамма-випромінювання","Від накопичення радіоактивного йоду в щитоподібній залозі","Від цезію"],3,"KI насичує щитоподібну залозу стабільним йодом."],
+["Яка доза калію йодиду для новонародженого (до 1 міс)?",["62,5 мг","125 мг","32 мг","250 мг","16 мг"],4,"До 1 місяця — 16 мг."],
+["Чим можна замінити таблетки калію йодиду при офіційній вказівці?",["Спиртовим розчином йоду","Йодованою сіллю","Харчовими добавками з йодом","Нічим із переліченого — лише рекомендований препарат KI","Розчином Люголя"],3,"Замінники неефективні і можуть бути небезпечними."],
+["Що є найціннішим орієнтиром тяжкості опромінення на догоспітальному етапі?",["Температура повітря","Зріст","Апетит","Колір очей","Час появи і кратність блювання"],4,"Що раніше і частіше блювання, то вища орієнтовна доза."]
+];
+const T2=[
+["Після вибуху боєць сплутаний, відповідає невпопад. Що зробити спочатку?",["Оцінити дихання, кровотечу, ознаки травми голови","Покричати","Дати заспокійливе","Залишити на самоті","Пояснити все стресом і заспокоїти"],0,"Стрес — діагноз виключення: спочатку медичні причини."],
+["Військовослужбовець у паніці бігає по позиції під обстрілом. Ваші дії?",["Відібрати телефон","Знімати на відео","Відвести в укриття, говорити коротко і спокійно, дати просте завдання","Ігнорувати","Сперечатися з ним"],2,"Безпека, рівний тон і проста дія повертають контроль."],
+["Боєць плаче після загибелі побратима. Як діяти?",["Наказати припинити","Бути поруч, дати можливість висловитися, не поспішати втішати","Розповісти про власні втрати","Залишити одного","«Чоловіки не плачуть»"],1,"Плач — нормальна реакція."],
+["Людина з гострою стресовою реакцією погрожує застосувати зброю. Що робити?",["Залишити зброю поруч","Забезпечити безпеку, залучити командира/охорону, фахову допомогу","Піти","Сміятися","Продовжувати бесіду наодинці"],1,"Загроза іншим — червоний прапорець."],
+["Опромінений (без забруднення) пацієнт надійшов до медпункту. Чи небезпечний він для персоналу?",["Так, потрібен свинцевий захист","Так, дуже","Так, якщо торкнутися","Ні, опромінена людина не є джерелом випромінювання","Невідомо"],3,"Небезпечне лише забруднення."],
+["Потужність дози 0,5 мкЗв/год. Скільки часу треба, щоб отримати 10 мкЗв?",["50 год","2 год","5 год","20 год","0,5 год"],3,"t = 10 / 0,5 = 20 год."],
+["Ви перемістилися від точкового джерела з 2 м на 6 м. Як зміниться потужність дози?",["Збільшиться","Не зміниться","Зменшиться в 3 рази","Зменшиться в 9 разів","Зменшиться в 6 разів"],3,"Відстань ×3 → потужність ÷9."],
+["Під час радіоактивного забруднення місцевості найкраще укриття —",["Намет","Дерево","Відкрита траншея","Автомобіль із відкритими вікнами","Підвал капітальної будівлі"],4,"Підвал зменшує дозу в десятки–сотні разів."],
+["У якій послідовності знімають ЗІЗ після роботи в зоні забруднення?",["Рукавички, захисний одяг (вивертаючи), бахіли, респіратор останнім","Довільно","Одяг, потім рукавички голими руками","Спочатку респіратор","Не знімають"],0,"Респіратор останнім."],
+["Під час часткової обробки забруднена вода стікає на рану передпліччя. Що треба було зробити?",["Не мити руки","Промити рану спиртом","Закрити рану пов’язкою перед миттям","Розтерти рану","Нічого"],2,"Рана — шлях внутрішнього надходження."],
+["Дитині 2 роки за офіційною вказівкою потрібна йодна профілактика; є таблетки 125 мг. Скільки дати?",["½ таблетки","¼ таблетки","2 таблетки","1 таблетку","Не давати"],1,"32 мг ≈ ¼ таблетки 125 мг."],
+["У соцмережах повідомили про аварію на АЕС. Офіційних вказівок немає. Чи приймати калію йодид?",["Так, подвійну дозу","Так, щодня наперед","Так, спиртовий йод","Так, негайно всій родині","Ні, чекати офіційного повідомлення і виконувати вказівки"],4,"Підстава — лише офіційне повідомлення."],
+["Чи захищає калію йодид від цезію-137?",["Ні","Так","Лише при зовнішньому опроміненні","Лише дітей","Частково"],0,"KI діє лише щодо радіоактивного йоду."],
+["Блювання почалося через 3 год після можливого опромінення, одноразово. Орієнтовна тяжкість?",["Вкрай тяжка","Опромінення виключено","Легка","Тяжка","Середня"],2,"Понад 2 год, одноразове — легкий ступінь."],
+["Поранений з кровотечею зі стегна в зоні радіоактивного забруднення. Перша дія?",["Дозиметричний контроль","Санітарна обробка","Йодна профілактика","Заміна одягу","Турнікет (у ЗІЗ)"],4,"Загроза життю має пріоритет."]
+];
+// cases: [code,title,text,[[question,[correct,...wrong],explanation],...]]
+const CASES=[
+["ІІ-1","Заціпеніння після обстрілу","Після мінометного обстрілу молодий боєць сидить у траншеї, дивиться в одну точку, не відповідає на запитання, тремтить. Видимих поранень немає.",[
+ ["Що потрібно виключити насамперед?",["Контузію або травму голови, гіпоксію, приховану кровотечу, переохолодження","Симуляцію","ПТСР","Алкогольне сп’яніння як першу версію","Нічого, стан очевидний"],"Змінену поведінку не пояснюють стресом до огляду."],
+ ["Який стан найімовірніший, якщо медичні причини виключено?",["Гостра реакція на стрес (заціпеніння)","ПТСР","Бойова втома","Гостра променева хвороба","Психоз"],"Реакція виникла за хвилини після події — це ГРС."],
+ ["Яка дія відповідає першій психологічній допомозі?",["Називати на ім’я, орієнтувати, не залишати одного, допомогти зосередитися на тілі","Дати ляпас, щоб привести до тями","Залишити одного відпочити","Детально розпитати про обстріл","Дати седативний препарат"],"Контакт, орієнтація, присутність, заземлення."]]],
+["ІІ-2","Скарги через місяці","Боєць після ротації вже 2 місяці погано спить, бачить кошмари про загибель побратима, уникає розмов про війну, різко реагує на гучні звуки.",[
+ ["Про що можуть свідчити ці симптоми?",["Можливий ПТСР","Гостра реакція на стрес","Норма, мине сама","Гостра променева хвороба","Лише недосипання"],"Понад 1 місяць: повторне переживання, уникнення, настороженість."],
+ ["Хто встановлює діагноз?",["Психіатр, психотерапевт або клінічний психолог за протоколом МОЗ № 1265","Командир підрозділу","Побратим","Сам боєць","Бойовий медик на місці"],"Здобувач і бойовий медик діагнозу не встановлюють."],
+ ["Яка реакція колеги правильна?",["Вислухати без оцінок і допомогти організувати звернення по допомогу","Порадити «просто забути»","Запропонувати випити, щоб розслабитися","Розповісти про це в загальному чаті","Сказати, що в інших гірше"],"Підтримка, конкретне направлення, конфіденційність."]]],
+["ІІ-3","Запис вимірювання","Прилад у режимі потужності дози показав «0,15» без одиниці. Колега записав у журнал «0,15 мЗв».",[
+ ["У чому помилка запису?",["Неправильна одиниця (мЗв замість мкЗв/год) і немає умов вимірювання","Треба було округлити до 0,2","Помилки немає","Фон вимірюють лише в бекерелях","Треба було записати в греях"],"Помилка в тисячу разів і плутанина дози з потужністю дози."],
+ ["Яку дозу отримає людина за 8 год, якщо показ 0,15 мкЗв/год?",["1,2 мкЗв","1,2 мЗв","0,019 мкЗв","12 мкЗв","0,15 мкЗв"],"0,15 × 8 = 1,2 мкЗв."]]],
+["ІІ-4","Забруднення одягу","Після евакуації з району викиду в людини виявлено забруднення верхнього одягу і волосся. Скарг немає.",[
+ ["Як правильно зняти верхній одяг?",["Обережно, вивертаючи назовні, без струшування","Струсити на вулиці, потім зняти","Швидко зняти через голову","Залишити до прибуття на пункт обробки","Розрізати і викинути на землю"],"Так забруднення не піднімається в повітря."],
+ ["Що робити зі знятим одягом?",["Скласти в поліетиленовий пакет, закрити, відкласти подалі від людей і передати на спецобробку","Випрати вдома","Повісити провітрити","Покласти до чистих речей","Спалити на місці"],"Ізоляція запобігає перенесенню."],
+ ["Чим мити волосся?",["Шампунем без кондиціонера, м’яко","Шампунем з кондиціонером","Спиртом","Розтирати жорсткою щіткою","Не мити, лише витрусити"],"Кондиціонер може зв’язувати частинки з волоссям."]]],
+["ІІ-5","Йодна профілактика в родині","Офіційно оголошено йодну профілактику. Батько 45 років, мати 35 років (годує груддю), син 8 років, донька 2 роки. Є таблетки KI 125 мг.",[
+ ["Скільки таблетки отримає син 8 років?",["½ таблетки (62,5 мг)","¼ таблетки (32 мг)","1 таблетку (125 мг)","⅛ таблетки (16 мг)","Не давати"],"3–12 років — 62,5 мг."],
+ ["Як вчинити з батьком 45 років?",["Як правило, не рекомендується; діяти за офіційними вказівками для цієї вікової групи","Дати подвійну дозу","Дати 125 мг щодня","Замінити спиртовим йодом","Дати 62,5 мг"],"Понад 40 років ризик ускладнень переважає користь."]]],
+["ІІ-6","Первинна реакція","Рятувальник 20 хв працював біля зруйнованого радіаційно небезпечного об’єкта. Через 40 хв після виходу — повторне блювання, слабкість, почервоніння обличчя.",[
+ ["Яку тяжкість опромінення можна орієнтовно припустити?",["Тяжкий ступінь","Легкий ступінь","Опромінення виключено","Вкрай тяжкий ступінь","Середній ступінь"],"Блювання через 0,5–1 год, повторне — тяжкий."],
+ ["Чому це лише орієнтир?",["Блювання неспецифічне: буває при стресі, отруєнні, контузії, перегріванні","Бо дозиметра не було","Бо рятувальник молодий","Бо блювання не буває при ГПХ","Це точний діагноз"],"Діагноз — за дозиметричними і лабораторними даними."]]],
+["ІІІ-1","Обстріл позиції","Після обстрілу: боєць А — поранення плеча з помірною кровотечею, збуджений, намагається бігти з укриття; боєць Б — без ушкоджень, нерухомий, не реагує, дихає рівно; боєць В — плаче, повторює, що «це він винен» у загибелі товариша.",[
+ ["Яка пріоритетність допомоги?",["А → Б → В","В → Б → А","Б → А → В","А → В → Б","Усім одночасно однаково"],"А: кровотеча і небезпечна поведінка; Б: треба виключити медичну причину; В: стабільний."],
+ ["Яка ознака змусить вважати стан бійця Б медичною проблемою?",["Асиметрія зіниць або відсутність реакції на біль","Тремтіння","Плач","Мовчазність після питання","Рівне дихання"],"Також кровотеча з вух чи носа, блювання, судоми, порушення дихання."],
+ ["Як діяти з бійцем В?",["Бути поруч, вислухати, не сперечатися щодо провини, не знецінювати, залучити побратима","Переконати, що він не винен, і закрити тему","Наказати припинити","Залишити, поки заспокоїться","Розпитати всі подробиці загибелі"],"Підтримка без знецінення і примусу."]]],
+["ІІІ-2","Удар по радіаційно небезпечному об’єкту","Після удару по сховищу радіоактивних відходів підрозділ за 2 км з підвітряного боку отримав наказ на виведення. Дозиметр: 15 мкЗв/год на позиції, у 5 км на захід — 0,3 мкЗв/год. Вихід — 40 хв. Один боєць має уламкову рану гомілки з кровотечею.",[
+ ["Яку дозу отримає особовий склад за 40 хв на позиції?",["10 мкЗв","600 мкЗв","22,5 мкЗв","0,375 мкЗв","10 мЗв"],"15 × 40/60 = 10 мкЗв (за сталого поля)."],
+ ["Як надати допомогу пораненому?",["Одразу турнікет або тампонування у ЗІЗ, закрити рану пов’язкою, евакуювати з підрозділом","Спочатку санітарна обробка, потім кровотеча","Дочекатися виходу з зони","Спочатку дати калію йодид","Промити рану водою з місцевого джерела"],"Життєзберігальна допомога не відкладається."],
+ ["У якому напрямку виходити?",["У бік зменшення рівнів (на захід), проти вітру або перпендикулярно напрямку поширення","За вітром, бо так швидше","До джерела, щоб оцінити ураження","Не рухатися до наказу про дезактивацію","Будь-яким, напрямок не важливий"],"Захист часом і відстанню."]]],
+["ІІІ-3","Село поблизу АЕС","Ви — медик за 20 км від АЕС. Офіційно оголошено про аварію з викидом, укриття і йодну профілактику. Звертаються: вагітна 28 років; чоловік 52 роки із захворюванням щитоподібної залози; хлопчик 15 років; немовля 3 тижні; жінка 30 років зі спиртовим йодом «замість таблеток».",[
+ ["Яка доза для немовляти 3 тижні?",["16 мг (⅛ таблетки 125 мг, розтерти і розчинити)","32 мг","62,5 мг","125 мг","Немовлятам не дають"],"До 1 місяця — 16 мг."],
+ ["Як вчинити з чоловіком 52 років?",["Не призначати самостійно: вік понад 40 і протипоказання; укриття, консультація лікаря","Дати 125 мг","Дати 62,5 мг","Дати спиртовий йод","Дати подвійну дозу"],"Вік і хвороба щитоподібної залози."],
+ ["Що пояснити жінці зі спиртовим йодом?",["Він не замінює KI: всередину — опік і отруєння, на шкіру — неефективний","Можна пити кілька крапель з молоком","Достатньо намалювати йодну сітку","Можна, якщо розвести водою","Він кращий за таблетки"],"Замінники заборонені."]]],
+["ІІІ-4","Ознаки первинної реакції","Через 25 хв після роботи без ЗІЗ біля пошкодженого джерела в бійця нестримне блювання, головний біль, слабкість, почервоніння обличчя і рук; дозиметра немає. Інший боєць, що був поруч 5 хв, скарг не має.",[
+ ["Яка маршрутизація першого бійця?",["Термінова евакуація до закладу зі спеціалізованою допомогою (орієнтовно вкрай тяжкий ступінь)","Спостереження на позиції","Повернення до виконання завдань після відпочинку","Плановий огляд наступного дня","Лише йодна профілактика"],"Нестримне блювання до 30 хв."],
+ ["Що робити з другим бійцем без скарг?",["Обов’язкове медичне спостереження: відсутність ранніх скарг не виключає опромінення","Нічого, раз скарг немає","Повернути до роботи біля джерела","Дати сорбенти профілактично","Евакуювати як вкрай тяжкого"],"Первинна реакція може бути пізньою або відсутньою; є прихований період."]]]
+];
+const MATCH=[
+["Вид випромінювання і захист",["Альфа","Бета","Гамма"],["Бетон, ґрунт, свинець, відстань, час","Аркуш паперу, одяг; захист органів дихання від пилу","Одяг, окуляри, ЗІЗ шкіри"],[1,2,0]],
+["Величина і одиниця",["Активність","Поглинена доза","Ефективна доза","Потужність дози"],["Зіверт","мкЗв/год","Бекерель","Грей"],[2,3,0,1]],
+["Вік і доза калію йодиду",["До 1 місяця","1 місяць – 3 роки","3–12 років","13–18 років"],["32 мг","16 мг","125 мг","62,5 мг"],[1,0,3,2]],
+["Час появи блювання і орієнтовна тяжкість",["До 30 хв","0,5–1 год","1–2 год","Понад 2 год"],["Легка","Середня","Вкрай тяжка","Тяжка"],[2,3,1,0]]
+];
+const SEQ=[
+["Перша психологічна допомога",["Оцінити безпеку і медичні причини","Представитися і запитати дозволу","Повідомити перевірені факти","З’ясувати потреби","Організувати подальшу допомогу"]],
+["Вимірювання фону",["Перевірити прилад і самотестування","Обрати режим","Розмістити прилад на висоті 1 м","Дочекатися встановлення показу","Записати результат з одиницею"]],
+["Часткова санітарна обробка",["Вийти з зони забруднення","Зняти верхній одяг без струшування","Вимити відкриті ділянки шкіри","Промити очі, рот, ніс","Надягнути чистий одяг","Дозиметричний контроль"]],
+["Знімання ЗІЗ",["Рукавички","Захисний одяг","Бахіли","Респіратор"]]
+];
+
+function calcItems(r,items,mc){
+  {const P=pick([0.3,0.5,1.2,3,6,15,24],r),m=pick([20,30,40,45,90,120,150],r),a=P*m/60;
+   items.push({id:"c1",block:"B",type:"num",formula:"D = P × t (t у годинах: хвилини ÷ 60)",q:`Потужність дози на позиції ${fmt(P)} мкЗв/год, підрозділ перебуває там ${m} хв. Яку дозу отримає кожен боєць?`,unit:"мкЗв",answer:a,pts:2,expl:`D = P × t = ${fmt(P)} × ${m}/60 = ${fmt(a)} мкЗв.`})}
+  {const P1=pick([36,48,72,90,120],r),r1=pick([1,2,3],r),k=pick([2,3,4],r),a=P1/(k*k);
+   items.push({id:"c2",block:"B",type:"num",formula:"P₂ = P₁ × (r₁ / r₂)²",q:`На відстані ${r1} м від точкового джерела потужність дози ${P1} мкЗв/год. Якою вона буде на відстані ${r1*k} м?`,unit:"мкЗв/год",answer:a,pts:2,expl:`Відстань збільшилась у ${k} рази, потужність зменшилась у ${k*k}: ${P1} / ${k*k} = ${fmt(a)} мкЗв/год.`})}
+  {const P=pick([0.5,2,4,5],r),D=pick([10,20,40],r),a=D/P;
+   items.push({id:"c3",block:"B",type:"num",formula:"t = D / P",q:`Потужність дози ${fmt(P)} мкЗв/год. За скільки годин людина отримає ${D} мкЗв?`,unit:"год",answer:a,pts:2,expl:`t = D / P = ${D} / ${fmt(P)} = ${fmt(a)} год.`})}
+  {const x=pick([0.3,0.75,1.5,2.4,4],r),a=x*1000;
+   items.push({id:"c4",block:"B",type:"num",formula:"1 мЗв = 1000 мкЗв",q:`Індивідуальний дозиметр показує накопичену дозу ${fmt(x)} мЗв. Скільки це в мікрозівертах?`,unit:"мкЗв",answer:a,pts:2,expl:`1 мЗв = 1000 мкЗв, отже ${fmt(x)} мЗв = ${fmt(a)} мкЗв.`})}
+  {const KO=["16 мг","32 мг","62,5 мг","125 мг","Як правило, не рекомендується (вік понад 40)","Не приймати до офіційного повідомлення"];
+   const P=[["немовляти 3 тижні",0],["дитини 2 років",1],["дитини 5 років",2],["дитини 10 років",2],["підлітка 15 років",3],["жінки 35 років, яка годує груддю",3],["вагітної 26 років",3],["чоловіка 50 років без хвороб щитоподібної залози",4]];
+   const p=pick(P,r),noOff=r()<0.25;
+   const q=noOff?`У соцмережах пишуть про аварію на АЕС, офіційних вказівок немає. Мама питає, скільки калію йодиду дати для ${p[0]}.`:`Уповноважені органи офіційно оголосили йодну профілактику для вашої території. Яка доза калію йодиду для ${p[0]}?`;
+   mc("c5","B",q,KO,noOff?5:p[1],2,noOff?"Підстава — лише офіційне повідомлення; прийом «про запас» шкідливий.":"Вікові дози: до 1 міс — 16 мг; 1 міс–3 роки — 32 мг; 3–12 років — 62,5 мг; 13–18, дорослі до 40, вагітні, годувальниці — 125 мг; понад 40 — як правило, не рекомендується.")}
+  {const F=["⅛ таблетки","¼ таблетки","½ таблетки","1 таблетку","2 таблетки"];
+   const P=[["новонародженому 2 тижні",0,"16 мг"],["дитині 1,5 року",1,"32 мг"],["дитині 7 років",2,"62,5 мг"],["підлітку 14 років",3,"125 мг"]];
+   const p=pick(P,r);mc("c6","B",`Є лише таблетки калію йодиду по 125 мг. Скільки дати ${p[0]} за офіційною вказівкою?`,F,p[1],2,`Потрібна доза ${p[2]}; 125 мг × частку = ${p[2]}.`,{formula:"Частка таблетки = потрібна доза ÷ 125 мг"})}
+  {const S4=["Вкрай тяжкий (орієнтовно понад 6 Гр)","Тяжкий (орієнтовно 4–6 Гр)","Середній (орієнтовно 2–4 Гр)","Легкий (орієнтовно 1–2 Гр)","Опромінення виключено"];
+   const P=[["через 20 хв, нестримне",0],["через 45 хв, багаторазове",1],["через 1,5 год, повторне",2],["через 3 год, одноразове",3]];
+   const p=pick(P,r);mc("c7","B",`Після роботи біля пошкодженого джерела в бійця почалося блювання ${p[0]}. Яка орієнтовна тяжкість опромінення?`,S4,p[1],2,"Таблиця первинної реакції: до 30 хв — вкрай тяжкий; 0,5–1 год — тяжкий; 1–2 год — середній; понад 2 год — легкий. Ознаки неспецифічні.")}
+}
+const CARDS=[["g", "Військово-польова терапія", "Розділ військової медицини про терапевтичні ураження і захворювання в бойових умовах."], ["g", "Бойова втома", "Стан виснаження внаслідок тривалого бойового навантаження."], ["g", "Гостра реакція на стрес", "Тимчасова реакція на екстремальну подію, що виникає протягом хвилин–годин."], ["g", "ПТСР", "Посттравматичний стресовий розлад — стійкі симптоми понад 1 місяць після травматичної події."], ["g", "Перша психологічна допомога", "Практична підтримка людини після тяжкої події."], ["g", "Іонізуюче випромінювання", "Випромінювання, здатне іонізувати атоми речовини."], ["g", "Бекерель (Бк)", "Одиниця активності — 1 розпад за секунду."], ["g", "Грей (Гр)", "Одиниця поглиненої дози — 1 Дж/кг."], ["g", "Зіверт (Зв)", "Одиниця еквівалентної/ефективної дози."], ["g", "Дозиметр", "Прилад для вимірювання дози і потужності дози."], ["g", "Радіометр", "Прилад для вимірювання активності і забрудненості."], ["g", "Інкорпорація", "Надходження радіонуклідів усередину організму."], ["g", "Часткова санітарна обробка", "Видалення радіоактивного забруднення з відкритих ділянок тіла і одягу."], ["g", "Йодна профілактика", "Прийом калію йодиду для захисту щитоподібної залози від радіоактивного йоду."], ["g", "Гостра променева хвороба", "Загальне захворювання після опромінення всього тіла в дозі понад 1 Гр."], ["q", "Що вивчає військово-польова терапія?", "Терапевтичні ураження і захворювання внутрішніх органів у бойових умовах та організацію допомоги."], ["q", "Назвіть види бойових стресових станів.", "Бойова втома, гостра реакція на стрес, ПТСР."], ["q", "Коли можна говорити про ПТСР?", "Коли симптоми тривають понад 1 місяць і порушують функціонування; діагноз встановлює фахівець."], ["q", "Назвіть принципи першої психологічної допомоги.", "Підготуватися, спостерігати, слухати, допомогти встановити зв’язок."], ["q", "Що не можна робити при гострій стресовій реакції?", "Знецінювати, кричати, бити, примушувати розповідати подробиці, залишати одного."], ["q", "Назвіть уражальні чинники ядерного вибуху.", "Ударна хвиля, світлове випромінювання, проникаюча радіація, радіоактивне забруднення, електромагнітний імпульс."], ["q", "Який чинник ядерного вибуху має найбільшу частку енергії?", "Ударна хвиля (≈ 50 %)."], ["q", "Який вид випромінювання найнебезпечніший при потраплянні всередину?", "Альфа-випромінювання."], ["q", "Від якого випромінювання захищає аркуш паперу?", "Від альфа-випромінювання."], ["q", "Чи є опромінена людина джерелом випромінювання?", "Ні (якщо немає забруднення)."], ["q", "Назвіть одиницю поглиненої дози.", "Грей (Гр)."], ["q", "Скільки мкЗв в 1 мЗв?", "1000."], ["q", "Чим вимірюють потужність дози?", "Дозиметром (дозиметром-радіометром)."], ["q", "Назвіть три принципи захисту від зовнішнього опромінення.", "Час, відстань, екранування."], ["q", "Чи захищає респіратор від гамма-випромінювання?", "Ні; захищає від вдихання радіоактивного пилу."], ["q", "Що знімають першим при частковій санітарній обробці?", "Верхній одяг (обережно, без струшування)."], ["q", "Що є підставою для йодної профілактики?", "Офіційне повідомлення уповноважених органів."], ["q", "Яка доза калію йодиду для дорослого до 40 років?", "125 мг."], ["q", "Яка доза для дитини 5 років?", "62,5 мг."], ["q", "Назвіть ранні ознаки первинної реакції на опромінення.", "Нудота, блювання, слабкість, головний біль, гіперемія шкіри."]];
+
+/* ---------- build a variant from seed ---------- */
+function build(seed){
+  const r=rng(seed), items=[];
+  const mc=(id,block,q,opts,correct,pts,expl,extra)=>{const order=shuffle(opts.map((_,i)=>i),r);items.push(Object.assign({id,block,type:"mc",q,opts,order,correct,pts,expl},extra||{}))};
+  // A: tests
+  shuffle(T1.map((_,i)=>i),r).slice(0,10).sort((a,b)=>a-b).forEach(i=>mc("t1_"+i,"A",T1[i][0],T1[i][1],T1[i][2],1,T1[i][3]));
+  shuffle(T2.map((_,i)=>i),r).slice(0,10).sort((a,b)=>a-b).forEach(i=>mc("t2_"+i,"A",T2[i][0],T2[i][1],T2[i][2],1,T2[i][3]));
+  // B
+  calcItems(r,items,mc);
+  // C: cases
+  CASES.forEach((c,ci)=>c[3].forEach((s,si)=>mc(`k${ci}_${si}`,"C",s[0],s[1],0,1,s[2],{caseIdx:ci})));
+  // D: match + seq
+  shuffle([0,1,2,3],r).slice(0,2).sort().forEach(i=>items.push({id:"m"+i,block:"D",type:"match",m:MATCH[i],pts:2,rightOrder:shuffle(MATCH[i][2].map((_,j)=>j),r)}));
+  shuffle([0,1,2,3],r).slice(0,2).sort().forEach(i=>items.push({id:"s"+i,block:"D",type:"seq",s:SEQ[i],pts:2,order:shuffle(SEQ[i][1].map((_,j)=>j),r)}));
+  return items;
+}
+const BLOCKS={A:"Тести",B:"Розрахункові задачі",C:"Ситуаційні задачі",D:"Відповідність і послідовність"};
+
+/* ---------- scoring ---------- */
+const parseNum=s=>parseFloat(String(s||"").replace(/\s/g,"").replace(",","."));
+function answered(it){const a=S.ans[it.id];if(it.type==="mc")return a!=null;if(it.type==="num")return a!=null&&a!==""&&isFinite(parseNum(a));if(it.type==="match")return Array.isArray(a)&&a.every(x=>x!==""&&x!=null)&&a.length===it.m[1].length;if(it.type==="seq")return Array.isArray(a)&&a.length===it.s[1].length;return false}
+function score(it){const a=S.ans[it.id];if(!answered(it))return 0;
+  if(it.type==="mc")return a===it.correct?it.pts:0;
+  if(it.type==="num"){const v=parseNum(a),t=it.answer;return Math.abs(v-t)<=Math.max(0.011,Math.abs(t)*0.02)?it.pts:0}
+  if(it.type==="match"){const ok=a.filter((x,k)=>+x===it.m[3][k]).length;return Math.round(it.pts*ok/a.length*100)/100}
+  if(it.type==="seq"){const ok=a.filter((x,k)=>x===k).length;return Math.round(it.pts*ok/a.length*100)/100}}
+const grade=p=>p>=90?["відмінно","g5",5]:p>=75?["добре","g4",4]:p>=60?["задовільно","g3",3]:["незадовільно","g2",2];
+
+/* ---------- render control ---------- */
+let S=load(), ITEMS=[];
+function renderItem(it,num){
+  const done=S.done,a=S.ans[it.id],rv=false;
+  const head=`<span class="qn"><span>№ ${num}</span><span>${it.pts} ${it.pts===1?"бал":"бали"}</span></span>`;
+  let body="",fb="";
+  if(it.type==="mc"){
+    body=`<div class="qt">${esc(it.q)}</div>${it.formula?`<p class="formula">Формула: <b>${esc(it.formula)}</b></p>`:""}<div class="opts">${it.order.map((oi,k)=>{let c="";if(rv){if(oi===it.correct)c="right";else if(a===oi)c="wrong"}return `<button class="opt ${c}" data-id="${it.id}" data-o="${oi}" aria-pressed="${a===oi}" ${done?"disabled":""}><span class="L">${L[k]}</span><span>${esc(it.opts[oi])}</span></button>`}).join("")}</div>`;
+    if(rv){const ok=a===it.correct;fb=`<div class="fb ${ok?"ok":"no"}">${ok?"Правильно.":a==null?"Без відповіді.":"Неправильно."} ${esc(it.expl)}</div>`}
+  } else if(it.type==="num"){
+    const ok=done&&score(it)>0;
+    body=`<div class="qt">${esc(it.q)}</div>${it.formula?`<p class="formula">Формула: <b>${esc(it.formula)}</b></p>`:""}<div class="numin"><input inputmode="decimal" id="in_${it.id}" data-id="${it.id}" value="${esc(a||"")}" placeholder="0,0" ${done?"disabled":""} class="${rv?(ok?"right":"wrong"):""}" aria-label="Відповідь"><span>${esc(it.unit)}</span></div><p class="small muted">Дробову частину пишіть через кому, до сотих.</p>`;
+    if(rv)fb=`<div class="fb ${ok?"ok":"no"}">${ok?"Правильно.":"Правильна відповідь: "+fmt(it.answer)+" "+esc(it.unit)+"."} ${esc(it.expl)}</div>`;
+  } else if(it.type==="match"){
+    const m=it.m,sel=a||[];
+    body=`<div class="qt">Установіть відповідність: ${esc(m[0])}</div><div class="match">${m[1].map((l,k)=>{let c="";if(rv)c=(+sel[k]===m[3][k]&&sel[k]!=="")?"right":"wrong";return `<div>${k+1}) ${esc(l)}</div><select id="sel_${it.id}_${k}" data-id="${it.id}" data-k="${k}" class="${c}" ${done?"disabled":""} aria-label="${esc(l)}"><option value="">—</option>${it.rightOrder.map((j,x)=>`<option value="${j}" ${String(sel[k])===String(j)?"selected":""}>${L[x]}) ${esc(m[2][j])}</option>`).join("")}</select>`}).join("")}</div>`;
+    if(rv){const sc=score(it);fb=`<div class="fb ${sc===it.pts?"ok":sc>0?"part":"no"}">${fmt(sc,2)} з ${it.pts}. Ключ: ${m[1].map((l,k)=>esc(l)+" — "+esc(m[2][m[3][k]])).join("; ")}.</div>`}
+  } else if(it.type==="seq"){
+    const s=it.s,cur=a||[];
+    body=`<div class="qt">Установіть послідовність: ${esc(s[0])}</div><p class="small muted">Натискайте кроки по черзі, від першого до останнього.</p><div class="seq">${it.order.map(j=>`<button data-id="${it.id}" data-j="${j}" ${done||cur.includes(j)?"disabled":""}>${esc(s[1][j])}</button>`).join("")}</div><div class="seqout">${cur.map((j,k)=>`<div class="${rv?(j===k?"right":"wrong"):""}"><span>${k+1}</span><span>${esc(s[1][j])}</span></div>`).join("")}</div>${done?"":`<div class="row"><button class="btn" data-undo="${it.id}" ${cur.length?"":"disabled"}>Скинути порядок</button></div>`}`;
+    if(rv){const sc=score(it);fb=`<div class="fb ${sc===it.pts?"ok":sc>0?"part":"no"}">${fmt(sc,2)} з ${it.pts}. Правильно: ${s[1].map((t,k)=>(k+1)+". "+esc(t)).join(" → ")}</div>`}
+  }
+  return `<div class="q" id="q_${it.id}">${head}${body}${fb}</div>`;
+}
+function renderControl(){
+  if(!S||!S.started){$("#startBox").hidden=false;$("#testBox").hidden=true;$("#resultBox").hidden=true;route();return}
+  $("#startBox").hidden=true;$("#testBox").hidden=false;
+  ITEMS=build(S.seed);
+  let n=0,html=`<div class="panel row" style="justify-content:space-between"><div><b>${esc(S.name)}</b> <span class="muted">· група ${esc(S.group)}</span></div><span class="small muted">Варіант ${S.variant||"тренувальний"}</span></div>`;
+  ["A","B","C","D"].forEach(b=>{
+    const its=ITEMS.filter(i=>i.block===b),max=its.reduce((s,i)=>s+i.pts,0);
+    html+=`<div class="bhead"><h2>${BLOCKS[b]}</h2><small>${its.length} завд. · ${max} балів</small></div>`;
+    if(b==="C"){let last=-1;its.forEach(it=>{if(it.caseIdx!==last){if(last>=0)html+=`</div>`;const c=CASES[it.caseIdx];html+=`<div class="case"><div class="ct"><span class="tag">Задача ${c[0]}</span><h3>${esc(c[1])}</h3><p>${esc(c[2])}</p></div>`;last=it.caseIdx}html+=renderItem(it,++n)});html+=`</div>`}
+    else its.forEach(it=>html+=renderItem(it,++n));
+  });
+  $("#testBox").innerHTML=html;
+  if(S.done)renderResult();else $("#resultBox").hidden=true;
+  progress();route();
+}
+function progress(){
+  const tot=ITEMS.length,d=ITEMS.filter(answered).length;
+  $("#progT").innerHTML=`Відповіли <b>${d} / ${tot}</b>`;
+  $("#progI").style.width=(d/tot*100)+"%";
+}
+function computeResult(){
+  const rows=["A","B","C","D"].map(b=>{const its=ITEMS.filter(i=>i.block===b);return [BLOCKS[b],its.reduce((s,i)=>s+score(i),0),its.reduce((s,i)=>s+i.pts,0)]});
+  const got=rows.reduce((s,x)=>s+x[1],0),max=rows.reduce((s,x)=>s+x[2],0),p=Math.round(got/max*100);
+  return {rows,got,max,p,g:grade(p)};
+}
+function renderResult(){
+  const {rows,got,max,p,g:[g,gc,gn]}=computeResult();
+  const dt=new Date(S.doneAt);
+  $("#resultBox").hidden=false;
+  $("#resultBox").innerHTML=`<div class="result"><div class="top"><div class="who"><span class="eyebrow">Результат</span><b>${esc(S.name)}</b><span class="muted">Група ${esc(S.group)}</span></div><div class="gradebox"><div class="g ${gc}">${gn} <span style="font-size:.6em">(${g})</span></div><div class="p">${fmt(got,2)} з ${max} балів · ${p} %</div></div></div>
+  <div class="tablebox" style="border:0;border-top:1px solid var(--line);border-radius:0"><table><tr><th>Блок</th><th class="num">Бали</th></tr>${rows.map(x=>`<tr><td>${x[0]}</td><td class="num">${fmt(x[1],2)} / ${x[2]}</td></tr>`).join("")}</table></div>
+  <div class="lcd"><span>Заняття № 5 · варіант ${S.variant}</span><b>${dt.toLocaleDateString("uk-UA")} ${dt.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})}</b></div></div>
+  <p class="small muted">Результат передано викладачу. Розбір завдань буде на занятті.</p>`;
+}
+
+function errList(){
+  const out=[];let n=0;
+  ["A","B","C","D"].forEach(b=>ITEMS.filter(i=>i.block===b).forEach(it=>{n++;const sc=score(it);if(sc>=it.pts)return;const a=S.ans[it.id];
+    if(it.type==="mc")out.push(`№${n}: ${L[it.order.indexOf(a)]||"—"} (треба ${L[it.order.indexOf(it.correct)]})`);
+    else if(it.type==="num")out.push(`№${n}: ${a||"—"} (треба ${fmt(it.answer)})`);
+    else out.push(`№${n}: ${fmt(sc,2)}/${it.pts}`);}));
+  return out.join("; ")||"без помилок";
+}
+/* ---------- send to teacher's register ---------- */
+const ENDPOINT="https://script.google.com/macros/s/AKfycbyUVNslEAKRWEeJv2gsUC-XO2ZFtdiiW3IAXZrbzykMjwzrweY2BhUHQR29YcEmW_jH/exec";
+function send(type){
+  if(!ENDPOINT)return;
+  const d={type,lesson:LESSON,attempt:"z"+LESSON+"-"+S.attempt+"|"+JSON.stringify(S.ans),blocks:"Заняття "+LESSON,name:S.name,group:S.group,variant:S.variant,answered:ITEMS.filter(answered).length,total:ITEMS.length,device:navigator.userAgent.slice(0,120)};
+  if(type==="finish"){const r=computeResult();Object.assign(d,{score:Math.round(r.got*100)/100,max:r.max,pct:r.p,grade:r.g[2],blocks:"Заняття "+LESSON+" ‖ "+r.rows.map(x=>x[0]+": "+fmt(x[1],2)+"/"+x[2]).join("; ")+" ‖ Помилки: "+errList()})}
+  try{fetch(ENDPOINT,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)}).catch(()=>{})}catch(e){}
+}
+
+$("#startForm").addEventListener("submit",e=>{
+  e.preventDefault();const n=$("#sName").value.trim(),g=$("#sGroup").value.trim(),v=parseInt($("#sVar").value,10);
+  const err=n.length<3?"Вкажіть прізвище та ім’я.":!g?"Вкажіть групу.":!(v>=1&&v<=30)?"Вкажіть номер варіанта від 1 до 30, який назвав викладач.":"";
+  if(err){$("#sErr").hidden=false;$("#sErr").textContent=err;return}
+  S={name:n,group:g,variant:v,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0);
+});
+$("#testBox").addEventListener("click",e=>{
+  if(S.done)return;
+  const o=e.target.closest(".opt");
+  if(o){const id=o.dataset.id;S.ans[id]=+o.dataset.o;save();o.parentElement.querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed",x===o));progress();return}
+  const sb=e.target.closest(".seq button");
+  if(sb){const id=sb.dataset.id,it=ITEMS.find(i=>i.id===id);const cur=(S.ans[id]||[]).slice();cur.push(+sb.dataset.j);S.ans[id]=cur;save();$("#q_"+id).outerHTML=renderItem(it,qnum(id));progress();return}
+  const u=e.target.closest("[data-undo]");
+  if(u){const id=u.dataset.undo,it=ITEMS.find(i=>i.id===id);delete S.ans[id];save();$("#q_"+id).outerHTML=renderItem(it,qnum(id));progress()}
+});
+const qnum=id=>{const order=[];["A","B","C","D"].forEach(b=>ITEMS.filter(i=>i.block===b).forEach(i=>order.push(i.id)));return order.indexOf(id)+1};
+$("#testBox").addEventListener("input",e=>{
+  if(S.done)return;const t=e.target;
+  if(t.matches("input[data-id]")){S.ans[t.dataset.id]=t.value;save();progress()}
+  if(t.matches("select[data-id]")){const id=t.dataset.id,it=ITEMS.find(i=>i.id===id);const a=(S.ans[id]||Array(it.m[1].length).fill("")).slice();a[+t.dataset.k]=t.value;S.ans[id]=a;save();progress()}
+});
+function finish(){S.done=true;S.doneAt=Date.now();save();send("finish");$("#barConfirm").hidden=true;$("#barBtns").hidden=false;renderControl();window.scrollTo(0,0)}
+$("#finish").onclick=()=>{const left=ITEMS.length-ITEMS.filter(answered).length;if(left===0){finish();return}
+  $("#confirmT").textContent=`Без відповіді: ${left}. Дайте відповідь на всі завдання, тоді можна завершити.`;$("#barBtns").hidden=true;$("#barConfirm").hidden=false};
+$("#cBack").onclick=()=>{$("#barConfirm").hidden=true;$("#barBtns").hidden=false;const f=ITEMS.find(i=>!answered(i));if(f)$("#q_"+f.id).scrollIntoView({block:"center"})};
+
+
+if(S&&S.name){$("#sName").value=S.name;$("#sGroup").value=S.group||""}
+renderControl();
+
+/* ---------- practice ---------- */
+(function(){
+  const PQ=T1.concat(T2);let right=0,done=0;
+  function drawTests(){right=0;done=0;
+    $("#pTests").innerHTML=PQ.map((q,i)=>`<div class="q pq" data-i="${i}"><span class="qn"><span>№ ${i+1}</span><span>${i<T1.length?"І рівень":"ІІ рівень"}</span></span><div class="qt">${esc(q[0])}</div><div class="opts">${q[1].map((o,j)=>`<button class="opt" data-j="${j}"><span class="L">${L[j]}</span><span>${esc(o)}</span></button>`).join("")}</div></div>`).join("")+`<div class="pscore" id="pScore"><span>0 / ${PQ.length}</span><button class="btn" style="padding:2px 10px;font-size:13px" id="pReset">Почати знову</button></div>`;
+    $("#pReset").onclick=()=>{drawTests();window.scrollTo(0,0)}}
+  $("#pTests").addEventListener("click",e=>{const b=e.target.closest(".opt");if(!b||b.disabled)return;const card=b.closest(".pq"),q=PQ[+card.dataset.i],j=+b.dataset.j;
+    card.querySelectorAll(".opt").forEach((x,k)=>{x.disabled=true;if(k===q[2])x.classList.add("right")});
+    if(j!==q[2])b.classList.add("wrong");else right++;done++;
+    card.insertAdjacentHTML("beforeend",`<div class="fb ${j===q[2]?"ok":"no"}">${j===q[2]?"Правильно.":"Правильна відповідь: "+L[q[2]]+") "+esc(q[1][q[2]])}${q[3]?" "+esc(q[3]):""}</div>`);
+    $("#pScore").children[0].textContent=`${right} правильно з ${done} · всього ${PQ.length}`});
+  drawTests();
+  let ck="q",deck=CARDS.filter(c=>c[0]==="q");
+  function drawCards(){$("#cardsBox").innerHTML=deck.map((c,i)=>`<button class="card"><div class="in"><div class="fc"><small>${ck==="q"?"Питання":"Термін"} ${i+1}</small>${esc(c[1])}</div><div class="bc">${esc(c[2])}</div></div></button>`).join("")}
+  $("#cardsBox").addEventListener("click",e=>{const c=e.target.closest(".card");if(c)c.classList.toggle("flip")});
+  $("#cShuffle").onclick=()=>{for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}drawCards()};
+  $("#cReset").onclick=()=>document.querySelectorAll(".card.flip").forEach(c=>c.classList.remove("flip"));
+  $("#ctabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;ck=b.dataset.k;deck=CARDS.filter(c=>c[0]===ck);document.querySelectorAll("#ctabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawCards()});
+  drawCards();
+  $("#ptabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#ptabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));$("#pTests").hidden=b.dataset.k!=="t";$("#pCards").hidden=b.dataset.k!=="c"});
+})();
+
+/* ---------- trainers ---------- */
+function dose(){
+  const P=+$("#dP").value*+$("#dU").value,t=(+$("#dH").value||0)+(+$("#dM").value||0)/60,D=P*t;
+  if(!(P>=0)||!(t>=0)){$("#dOut").textContent="—";return}
+  $("#dOut").innerHTML=fmt(D)+"<small>мкЗв</small>";
+  $("#dSub").innerHTML=`= <b>${fmt(D/1000,4)}</b> мЗв · час <b>${fmt(t)}</b> год · потужність <b>${fmt(P)}</b> мкЗв/год`;
+  const bg=P/0.15;
+  const v=P<=0.2?`<span class="verdict v-ok">У межах звичайного фону</span>`:P<=1?`<span class="verdict v-warn">Вище фону приблизно в ${fmt(bg,1)} раза</span>`:`<span class="verdict v-bad">Перевищує фон у ${fmt(bg,0)} раз(и)</span>`;
+  $("#dExpl").innerHTML=`${v}<p>Це ${fmt(D/1000*100,2)} % річної граничної дози для населення (1 мЗв). Розрахунок вірний лише для умовно сталого поля.</p>`;
+}
+["#dP","#dU","#dH","#dM"].forEach(s=>$(s).addEventListener("input",dose));dose();
+function dist(){
+  const P=+$("#rP").value,a=+$("#r1").value,b=+$("#r2").value;
+  if(!(a>0&&b>0&&P>=0)){$("#rOut").textContent="—";$("#rSub").textContent="";return}
+  const k=(a/b)**2;$("#rOut").innerHTML=fmt(P*k)+"<small>мкЗв/год</small>";
+  $("#rSub").innerHTML=`Відстань ×${fmt(b/a,2)} → потужність ${b>a?`зменшилась у <b>${fmt(1/k,2)}</b> раза`:b<a?`збільшилась у <b>${fmt(k,2)}</b> раза`:"не змінилась"}`;
+}
+["#rP","#r1","#r2"].forEach(s=>$(s).addEventListener("input",dist));dist();
+function ki(){
+  const off=$("#kOff").checked,v=+$("#kAge").value,u=$("#kUnit").value,preg=$("#kPreg").checked,thy=$("#kThy").checked;
+  const months={d:v/30.44,w:v*7/30.44,m:v,y:v*12}[u],years=months/12;let out,sub,ex=[],cls="v-ok";
+  if(!off){$("#kOut").textContent="НЕ ПРИЙМАТИ";$("#kSub").textContent="Немає офіційного повідомлення";$("#kExpl").innerHTML=`<span class="verdict v-bad">Підстави немає</span><p>Новини в соцмережах, показ побутового дозиметра чи страх не є підставою. Прийом «про запас» шкідливий.</p>`;return}
+  if(!(v>=0)){$("#kOut").textContent="—";return}
+  if(thy){out="ЛІКАР";sub="Не призначати самостійно";cls="v-bad";ex.push("Протипоказання уточнюють за інструкцією та з лікарем.")}
+  else if(years>40&&!preg){out="ЯК ПРАВИЛО, НІ";sub="Вік понад 40 років";cls="v-warn";ex.push("Ризик ускладнень переважає користь, якщо інше не визначено офіційно.")}
+  else if(months<1){out="16 мг";sub="⅛ таблетки 125 мг";ex.push("Розтерти і розчинити.")}
+  else if(months<36){out="32 мг";sub="¼ таблетки 125 мг";ex.push("Розтерти і розчинити.")}
+  else if(years<13&&!preg){out="62,5 мг";sub="½ таблетки 125 мг"}
+  else{out="125 мг";sub=preg?"1 таблетка · вагітна / годує":"1 таблетка"}
+  $("#kOut").textContent=out;$("#kSub").textContent=sub;
+  ex.push("Якомога раніше після вказівки. Не захищає від цезію, стронцію і гамма, не замінює укриття. Спиртовий йод, Люголь, йодована сіль не замінюють KI.");
+  $("#kExpl").innerHTML=`<span class="verdict ${cls}">Є офіційна підстава</span>`+ex.map(x=>`<p>${x}</p>`).join("");
+}
+["#kOff","#kAge","#kUnit","#kPreg","#kThy"].forEach(s=>$(s).addEventListener("input",ki));ki();
+const PR=[["ВКРАЙ ТЯЖКИЙ","орієнтовно понад 6 Гр","v-bad","Термінова евакуація до закладу зі спеціалізованою допомогою."],["ТЯЖКИЙ","орієнтовно 4–6 Гр","v-bad","Пріоритетна евакуація під медичне спостереження."],["СЕРЕДНІЙ","орієнтовно 2–4 Гр","v-warn","Евакуація під медичне спостереження."],["ЛЕГКИЙ","орієнтовно 1–2 Гр","v-warn","Медичне спостереження."],["НЕ ВИЗНАЧИТИ","ранніх скарг немає","v-warn","Відсутність скарг не виключає опромінення. За підозри — медичне спостереження."]];
+function prim(){const r=PR[+$("#pT").value];$("#pOut").textContent=r[0];$("#pSub").textContent=r[1];
+  $("#pExpl").innerHTML=`<span class="verdict ${r[2]}">Маршрутизація</span><p>${r[3]}</p><p>Спочатку безпека і MARCH, потім часткова санобробка, положення проти аспірації. Записати час впливу і <b>час перших симптомів</b>.</p><p class="muted">Нудота і блювання неспецифічні: стрес, отруєння, контузія, перегрівання дають подібну картину.</p>`}
+$("#pT").addEventListener("input",prim);prim();
+})();
+</script>
+
+</body>
+</html>
