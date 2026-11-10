@@ -271,6 +271,22 @@ body{margin:0}
 .sk-q{background:var(--surface);border:2px solid var(--ink);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .sk-q .opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
 .sk-prog{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.sk-prog i{display:block;height:100%;background:var(--olive)}
+.vic{display:block;background-size:300% 300%;background-repeat:no-repeat;aspect-ratio:1;width:100%;border-radius:10px;background-color:#DADCD6}
+.vic.sm{width:44px;flex:none}
+.vic.big,.vthumb{width:100%;max-height:140px;aspect-ratio:16/9;object-fit:cover;border-radius:8px}
+.vic.big{background-size:300% 300%;aspect-ratio:16/9}
+.vopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.vopts{grid-template-columns:1fr}.vopt{flex-direction:row!important;align-items:center}.vopt .vic{width:72px;flex:none}}
+.vopt{display:flex;flex-direction:column;gap:8px;text-align:left;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:8px;font:500 14px/1.3 var(--f-body);cursor:pointer}
+.vopt:hover:not([disabled]){border-color:var(--olive)}
+.vopt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.vopt[disabled]{cursor:default}
+.vdone{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.vdone li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:6px 8px;font-size:14px}
+.vdone li small{display:block;color:var(--muted);font-size:12px}
+.vscene{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;background:var(--signal-soft);color:var(--signal-ink);border-radius:12px;padding:10px;font-size:15px}
+.vscene img{width:120px;height:80px;object-fit:cover;border-radius:8px}
+.vcard{position:relative}
 </style>
   <div class="stack" id="skHead">
     <span class="eyebrow">Навички з РПОК · на оцінку не впливає</span>
@@ -731,7 +747,7 @@ const SKILLS=[{"t": "Розпізнавання бойової втоми і г�
   const stats={};try{Object.assign(stats,JSON.parse(localStorage.getItem("sk"+LESSON)||"{}"))}catch(e){}
   const saveSt=()=>{try{localStorage.setItem("sk"+LESSON,JSON.stringify(stats))}catch(e){}};
   const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-  function list(){q("#skRun").hidden=true;q("#skList").hidden=false;q("#skHead").hidden=false;
+  function list(){if(window.__vhub){window.__vhub();return}q("#skRun").hidden=true;q("#skList").hidden=false;q("#skHead").hidden=false;
     q("#skList").innerHTML=SKILLS.map((s,i)=>`<button data-i="${i}"><span class="n">Навичка ${LESSON}.${i+1} · ${s.steps.length} кроків</span><b>${esc(s.t)}</b><span class="st">${stats[i]!=null?`<span class="done">Пройдено, помилок: ${stats[i]}</span>`:"Не пройдено"}</span></button>`).join("")}
   q("#skList").onclick=e=>{const b=e.target.closest("button");if(b)run(+b.dataset.i)};
   function run(si){const S=SKILLS[si],errs=S.err.split(/;\s*/).map(x=>x.replace(/\.$/,"").trim()).filter(Boolean);let k=0,mist=0;
@@ -755,7 +771,52 @@ const SKILLS=[{"t": "Розпізнавання бойової втоми і г�
         else{mist++;b.classList.add("wrong");b.disabled=true;q("#skWhy").innerHTML=`<div class="fb no">${b.dataset.why}</div>`}};
     }
     draw();window.scrollTo(0,0)}
+  window.__textSkill=run;
   list();
+})();
+
+const VSKILLS={};
+const SPECIAL={"1": {"img": "img/s5-dosimeter.webp", "sub": ""}};
+/* ---------- visual skills engine ---------- */
+(function(){
+  if(!document.getElementById("v-skills")||typeof SKILLS==="undefined")return;
+  const V=typeof VSKILLS!=="undefined"?VSKILLS:{},SPEC=typeof SPECIAL!=="undefined"?SPECIAL:{};
+  const q=s=>document.querySelector(s);
+  const icon=(sp,i,cls)=>`<span class="vic ${cls||""}" style="background-image:url(${sp});background-position:${(i%3)*50}% ${Math.floor(i/3)*50}%"></span>`;
+  const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  let stats={};try{stats=JSON.parse(localStorage.getItem("vs"+LESSON)||"{}")}catch(e){}
+  const saveSt=()=>{try{localStorage.setItem("vs"+LESSON,JSON.stringify(stats))}catch(e){}};
+  const oldList=q("#skList");
+  function hub(){q("#skRun").hidden=true;q("#skHead").hidden=false;oldList.hidden=false;
+    oldList.innerHTML=SKILLS.map((s,i)=>{const v=V[i],sp=SPEC[i];const thumb=v?icon(v.sprite,v.steps[0][1],"big"):sp?`<img class="vthumb" src="${sp.img}" alt="">`:"";
+      return `<button data-i="${i}" class="vcard">${thumb}<span class="n">Навичка ${LESSON}.${i+1}${v||sp?" · візуальний симулятор":" · покроковий тренажер"}</span><b>${esc(s.t)}</b><span class="st">${stats[i]!=null?`<span class="done">Пройдено, помилок: ${stats[i]}</span>`:"Не пройдено"}</span></button>`}).join("")}
+  oldList.onclick=e=>{const b=e.target.closest("button");if(!b)return;e.stopImmediatePropagation();const i=+b.dataset.i;
+    if(SPEC[i]){location.hash="sim";setTimeout(()=>{const t=document.querySelector(`#simSel button[data-s="${SPEC[i].sub}"]`);if(t)t.click()},50);return}
+    if(V[i])run(i);else window.__textSkill&&window.__textSkill(i)};
+  function run(si){const S=SKILLS[si],D=V[si];let k=0,mist=0;
+    oldList.hidden=true;q("#skHead").hidden=true;q("#skRun").hidden=false;
+    function draw(){
+      let body="";
+      if(k<D.steps.length){const later=D.steps.slice(k+1).map(x=>({l:x[0],i:x[1],w:"Рано: цей крок теж потрібен, але пізніше."}));
+        const ds=shuf(D.dist.map(x=>({l:x[0],i:x[1],w:x[2]})));
+        const opts=[{l:D.steps[k][0],i:D.steps[k][1],c:1}];
+        if(later.length&&Math.random()<.5)opts.push(shuf(later)[0]);
+        while(opts.length<3&&ds.length)opts.push(ds.shift());
+        while(opts.length<3&&later.length)opts.push(later.pop());
+        body=`<div class="sk-q"><div class="row" style="justify-content:space-between"><b>Крок ${k+1} з ${D.steps.length}${S.steps[k]&&S.steps[k][0]?" · "+esc(S.steps[k][0]):""}</b><span class="small muted">помилок: ${mist}</span></div><div class="sk-prog"><i style="width:${k/D.steps.length*100}%"></i></div><div class="qt">Що робите далі?</div><div class="vopts">${shuf(opts).map(o=>`<button class="vopt" data-c="${o.c?1:0}" data-w="${esc(o.w||"")}">${icon(D.sprite,o.i)}<span>${esc(o.l)}</span></button>`).join("")}</div><div id="skWhy"></div></div>`}
+      else{stats[si]=mist;saveSt();
+        body=`<div class="panel stack"><h3>Навичку виконано. Помилок: ${mist}</h3><div style="background:var(--ok-soft);border-radius:8px;padding:10px 12px"><b>Критерії правильного виконання:</b> ${esc(S.ok)}</div><div style="background:var(--bad-soft);border-radius:8px;padding:10px 12px"><b>Типові помилки:</b> ${esc(S.err)}</div><div class="row"><button class="btn primary" id="vAgain">Ще раз</button><button class="btn" id="vBack2">До списку навичок</button></div></div>`}
+      const done=D.steps.slice(0,k).map((st,j)=>`<li>${icon(D.sprite,st[1],"sm")}<span><b>${esc(st[0])}</b><small>${esc((S.steps[j]||[])[2]||"")}</small></span></li>`).join("");
+      q("#skRun").innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn" id="vBack">← Усі навички</button><span class="eyebrow">Навичка ${LESSON}.${si+1}</span></div>
+        <div class="vscene"><img src="${D.scene}" alt=""><div><span class="eyebrow">Ситуація</span><p>${esc(D.intro)}</p></div></div>
+        <h2>${esc(S.t)}</h2>${done?`<ol class="vdone">${done}</ol>`:""}${body}`;
+      q("#vBack").onclick=hub;if(q("#vBack2"))q("#vBack2").onclick=hub;if(q("#vAgain"))q("#vAgain").onclick=()=>run(si);
+      const vo=q("#skRun .vopts");if(vo)vo.onclick=e=>{const b=e.target.closest(".vopt");if(!b||b.disabled)return;
+        if(b.dataset.c==="1"){k++;draw();const t=q("#skRun .sk-q")||q("#skRun .panel");if(t)t.scrollIntoView({block:"center"})}
+        else{mist++;b.classList.add("wrong");b.disabled=true;q("#skWhy").innerHTML=`<div class="fb no">${b.dataset.w}</div>`}};
+    }
+    draw();window.scrollTo(0,0)}
+  window.__vhub=hub;hub();
 })();
 
 /* ---------- dosimeter simulator ---------- */
