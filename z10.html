@@ -1,8 +1,1287 @@
 <!doctype html>
-<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Організація санітарно-гігієнічних і протиепідемічних заходів у надзвичайних ситуаціях. Екстрена медична допомога при масових ураженнях у мирний та воєнний час.</title><link rel="stylesheet" href="z10.css?v=20261110-10"><meta name="theme-color" content="#087f80"><link rel="stylesheet" href="sim-app.css?v=20261110-10"></head>
-<body><header><div class="wrap top"><a href="./">← Усі заняття</a><b>ВМП / Практичне заняття 10</b><span class="tag">ПОЛЬОВА ПРАКТИКА</span></div><nav class="wrap" aria-label="Розділи заняття"><a href="#missions">Практичні навички</a><a href="#material">Пам’ятки</a><a href="#practice">Тренування</a><a href="#control">Результати</a></nav></header>
-<main class="wrap"><section id="material" class="view" hidden></section><section id="practice" class="view"><div class="hero"><div class="eyebrow">Санітарна безпека · Інфекційний контроль · Масові ураження</div><h1>Дій впевнено.<br>Бережи життя.</h1><p>Санітарна безпека та допомога при масових ураженнях. Вивчи принцип → виконай дію → розбери результат.</p><a class="button primary" href="#missions">До практичних місій ↗</a><img class="hero-photo" src="img/z10-camp.jpg" alt="Навчальна візуалізація тимчасового пункту розміщення з ліжками, безпечною водою та медичним постом"><span class="image-credit">Навчальна візуалізація</span></div><div class="section-title"><div><span class="eyebrow">01 / Підготовка</span><h2>Тренування з поясненнями</h2></div><span class="tag">БЕЗ ОЦІНКИ</span></div><p class="muted">Відповідай у своєму темпі. Кожна картка містить пояснення перед запитанням і розбір після відповіді. Ці відповіді не впливають на оцінку за практику.</p><div id="training"></div></section>
-<section id="missions" class="view" hidden><div id="hub"></div><div id="game" hidden></div></section>
-<section id="control" class="view" hidden><div class="section-title"><div><span class="eyebrow">03 / Завершення заняття</span><h1>Результати практики</h1></div></div><p class="muted">Підбий підсумок заняття: перевір знання, переглянь результати практики та покажи їх викладачу. Оцінка за симуляції рахується окремо від тестів.</p><div id="summary"></div><details class="panel"><summary>Додаткова перевірка знань · за бажанням</summary><div id="finalQuiz"></div></details></section>
-<noscript>Для тренувань і симуляцій потрібно увімкнути JavaScript.</noscript><div id="storageWarning" role="status" hidden>Браузер не дозволяє зберігати прогрес. Завантаж результат перед закриттям сторінки.</div></main><footer class="wrap">КЗ «Одеський обласний базовий медичний фаховий коледж» · Паламарчук Д. В.<br>Навчальні моделі за методичною розробкою заняття №10. Зображення згенеровані для навчальної візуалізації. Дії в симуляції не замінюють відпрацювання навичок під наглядом викладача.<br>Алгоритми: <a href="https://remm.hhs.gov/startadult.htm" target="_blank" rel="noopener">START · HHS</a> · <a href="https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-figure.html" target="_blank" rel="noopener">ЗІЗ · CDC</a></footer><script src="z10.js?v=20261110-10"></script><script src="z10-course.js?v=20261110-10"></script><script src="course-catalog.js?v=20261110-10"></script><script src="sim-app.js?v=20261110-10"></script><script src="ppe-training.js?v=20261110-10"></script><script src="lesson10-practice.js?v=20261110-10"></script><script src="direct-touch.js?v=20261110-10"></script></body></html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Заняття 10. Організація санітарно-гігієнічних і протиепідемічних заходів у надзвичайних ситуаціях. Екстрена медична допомога при масових ураженнях у мирний та воєнний час.</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: sticky header with two views (control, trainers); one column max 860px; numeric answers and tools styled as dosimeter readouts */
+:root{
+  --bg:#EDF0E8; --surface:#FFFFFF; --surface-2:#F5F7F1; --ink:#1C2219; --muted:#5A6455; --line:#CDD4C5;
+  --olive:#3E5A2C; --olive-soft:#E1E9D6; --signal:#E3AE00; --signal-soft:#FBF0C9; --signal-ink:#3B2F00;
+  --ok:#2C7A3C; --ok-soft:#DDF0E0; --bad:#B0281F; --bad-soft:#F8E0DD;
+  --lcd-bg:#1D2919; --lcd-fg:#B9F08C; --lcd-dim:#7E9F67; --on-olive:#FFFFFF;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10140E; --surface:#181E15; --surface-2:#1D2419; --ink:#E3E9DC; --muted:#9BA693; --line:#2D3627;
+  --olive:#A4CB80; --olive-soft:#26331E; --signal:#F0C445; --signal-soft:#3A3115; --signal-ink:#F7E3A4;
+  --ok:#73C886; --ok-soft:#1C3322; --bad:#F08B82; --bad-soft:#3D1D1A;
+  --lcd-bg:#0A0F08; --lcd-fg:#B9F08C; --lcd-dim:#6E8F57; --on-olive:#10140E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10140E; --surface:#181E15; --surface-2:#1D2419; --ink:#E3E9DC; --muted:#9BA693; --line:#2D3627;
+  --olive:#A4CB80; --olive-soft:#26331E; --signal:#F0C445; --signal-soft:#3A3115; --signal-ink:#F7E3A4;
+  --ok:#73C886; --ok-soft:#1C3322; --bad:#F08B82; --bad-soft:#3D1D1A;
+  --lcd-bg:#0A0F08; --lcd-fg:#B9F08C; --lcd-dim:#6E8F57; --on-olive:#10140E; color-scheme:dark}
 
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;padding-block:10px 2px;font-size:13px;color:var(--muted)}
+.brand b{color:var(--ink);font-weight:600}
+.tri{width:18px;height:18px;flex:none}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-block:4px 0}
+nav.tabs a{flex:none;text-decoration:none;color:var(--muted);font-weight:500;font-size:15px;padding:8px 12px;border-bottom:3px solid transparent;white-space:nowrap}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--signal)}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+main{padding-block:28px 120px}
+section.view{display:flex;flex-direction:column;gap:22px}
+section.view[hidden],[hidden]{display:none!important}
+h1,h2,h3{text-wrap:balance;margin:0}
+h1{font:700 clamp(22px,4.2vw,32px)/1.18 var(--f-display);letter-spacing:-.01em}
+h2{font:700 20px/1.25 var(--f-display)}
+h3{font:600 17px/1.35 var(--f-body)}
+p{margin:0}
+.lead{font-size:17px;color:var(--muted);max-width:65ch}
+.eyebrow{font:600 12px/1 var(--f-body);text-transform:uppercase;letter-spacing:.08em;color:var(--olive)}
+.stack{display:flex;flex-direction:column;gap:12px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.muted{color:var(--muted)} .small{font-size:14px}
+.note{background:var(--signal-soft);color:var(--signal-ink);border-left:4px solid var(--signal);padding:12px 16px;border-radius:0 8px 8px 0;font-size:15px}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font-weight:600;background:var(--surface-2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+
+button{font:inherit;cursor:pointer}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 16px;border-radius:8px;font-weight:500;font-size:15px}
+.btn:hover{border-color:var(--olive)}
+.btn.primary{background:var(--olive);border-color:var(--olive);color:var(--on-olive)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:500;color:var(--muted)}
+input[type=text],input[type=number],input[inputmode],select{font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px;min-width:0;width:100%}
+label.chk{display:flex;gap:8px;align-items:flex-start;font-size:15px;cursor:pointer}
+label.chk input{margin-top:5px;accent-color:var(--olive)}
+.err{color:var(--bad);font-size:14px}
+
+/* start */
+.start{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.blocks div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.blocks b{font:700 22px var(--f-mono);color:var(--olive)}
+.blocks span{font-size:14px;color:var(--muted)}
+
+/* blocks of the control */
+.bhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-top:10px}
+.bhead small{font:500 13px var(--f-mono);color:var(--muted)}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.q .qn{font:600 12px var(--f-mono);color:var(--olive);display:flex;justify-content:space-between;gap:8px}
+.q .qt{font-weight:600}
+.case{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.case>.ct{display:flex;flex-direction:column;gap:6px}
+.case .tag{font:600 12px var(--f-mono);color:var(--olive)}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:start;text-align:left;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);padding:9px 12px;border-radius:8px;font-size:15px}
+.case .opt{background:var(--surface)}
+.opt .L{font:600 13px/22px var(--f-mono);color:var(--muted)}
+.opt:hover:not([disabled]){border-color:var(--olive)}
+.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 1px var(--ink);font-weight:600}
+.opt[aria-pressed="true"] .L{color:var(--surface);background:var(--ink);border-radius:50%;text-align:center;width:22px}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.right .L{color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt.wrong .L{color:var(--bad)}
+.formula{font:500 15px var(--f-mono);background:var(--surface-2);border:1px dashed var(--line);border-radius:8px;padding:8px 12px;margin:0}
+.formula b{color:var(--olive)}
+.numin{display:flex;gap:8px;align-items:center;max-width:320px}
+.numin input{font-family:var(--f-mono);font-size:18px;background:var(--lcd-bg);color:var(--lcd-fg);border-color:var(--lcd-bg)}
+.numin span{font:500 14px var(--f-mono);color:var(--muted);white-space:nowrap}
+.numin input.right{outline:2px solid var(--ok)} .numin input.wrong{outline:2px solid var(--bad)}
+.fb{font-size:14px;padding:9px 12px;border-radius:8px}
+.fb.ok{background:var(--ok-soft);color:var(--ok)}
+.fb.no{background:var(--bad-soft);color:var(--bad)}
+.fb.part{background:var(--signal-soft);color:var(--signal-ink)}
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:8px 12px;align-items:center}
+.match select.right{border-color:var(--ok);background:var(--ok-soft)}
+.match select.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.seq{display:flex;flex-wrap:wrap;gap:6px}
+.seq button{border:1px dashed var(--line);background:var(--surface-2);color:var(--ink);padding:7px 10px;border-radius:8px;font-size:14px;text-align:left}
+.seq button[disabled]{opacity:.35}
+.seqout{display:flex;flex-direction:column;gap:4px;font-size:15px}
+.seqout div{display:flex;gap:8px}
+.seqout div span:first-child{font:600 13px/24px var(--f-mono);color:var(--olive);min-width:20px}
+.seqout div.right span:first-child{color:var(--ok)} .seqout div.wrong span:first-child{color:var(--bad)}
+
+/* bottom bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:10px}
+.prog{flex:1 1 200px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.prog .t{font-size:13px;color:var(--muted)}
+.prog .t b{color:var(--ink);font-variant-numeric:tabular-nums}
+.track{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.track i{display:block;height:100%;background:var(--olive);width:0;transition:width .2s}
+
+/* result */
+.result{background:var(--surface);border:2px solid var(--ink);border-radius:14px;overflow:hidden}
+.result .top{display:grid;grid-template-columns:1fr auto;gap:16px;padding:18px 20px;align-items:center}
+.result .who{display:flex;flex-direction:column;gap:2px}
+.result .who b{font-size:18px}
+.gradebox{text-align:right}
+.gradebox .g{font:700 clamp(22px,5vw,30px)/1.1 var(--f-display)}
+.gradebox .p{font:700 15px var(--f-mono);color:var(--muted)}
+.g5{color:var(--ok)} .g4{color:var(--olive)} .g3{color:var(--signal-ink)} .g2{color:var(--bad)}
+.result .lcd{background:var(--lcd-bg);color:var(--lcd-fg);font:500 13px var(--f-mono);padding:10px 20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.result .lcd span{color:var(--lcd-dim)}
+@media (max-width:520px){.result .top{grid-template-columns:1fr}.gradebox{text-align:left}}
+
+/* trainers */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tool .head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tool .head small{font:500 12px var(--f-mono);color:var(--muted)}
+.tool .inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding:16px 18px}
+.lcd2{background:var(--lcd-bg);color:var(--lcd-fg);font-family:var(--f-mono);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.lcd2 .big{font-size:clamp(24px,6vw,36px);font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;overflow-wrap:anywhere}
+.lcd2 .big small{font-size:.5em;font-weight:500;color:var(--lcd-dim);margin-left:6px}
+.lcd2 .sub{font-size:13px;color:var(--lcd-dim)}
+.lcd2 .sub b{color:var(--lcd-fg);font-weight:500}
+.tool .expl{padding:14px 18px;font-size:15px;display:flex;flex-direction:column;gap:8px}
+.verdict{display:inline-flex;align-self:flex-start;font:600 13px var(--f-body);padding:4px 10px;border-radius:6px}
+.v-ok{background:var(--ok-soft);color:var(--ok)} .v-warn{background:var(--signal-soft);color:var(--signal-ink)} .v-bad{background:var(--bad-soft);color:var(--bad)}
+.hero{position:relative;border-radius:14px;overflow:hidden;background:var(--lcd-bg)}
+.hero img{display:block;width:100%;height:auto;aspect-ratio:16/7;object-fit:cover;object-position:center 40%}
+.hero-t{position:absolute;inset:0 45% 0 0;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:28px;background:linear-gradient(90deg,rgba(14,20,11,.82),rgba(14,20,11,.55) 70%,rgba(14,20,11,0))}
+.hero-t .eyebrow{color:#E9C64A}
+.hero-t h1{color:#F4F7EF}
+@media (max-width:640px){.hero-t{position:static;inset:auto;background:var(--lcd-bg);padding:16px 18px}.hero img{aspect-ratio:16/8}}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap}
+.ptabs button{border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:7px 14px;border-radius:999px;font-size:14px;font-weight:500}
+.ptabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pq .opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.pq .opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.pscore{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom,0px));align-self:flex-start;background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font:600 14px var(--f-body);display:flex;gap:10px;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.card{perspective:800px;min-height:160px;border:0;background:none;padding:0;text-align:left;color:var(--ink);cursor:pointer}
+.card .in{position:relative;width:100%;height:100%;min-height:160px;transition:transform .45s;transform-style:preserve-3d}
+.card.flip .in{transform:rotateY(180deg)}
+.card .fc,.card .bc{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);overflow:auto}
+.card .fc{background:var(--surface);font-weight:600}
+.card .fc small{font:500 12px var(--f-mono);color:var(--muted)}
+.card .bc{background:var(--olive-soft);transform:rotateY(180deg);font-size:15px}
+@media (prefers-reduced-motion:reduce){.card .in{transition:none}}
+footer{border-top:1px solid var(--line);padding-block:20px 90px;font-size:13px;color:var(--muted)}
+.rp-topic{margin:4px 0 0;font:600 15px/1.35 var(--f-body);max-width:60ch}
+[hidden]{display:none!important}
+body{margin:0}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg class="tri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--signal)"/><path d="M12 12 L7.2 3.7 A9.6 9.6 0 0 1 16.8 3.7 Z M12 12 L21.6 12 A9.6 9.6 0 0 1 16.8 20.3 Z M12 12 L7.2 20.3 A9.6 9.6 0 0 1 2.4 12 Z" fill="var(--ink)"/><circle cx="12" cy="12" r="3.6" fill="var(--signal)"/><circle cx="12" cy="12" r="2.2" fill="var(--ink)"/></svg>
+      <span><a href="./" style="color:inherit">← Усі заняття</a> · <b>Практичне заняття № 10</b></span>
+    </div>
+    <nav class="tabs" aria-label="Розділи">
+      <a href="#control">Підсумковий контроль</a>
+      <a href="#skills">Навички</a>
+      <a href="#sim">Симулятор</a>
+      <a href="#practice">Тренування</a>
+      
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================= CONTROL ================= -->
+<section class="view" id="v-control">
+  <div class="hero">
+    <img src="img/hero10.webp" alt="Каністра для води, дезінфектант, мірний циліндр, респіратор, окуляри, рукавички, сортувальні бирки і контейнер для проб на польовому брезенті" width="1100" height="614">
+    <div class="hero-t">
+      <span class="eyebrow">Санітарно-протиепідемічні заходи · дезінфекція · ЗІЗ · START · евакуація</span>
+      <h1>Практичне заняття № 10</h1><p class="rp-topic">Організація санітарно-гігієнічних і протиепідемічних заходів у надзвичайних ситуаціях. Екстрена медична допомога при масових ураженнях у мирний та воєнний час.</p>
+    </div>
+  </div>
+
+  <!-- start screen -->
+  <div id="startBox" class="stack">
+    <p class="lead">Працюйте самостійно, без підручника і без обговорення з сусідами. Час — до кінця пари.</p>
+    <div class="panel stack">
+      <h3>Як виконувати</h3>
+      <ol class="small" style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px">
+        <li>Введіть прізвище, ім’я, групу і <b>номер варіанта, який назвав викладач</b>. Натисніть «Почати».</li>
+        <li>Виконайте всі 4 блоки. Тести: оберіть одну відповідь. Розрахункові задачі: впишіть число (дробову частину через кому) або оберіть відповідь. Ситуаційні задачі: прочитайте умову і дайте відповіді на питання під нею. Відповідність: оберіть пару в кожному рядку. Послідовність: натискайте кроки по черзі.</li>
+        <li>Відповіді можна змінювати, поки не натиснули «Завершити». Завершити можна лише після відповіді на всі завдання. Внизу видно, скільки вже виконано.</li>
+        <li>Натисніть «Завершити і отримати оцінку». Результат автоматично потрапить до викладача. Пройти контроль можна один раз.</li>
+        <li><b>Покажіть екран з результатом викладачу.</b></li>
+      </ol>
+      <p class="small muted">Якщо сторінку випадково закрили — відкрийте посилання знову на тому самому пристрої: відповіді збережуться.</p>
+    </div>
+    <div class="blocks">
+      <div><b>20</b><span>тестів І і ІІ рівня, по 1 балу</span></div>
+      <div><b>7</b><span>розрахункових і алгоритмічних задач (вода, туалети, дезрозчин, START), по 2 бали</span></div>
+      <div><b>25</b><span>питань до 10 ситуаційних задач, по 1 балу</span></div>
+      <div><b>4</b><span>завдання на відповідність і послідовність, по 2 бали</span></div>
+    </div>
+    <p class="small muted">Усього 67 балів. Оцінка за 5-бальною шкалою: 90–100 % — «5», 75–89 % — «4», 60–74 % — «3», менше 60 % — «2».</p>
+    <form id="startForm" class="panel stack" novalidate>
+      <div class="start">
+        <label class="f">Прізвище, ім’я<input type="text" id="sName" autocomplete="name" placeholder="Петренко Олена"></label>
+        <label class="f">Група<input type="text" id="sGroup" placeholder="напр. 3-Б"></label>
+        <label class="f">Номер варіанта (1–30)<input type="number" id="sVar" min="1" max="30" step="1" inputmode="numeric" placeholder="від викладача"></label>
+      </div>
+      <p class="err" id="sErr" hidden></p>
+      <div class="row"><button class="btn primary" type="submit">Почати</button></div>
+    </form>
+  </div>
+
+  <!-- result -->
+  <div id="resultBox" hidden></div>
+
+  <!-- items -->
+  <div id="testBox" class="stack" hidden></div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section class="view" id="v-skills" hidden>
+<style>
+.sk-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.sk-list button{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;gap:6px;font:inherit}
+.sk-list button:hover{border-color:var(--olive)}
+.sk-list .n{font:600 12px var(--f-mono);color:var(--olive)}
+.sk-list .st{font-size:13px;color:var(--muted)}
+.sk-list .done{color:var(--ok);font-weight:600}
+.sk-done{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.sk-done li{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:15px}
+.sk-done li .k{font:700 13px/22px var(--f-mono);color:var(--ok)}
+.sk-done li small{display:block;color:var(--muted);font-size:13px}
+.sk-ph{font:600 12px/1 var(--f-body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:6px}
+.sk-q{background:var(--surface);border:2px solid var(--ink);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.sk-q .opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.sk-prog{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.sk-prog i{display:block;height:100%;background:var(--olive)}
+.vic{display:block;background-size:300% 300%;background-repeat:no-repeat;aspect-ratio:1;width:100%;border-radius:10px;background-color:#DADCD6}
+.vic.sm{width:44px;flex:none}
+.vic.big,.vthumb{width:100%;max-height:140px;aspect-ratio:16/9;object-fit:cover;border-radius:8px}
+.vic.big{background-size:300% 300%;aspect-ratio:16/9}
+.vopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.vopts{grid-template-columns:1fr}.vopt{flex-direction:row!important;align-items:center}.vopt .vic{width:72px;flex:none}}
+.vopt{display:flex;flex-direction:column;gap:8px;text-align:left;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:8px;font:500 14px/1.3 var(--f-body);cursor:pointer}
+.vopt:hover:not([disabled]){border-color:var(--olive)}
+.vopt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.vopt[disabled]{cursor:default}
+.vmeter{position:relative;display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;overflow:hidden;font-size:14px}
+.vmeter i{position:absolute;left:0;bottom:0;height:4px;transition:width .5s}
+.vmeter.ok i{background:var(--ok)}.vmeter.warn i{background:#C98A12}.vmeter.bad i{background:var(--bad)}
+.vmeter.bad{background:var(--bad-soft)}
+.vcons{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:start;background:var(--bad-soft);border:1px solid var(--bad);border-radius:12px;padding:10px;animation:shake .35s}
+.vcons.soft{background:#FFF6E0;border-color:#C98A12}
+.vcons.crit{border-width:2px}
+.vcons:not(:has(.vic)){grid-template-columns:1fr}
+.vcons p{margin:4px 0 0;font-size:14px}.vcons p.ct{font-weight:600}
+.vic.cons{width:96px}.vic.big2{width:100%}
+.vfail{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:2px solid var(--bad);border-radius:14px;padding:12px}
+.vfail h3{margin:0;color:var(--bad)}
+.vfail .vcons{grid-template-columns:1fr}
+.vcard .failed{color:var(--bad)}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.vdone{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.vdone li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:6px 8px;font-size:14px}
+.vdone li small{display:block;color:var(--muted);font-size:12px}
+.vscene{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;background:var(--signal-soft);color:var(--signal-ink);border-radius:12px;padding:10px;font-size:15px}
+.vscene img{width:120px;height:80px;object-fit:cover;border-radius:8px}
+.vcard{position:relative}
+</style>
+  <div class="stack" id="skHead">
+    <span class="eyebrow">Навички з РПОК · на оцінку не впливає</span>
+    <h2>Практичні навички заняття</h2>
+    <p class="muted">Кожна навичка — практичне вміння з РП у вигляді ситуації. На кожному кроці оберіть, що робите далі. Неправильна дія має наслідок: ви бачите, що сталося з людьми, а шкала стану падає. Критична помилка — <b>невдача</b>, навичку доведеться почати заново. Після правильного кроку бачите обґрунтування.</p>
+  </div>
+  <div class="sk-list" id="skList"></div>
+  <div id="skRun" class="stack" hidden></div>
+</section>
+
+<!-- ================= SIM ================= -->
+<section class="view" id="v-sim" hidden>
+<style>
+.sim-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sim-score{font:600 14px var(--f-mono);color:var(--muted)}
+.pt{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.pt .tag{font:600 12px var(--f-mono);color:var(--olive)}
+.simgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.simgrid>*{min-width:0}
+.st{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.st h3{font-size:15px;padding:10px 14px;border-bottom:1px solid var(--line);margin:0;display:flex;justify-content:space-between;gap:8px}
+.st h3 small{font:500 12px var(--f-mono);color:var(--muted)}
+.st .stage{background:#2A3424;display:flex;align-items:center;justify-content:center;height:170px;position:relative}
+.st .ctl{padding:10px 14px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.st .ctl .row{gap:6px}
+.st .stage{height:230px;background:#5E625B}
+.pic{position:relative;height:100%;aspect-ratio:1/1;overflow:hidden}
+.pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#chestImg{transform-origin:50% 100%}
+#chestImg.on{animation:breathe var(--rr,3s) ease-in-out infinite}
+.ring{position:absolute;left:49%;top:47%;width:16%;aspect-ratio:1;margin:-8% 0 0 -8%;border-radius:50%;border:3px solid #FF5A4A;opacity:0}
+.ring.on{animation:beat var(--hr,1s) linear infinite}
+.blanch{position:absolute;left:42.5%;top:15%;width:15.5%;height:17%;border-radius:40% 40% 30% 30%;background:#FBF6F1;opacity:0}
+.faceImg{transform:scale(2.3);transform-origin:50% 20%}
+@keyframes breathe{0%,100%{transform:scale(1,1)}45%{transform:scale(1.025,1.045)}}
+@keyframes beat{0%,100%{transform:scale(.7);opacity:0}10%{transform:scale(1.1);opacity:.95}35%{transform:scale(1.5);opacity:0}}
+.timer{font:700 22px var(--f-mono);color:#B9F08C;position:absolute;top:8px;right:12px}
+.resp{text-shadow:0 1px 3px #000,0 0 8px #000;font-weight:600;position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#F4F7EF;font-size:14px;padding:0 10px}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cats button{border:0;border-radius:8px;padding:12px 4px;font-weight:700;font-size:14px;cursor:pointer;color:#fff}
+.c-red{background:#C0392B}.c-yel{background:#E0B000;color:#1C2219!important}.c-grn{background:#2E8B4A}.c-blk{background:#1C1C1C}
+.cats button[disabled]{opacity:.45;cursor:default}
+.cats button.pick{outline:3px solid var(--ink);outline-offset:2px;opacity:1}
+.simfb{border-radius:10px;padding:12px 14px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.simfb.ok{background:var(--ok-soft);color:var(--ok)}.simfb.no{background:var(--bad-soft);color:var(--bad)}
+#v-sim .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chips button{width:42px;height:42px;border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:700 15px var(--f-mono);cursor:pointer}
+.chips button.cur{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
+.chips button.t0{background:#C0392B;color:#fff;border-color:#C0392B}.chips button.t1{background:#E0B000;color:#1C2219;border-color:#E0B000}.chips button.t2{background:#2E8B4A;color:#fff;border-color:#2E8B4A}.chips button.t3{background:#1C1C1C;color:#fff;border-color:#1C1C1C}
+.chips .clock{font:600 14px var(--f-mono);color:var(--muted);margin-left:auto}
+.sumt td,.sumt th{padding:6px 8px;font-size:14px}
+.simfb ul{margin:0;padding-left:18px;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){#chest.on,#pulseRing.on{animation-duration:var(--rr)}}
+</style>
+  <div id="simStart" class="stack">
+  <div class="stack">
+    <span class="eyebrow">Симулятор · на оцінку не впливає</span>
+    <div class="sim-head"><h2>Сортування START</h2><span class="sim-score" id="simScore"></span></div>
+    <div class="note"><b>Ситуація.</b> Вибух газу в пункті тимчасового розміщення, де вже тиждень реєструють гостру респіраторну інфекцію і кишкові розлади. На пункт збору доставлено <b id="ptTotal">10</b> постраждалих. Ви — перший медик на місці, працюєте в ЗІЗ. <b>Завдання:</b> провести первинне сортування START кожного (30–60 с на одного), повісити бирку і <b>позначити ознаки інфекції</b> (гарячка, кашель, діарея, висип) — таких спрямовують окремим потоком.</div>
+    <p class="small muted">Навичка з РПОК: первинне медичне сортування великої кількості постраждалих за START з виділенням окремого потоку для осіб з ознаками інфекції. Порядок: ходить? → дихає (якщо ні — відкрити дихальні шляхи)? → ЧД понад 30? → пульс на променевій артерії / капілярне наповнення понад 2 с? → виконує прості команди? Натискайте номер постраждалого, щоб перейти до нього.</p>
+  </div>
+  <div class="chips" id="ptChips"></div>
+  <div class="pt"><span class="tag" id="ptNo"></span><b id="ptText"></b></div>
+  <div class="simgrid">
+    <div class="st"><h3>Дихання <small>15 с × 4</small></h3>
+      <div class="stage">
+        <div class="pic"><img id="chestImg" src="img/s6-patient.webp" alt="Постраждалий лежить на спині"></div>
+        <span class="timer" id="brT"></span><span class="resp" id="brResp"></span>
+      </div>
+      <div class="ctl">
+        <div class="row"><button class="btn" id="brStart">Рахувати 15 с</button><button class="btn" id="airway">Відкрити дихальні шляхи</button></div>
+        <label class="f">Частота дихання, за хв<input type="number" id="rrIn" inputmode="numeric" min="0" max="80" placeholder="напр. 24"></label>
+      </div>
+    </div>
+    <div class="st"><h3>Пульс на променевій артерії</h3>
+      <div class="stage">
+        <div class="pic"><img src="img/s6-wrist.webp" alt="Пальці рятувальника на променевій артерії"><span class="ring" id="pulseRing"></span></div>
+        <span class="resp" id="plResp">Пальці на променевій артерії</span>
+      </div>
+      <div class="ctl"><span>Пульс на променевій артерії:</span><div class="row"><button class="btn" data-pl="1">Є</button><button class="btn" data-pl="0">Немає</button></div></div>
+    </div>
+    <div class="st"><h3>Капілярне наповнення <small>норма ≤ 2 с</small></h3>
+      <div class="stage">
+        <div class="pic"><img src="img/s6-nail.webp" alt="Нігтьове ложе"><span class="blanch" id="nail"></span></div>
+        <span class="timer" id="crT"></span><span class="resp" id="crResp">Натисніть і утримуйте, потім відпустіть</span>
+      </div>
+      <div class="ctl"><div class="row"><button class="btn" id="press">Натиснути на ніготь</button><button class="btn" id="sw">Секундомір</button></div>
+        <div class="row"><button class="btn" data-cr="0">≤ 2 с</button><button class="btn" data-cr="1">&gt; 2 с</button></div></div>
+    </div>
+    <div class="st"><h3>Психічний стан</h3>
+      <div class="stage"><div class="pic"><img class="faceImg" src="img/s6-patient.webp" alt="Обличчя постраждалого"></div>
+        <span class="resp" id="cmResp"></span></div>
+      <div class="ctl"><button class="btn" id="cmd">«Стисніть мою руку»</button></div>
+    </div>
+  </div>
+  <div class="stack">
+    <b>Ознаки інфекції (гарячка, кашель, діарея, висип):</b>
+    <div class="row" id="infSel"><button class="btn" data-inf="1">Є — окремий потік</button><button class="btn" data-inf="0">Немає</button></div>
+    <b>Категорія:</b>
+    <div class="cats" id="cats"><button class="c-red" data-c="0">Червона</button><button class="c-yel" data-c="1">Жовта</button><button class="c-grn" data-c="2">Зелена</button><button class="c-blk" data-c="3">Чорна</button></div>
+    <div id="simFb"></div>
+    <div id="simSum"></div>
+    <div class="row"><button class="btn primary" id="simNext" hidden>Наступний постраждалий</button></div>
+  </div>
+  </div>
+</section>
+
+<!-- ================= PRACTICE ================= -->
+<section class="view" id="v-practice" hidden>
+  <div class="stack">
+    <span class="eyebrow">Тренування · на оцінку не впливає</span>
+    <h2>Тренування перед контролем</h2>
+    <p class="muted">Тут відповідь видно одразу. Результати нікуди не надсилаються.</p>
+    <div class="ptabs" id="ptabs"><button data-k="t" aria-pressed="true">Тести з відповіддю</button><button data-k="c" aria-pressed="false">Флешкартки</button></div>
+  </div>
+  <div id="pTests" class="stack"></div>
+  <div id="pCards" class="stack" hidden>
+    <div class="row"><button class="btn" id="cShuffle">Перемішати</button><button class="btn" id="cReset">Повернути всі</button>
+      <div class="ptabs" id="ctabs"><button data-k="q" aria-pressed="true">Експрес-питання</button><button data-k="g" aria-pressed="false">Терміни</button></div></div>
+    <p class="small muted">Натисніть картку, щоб перевернути.</p>
+    <div class="cards" id="cardsBox"></div>
+  </div>
+</section>
+
+
+</main>
+
+<div class="bar" id="bar" hidden>
+  <div class="wrap">
+    <div class="prog"><span class="t" id="progT"></span><div class="track"><i id="progI"></i></div></div>
+    <div class="row" id="barBtns"><button class="btn primary" id="finish">Завершити і отримати оцінку</button></div>
+    <div class="row" id="barConfirm" hidden><span class="small" id="confirmT"></span><button class="btn" id="cBack">Повернутися</button><button class="btn primary" id="cGo" hidden>Завершити</button></div>
+  </div>
+</div>
+
+<footer><div class="wrap">КЗ «Одеський обласний базовий медичний фаховий коледж» · Циклова комісія хірургічних дисциплін, екстреної медицини та цивільного захисту · Викладач Паламарчук Д. В. · 2026</div></footer>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const L="АБВГДЕ";
+const fmt=(n,d=3)=>{if(!isFinite(n))return "—";return String(parseFloat(n.toFixed(d))).replace(".",",")};
+const KEY="vmp10-control-v1";
+const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||null}catch(e){return null}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+/* ---------- routing ---------- */
+const views=["control","skills","sim","practice","tools"].filter(v=>document.getElementById("v-"+v));
+function route(){
+  let h=(location.hash||"").slice(1); if(!views.includes(h)) h="control";
+  views.forEach(v=>{$("#v-"+v).hidden=v!==h});
+  document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.getAttribute("href")==="#"+h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  $("#bar").hidden=!(h==="control"&&S&&S.started&&!S.done);
+}
+window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0)});
+
+/* ---------- seeded random ---------- */
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const shuffle=(arr,r)=>{const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+
+/* ---------- banks ---------- */
+const LESSON=10;
+const T1=[["Найчастіший шлях масових кишкових спалахів після НС —", ["Забруднена вода", "Кров", "Повітря", "Ґрунт", "Укуси кліщів"], 0, "Після НС руйнуються водогін і каналізація: стічні води потрапляють у питну воду, тому кишкові спалахи найчастіше водні."], ["Санітарно-епідеміологічна розвідка — це", ["Збір і оцінка даних про санітарні та епідемічні умови в районі НС", "Медичне сортування", "Розвідка доріг", "Пошук постраждалих під завалами", "Хімічна розвідка"], 0, "СЕР — збір, аналіз і оцінювання даних про санітарно-гігієнічні та епідемічні умови для обґрунтування протиепідемічних заходів."], ["Груповий спалах інфекції в осередку відповідає санітарно-епідемічному стану", ["Нормальному", "Нестійкому", "Стабільному", "Неблагополучному", "Благополучному"], 3, "Груповий спалах — неблагополучний стан. Поодинокі пов’язані випадки — нестійкий, не пов’язані — благополучний, масове поширення — надзвичайний."], ["Карантин встановлюють переважно при", ["Травмах", "Опіках", "Отруєнні грибами", "Застуді", "Особливо небезпечних інфекціях"], 4, "Карантин — найсуворіший режим, його встановлюють при особливо небезпечних інфекціях. Для інших — обсервація."], ["Ізоляція хворого діє на ланку", ["Сприйнятливий організм", "Фактор передачі", "Переносника", "Джерело інфекції", "Механізм передачі"], 3, "Ізоляція відокремлює хворого — джерело інфекції — від здорових."], ["Мінімальна кількість води за Стандартами «Сфера» —", ["1 л/особу/добу", "100 л/особу/добу", "50 л/особу/добу", "5 л/особу/добу", "15 л/особу/добу"], 4, "За Стандартами «Сфера» — не менше 15 л на особу на добу для пиття, їжі й особистої гігієни."], ["Скільки людей може користуватися одним туалетом за мінімальним стандартом?", ["Без обмежень", "До 20", "До 5", "До 50", "До 100"], 1, "Мінімальний стандарт: 1 туалет на 20 осіб, окремо для чоловіків і жінок."], ["Туалети розміщують", ["Нижче за рельєфом і далі від вододжерела", "Біля кухні", "Біля вододжерела", "У житловому приміщенні", "Вище за рельєфом від криниці"], 0, "Туалети — нижче за рельєфом і далі від вододжерел, щоб стоки не забруднили воду."], ["Дезінфекцію після госпіталізації хворого називають", ["Плановою", "Заключною", "Профілактичною", "Попередньою", "Поточною"], 1, "Заключну дезінфекцію проводять після ізоляції чи госпіталізації хворого; поточну — під час його перебування."], ["Перед нанесенням дезінфекційного розчину на забруднену поверхню", ["Посипають сіллю", "Нічого не роблять", "Висушують бруд", "Видаляють видимі забруднення", "Нагрівають поверхню"], 3, "Органічні забруднення інактивують дезінфектант, тому спочатку очищення, потім розчин."], ["Скільки мл 10 % концентрату потрібно для 5 л 0,2 % розчину?", ["100 мл", "1000 мл", "50 мл", "500 мл", "10 мл"], 0, "V₁ = C₂ × V₂ / C₁ = 0,2 × 5000 / 10 = 100 мл концентрату, довести водою до 5 л."], ["При аерогенній інфекції (кір, туберкульоз) персонал використовує", ["Марлеву пов’язку", "Медичну маску", "Респіратор FFP2/FFP3", "Лише рукавички", "Нічого"], 2, "Аерогенні інфекції передаються дрібнодисперсним аерозолем: медична маска не захищає, потрібен респіратор FFP2/FFP3 з перевіркою прилягання."], ["Останнім при зніманні ЗІЗ знімають", ["Халат", "Маску/респіратор", "Бахіли", "Рукавички", "Окуляри"], 1, "Маску чи респіратор знімають останнім: рукавички → гігієна рук → окуляри → халат → респіратор → гігієна рук."], ["Стандартні заходи інфекційного контролю застосовують", ["Лише до хворих на ВІЛ", "За бажанням", "Лише при епідемії", "Лише в інфекційних лікарнях", "До всіх пацієнтів"], 4, "Стандартні заходи (гігієна рук, ЗІЗ за ризиком тощо) застосовують до всіх пацієнтів, бо інфекційний статус часто невідомий."], ["Особа з гарячкою і висипом на пункті збору постраждалих", ["Відправляється додому", "Направляється в окремий потік огляду і очікування", "Отримує чорну позначку", "Чекає разом з усіма", "Не оглядається"], 1, "Особи з гарячкою, кашлем, діареєю чи висипом — окремий потік огляду і очікування, щоб не заразити інших."], ["За START постраждалий, що ходить, —", ["Чорна", "Без категорії", "Червона", "Зелена категорія", "Жовта"], 3, "За START усі, хто може ходити, — зелена категорія."], ["Капілярне наповнення 3 с за START —", ["Зелена", "Норма", "Червона категорія", "Жовта", "Чорна"], 2, "Капілярне наповнення понад 2 с — ознака порушення перфузії, червона категорія."], ["Евакуаційна категорія II (пріоритетна) — евакуація в межах", ["48 год", "24 год", "4 год", "7 діб", "1 год"], 2, "Евакуаційні категорії: I — до 1 год, II — до 4 год, III — до 24 год."], ["Наявність турнікета є підставою для евакуаційної категорії", ["Не впливає", "II", "I", "III", "Евакуація не потрібна"], 2, "Турнікет — підстава для евакуаційної категорії I: ризик втрати кінцівки зростає з часом."], ["Картку постраждалого (форма № 002/о) після заповнення", ["Знищують", "Залишають у рятувальника", "Зберігають у машині", "Відправляють поштою", "Передають разом із постраждалим"], 4, "Форма № 002/о йде разом із постраждалим — це основа наступності допомоги."]];
+const T2=[["У пункті розміщення 200 осіб і 4 туалети. Скільки туалетів не вистачає до мінімального стандарту?", ["2", "16", "Достатньо", "10", "6"], 4, "Потрібно 200 / 20 = 10 туалетів, є 4 — бракує 6."], ["Яку мінімальну добову кількість води треба забезпечити для 120 осіб (без медичних потреб і резерву)?", ["1200 л", "180 л", "1800 л", "600 л", "12 000 л"], 2, "120 × 15 л = 1800 л на добу (мінімум, без медичних потреб і резерву)."], ["У пункті розміщення зареєстровано груповий спалах дизентерії (12 випадків). Яка оцінка санітарно-епідемічного стану?", ["Благополучний", "Неблагополучний", "Невідомо", "Нестійкий", "Норма"], 1, "Груповий спалах (12 випадків) — неблагополучний стан."], ["Хворий з діареєю в пункті розміщення. Що зробити насамперед?", ["Відправити пішки до лікарні", "Нічого", "Медична оцінка, ізоляція з окремим санвузлом, повідомлення", "Видати антибіотики всім", "Оголосити карантин самостійно"], 2, "Спочатку медична оцінка й ізоляція хворого з окремим санвузлом та повідомлення відповідальних."], ["Медичний працівник пропонує всім мешканцям пункту розміщення профілактично приймати антибіотик через 2 випадки діареї. Ваша оцінка?", ["Правильно для літніх", "Неправильно: екстрена профілактика — лише за показаннями і призначенням", "Правильно, якщо дітям", "Правильно", "Правильно, якщо безкоштовно"], 1, "Екстрену профілактику призначають лише за показаннями й нормативними документами; масова роздача антибіотиків шкодить (резистентність, побічні дії)."], ["Для дезінфекції поверхні з видимими виділеннями хворого перший крок —", ["Залишити до ранку", "Одразу нанести розчин", "Посипати піском", "Видалити забруднення в ЗІЗ", "Висушити"], 3, "Спочатку видаляють видимі забруднення в ЗІЗ, бо органіка знижує дію дезінфектанта."], ["З 5 % концентрату приготувати 2 л 0,1 % розчину. Скільки концентрату?", ["40 мл", "200 мл", "20 мл", "400 мл", "4 мл"], 0, "V₁ = 0,1 × 2000 / 5 = 40 мл концентрату, довести до 2 л."], ["Кашель, гарячка, висип у невакцинованої дитини. Які ЗІЗ для персоналу?", ["Фартух", "Лише рукавички", "Жодних", "Респіратор FFP2/FFP3, захист очей, рукавички, халат", "Медична маска"], 3, "Гарячка, кашель, висип у невакцинованої дитини — підозра на кір (аерогенний шлях): FFP2/FFP3, захист очей, рукавички, халат."], ["Під час роботи ви торкнулися рукавичкою свого телефону. Що порушено?", ["Режим праці", "Нічого", "Правила зв’язку", "Етика", "Правила інфекційного контролю (самозабруднення, перенесення)"], 4, "Дотик рукавичкою до особистих речей — самозабруднення і перенесення збудника; порушено правила інфекційного контролю."], ["Під час сортування великої кількості постраждалих з кровотечами ви", ["Миєте рукавички водою", "Працюєте без рукавичок", "Не торкаєтеся постраждалих", "Працюєте в одних рукавичках з усіма", "Змінюєте рукавички при контакті з кров’ю між постраждалими"], 4, "При контакті з кров’ю рукавички змінюють між постраждалими, щоб не переносити збудники."], ["За START постраждалий не ходить, дихає, ЧД 26/хв, пульс на променевій є, не виконує команд. Категорія?", ["Зелена", "Червона", "Жовта", "Повторити пізніше", "Чорна"], 1, "Не виконує прості команди — червона категорія, навіть якщо ЧД і пульс у нормі."], ["Постраждалий з легкою травмою і ознаками гострої респіраторної інфекції. Як маршрутизувати?", ["Окремо або з заходами інфекційного контролю, з попередженням закладу", "Відправити пішки", "Разом з усіма в загальному транспорті", "Не евакуювати", "Посадити з дітьми"], 0, "Інфекційно підозрілих везуть окремо або в масці з заходами інфекційного контролю, а заклад попереджають."], ["Опіки 25 % поверхні тіла в дорослого. Евакуаційний пріоритет?", ["III", "Не евакуювати", "I", "Після всіх", "Лише за бажанням"], 2, "Опіки 25 % у дорослого — ризик опікового шоку, потрібна інтенсивна терапія: пріоритет I."], ["Найближча лікарня перевантажена. Як діяти?", ["Узгодити з координатором розподіл між закладами", "Відпустити постраждалих", "Чекати на місці", "Везти туди всіх", "Везти лише тяжких туди"], 0, "Потік розподіляють між закладами за рішенням координатора, щоб не перевантажити одну лікарню."], ["У формі № 002/о час накладання турнікета невідомий (наклав очевидець). Як записати?", ["Вигадати зручний час", "Не вказувати турнікет", "Записати час евакуації", "«Час невідомий, виявлено о …»", "Зняти турнікет"], 3, "Не вигадують час: записують «час невідомий, виявлено о …». Від цього залежить рішення щодо турнікета."]];
+const CASES=[["ІІ-1", "Пункт тимчасового розміщення після повені", "У школі 300 евакуйованих після повені. Водогін пошкоджено, воду привозять цистернами; працюють 6 туалетів; у спортзалі ліжка стоять щільно; є діти до 5 років і літні люди; за добу — 4 випадки діареї в однієї родини.", [["Скільки туалетів потрібно за мінімальним стандартом і чи достатньо 6?", ["Потрібно 15 (300 / 20) — 6 недостатньо", "Потрібно 6 — достатньо", "Потрібно 3 — туалетів забагато", "Потрібно 30", "Стандарту немає"], "1 туалет на 20 осіб."], ["Яка мінімальна добова кількість води?", ["4500 л (300 × 15)", "300 л", "1500 л", "15 000 л", "450 л"], "15 л на особу на добу."], ["Яка оцінка санітарно-епідемічного стану?", ["Нестійкий", "Благополучний", "Неблагополучний", "Надзвичайний", "Не оцінюється"], "Поодинокі пов’язані випадки в одній родині і незадовільні умови."]]], ["ІІ-2", "Кашель і висип", "На пункті збору евакуйованих дитина 6 років з гарячкою, кашлем, кон’юнктивітом і висипом; мати не пам’ятає про щеплення. У приміщенні 50 людей, серед них діти і вагітні.", [["Яку інфекцію і шлях передачі слід запідозрити?", ["Кір — аерогенний шлях", "Грип — контактний шлях", "Дизентерія — фекально-оральний", "Короста — контактний шлях", "Алергію — неінфекційна причина"], "Гарячка, кашель, кон’юнктивіт і висип у невакцинованої дитини."], ["Які негайні дії?", ["Відокремити дитину з матір’ю в окреме провітрюване приміщення, медична оцінка, повідомлення, маршрутизація з попередженням закладу", "Залишити в залі і дати жарознижувальне", "Відправити додому", "Ізолювати дитину саму в підвалі", "Негайно вакцинувати всіх у залі"], ""], ["Які ЗІЗ для персоналу?", ["Респіратор FFP2/FFP3 з перевіркою прилягання, захист очей, рукавички, халат", "Медична маска", "Лише рукавички", "Марлева пов’язка", "Не потрібні"], "Аерогенний шлях."]]], ["ІІ-3", "Дезінфекція ізолятора", "Після госпіталізації хворого з кишковою інфекцією потрібно продезінфікувати ізолятор (поверхні, ліжко, туалет). Є 10 % концентрат, потрібно 4 л 0,5 % розчину, експозиція 60 хв.", [["Який вид дезінфекції?", ["Заключна", "Профілактична", "Поточна", "Попередня", "Планова"], "Після госпіталізації хворого."], ["Скільки концентрату потрібно?", ["200 мл, довести до 4 л", "20 мл", "2000 мл", "400 мл", "50 мл"], "V₁ = 0,5 × 4000 / 10 = 200 мл."], ["Що обробляють останнім?", ["Туалет", "Ліжко", "Ручки дверей", "Підвіконня", "Стіл"], "Від чистих ділянок до забруднених."]]], ["ІІ-4", "Вибух на ринку", "Після вибуху на ринку понад 30 постраждалих. Ви — у першій медичній команді з трьох осіб. У місті спалах гострої респіраторної інфекції.", [["Як організувати сортування?", ["Розподілити сектори, START для всіх, окремий потік для осіб з ознаками респіраторної інфекції", "Спочатку оглянути тих, хто кашляє", "Сортувати лише тяжких", "Чекати на ДСНС", "Не сортувати"], ""], ["Коли проводять повторне сортування?", ["На пункті збору, після втручань, перед евакуацією, при будь-якій зміні стану", "Лише в лікарні", "Не проводять", "Раз на добу", "Лише для чорної категорії"], ""]]], ["ІІ-5", "Евакуація з пункту збору", "А — турнікет на стегні 30 хв, стан стабільний; Б — опіки 20 % поверхні тіла; В — перелом передпліччя; Г — гарячка, кашель, легка травма кисті. Є дві машини ЕМД.", [["Евакуаційний пріоритет А?", ["I", "II", "III", "Не евакуювати", "Останнім"], "Турнікет — підстава для I."], ["Евакуаційний пріоритет В?", ["III", "I", "II", "Не евакуювати", "Першим"], ""], ["Як евакуювати Г?", ["Окремо або в масці з заходами інфекційного контролю, з попередженням закладу", "Разом з А в одній машині без заходів", "Пішки", "Не евакуювати", "Першим рейсом разом з усіма"], ""]]], ["ІІ-6", "Відбір проби", "У пункті розміщення почастішали випадки діареї; воду видають із привізної ємності через кран.", [["Звідки відбирати пробу?", ["З крана точки видачі (за потреби — з ємності і джерела для порівняння)", "Лише з річки", "З калюжі біля входу", "З чашки мешканця", "Не відбирати"], ""], ["Яке правило відбору проби для мікробіологічного дослідження?", ["Стерильна тара; не торкатися горловини і внутрішнього боку кришки; не промивати", "Спершу промити пляшку водою з крана", "Будь-яка чиста пляшка", "Відкрити тару заздалегідь", "Вилити нейтралізатор"], ""]]], ["ІІІ-1", "Землетрус і табір", "Після землетрусу в наметовому таборі 600 осіб. Вода привізна (4 ємності по 5000 л, підвезення раз на добу), туалетів 12, намети переповнені. На 5-ту добу — 9 випадків гострої кишкової інфекції серед дітей двох сусідніх наметів; педикульоз у кількох мешканців.", [["Скільки туалетів бракує?", ["18 (потрібно 30)", "12", "6", "Достатньо", "48"], "600 / 20 = 30."], ["Мінімальна добова потреба у воді?", ["9000 л", "6000 л", "20 000 л", "600 л", "15 000 л"], "600 × 15 л."]]], ["ІІІ-2", "Обстріл пункту незламності", "Ракетний удар по пункту незламності (близько 80 осіб), 25 постраждалих. У місті спалах грипу. Ви — старший першої медичної команди.", [["Д: ЧД 18/хв, капілярне наповнення 4 с. Категорія?", ["Червона", "Жовта", "Зелена", "Чорна"], "Наповнення понад 2 с."], ["Г: ЧД 22/хв, пульс є, виконує команди, гарячка, кашель. Категорія?", ["Жовта з позначкою про інфекційні ознаки", "Червона", "Зелена", "Чорна", "Не сортувати"], ""]]], ["ІІІ-3", "Заключна дезінфекція після кору", "Після евакуації хворого з підозрою на кір потрібна заключна дезінфекція кімнати і санітарного транспорту. Є 5 % концентрат; потрібно 6 л 0,25 % розчину, експозиція 30 хв.", [["Скільки концентрату потрібно?", ["300 мл, довести до 6 л", "30 мл", "150 мл", "600 мл", "3000 мл"], "V₁ = 0,25 × 6000 / 5 = 300 мл."], ["Яка послідовність надягання ЗІЗ?", ["Гігієна рук → халат → респіратор FFP2/FFP3 → окуляри/щиток → рукавички", "Рукавички → халат → респіратор → окуляри", "Респіратор → рукавички → халат → окуляри", "Окуляри → рукавички → халат → респіратор", "Халат → рукавички → респіратор → окуляри"], ""]]], ["ІІІ-4", "Документування і маршрутизація", "Після ДТП з автобусом: А — турнікет на плечі (накладено о 10:15), пульс 110, ЧД 22, P за AVPU; Б — перелом стегна, стабільний; В — легкі садна, гарячка 38,6 °C, кашель.", [["Сортувальна і евакуаційна категорії А?", ["Червона, I", "Жовта, II", "Зелена, III", "Чорна", "Червона, III"], "Не виконує команд (P за AVPU), турнікет."], ["Як записати турнікет у формі № 002/о?", ["Турнікет на плечі, час накладання 10:15", "«Турнікет є», без часу", "Час евакуації", "Не записувати", "Час прибуття бригади"], ""], ["Як евакуювати В?", ["Окремо, у масці, у визначений заклад — не в спільному автобусі без заходів", "Рейсовим автобусом разом з усіма", "Машиною ЕМД разом з А", "Не евакуювати", "Пішки"], ""]]]];
+const MATCH=[["Санітарно-епідемічний стан і характеристика", ["Благополучний", "Нестійкий", "Неблагополучний", "Надзвичайний"], ["Груповий спалах", "Масове поширення (епідемія)", "Поодинокі не пов’язані випадки", "Поодинокі пов’язані випадки"], [2, 3, 0, 1]], ["Шлях передачі і ЗІЗ", ["Контактний", "Крапельний", "Аерогенний"], ["Респіратор FFP2/FFP3", "Рукавички, халат", "Медична маска, захист очей"], [1, 2, 0]], ["Вид дезінфекції і ситуація", ["Профілактична", "Поточна", "Заключна"], ["Після госпіталізації хворого", "Без виявлених хворих", "Під час перебування хворого"], [1, 2, 0]], ["Евакуаційна категорія і строк", ["I", "II", "III"], ["До 1 год", "До 24 год", "До 4 год"], [0, 2, 1]]];
+const SEQ=[["Знезараження поверхні", ["ЗІЗ", "Видалення видимих забруднень", "Нанесення розчину", "Експозиція", "Провітрювання і гігієна рук"]], ["Надягання ЗІЗ", ["Гігієна рук", "Халат", "Маска/респіратор", "Окуляри/щиток", "Рукавички"]], ["Сортування START", ["Ходьба", "Дихання", "ЧД", "Перфузія", "Психічний стан"]], ["Дії при евакуації", ["Повторне сортування", "Заповнення форми № 002/о", "Визначення пріоритету і закладу", "Облік відправлення", "Передача за MIST з підтвердженням"]]];
+function calcItems(r,items,mc){
+  {const N=pick([160,240,300,340,420,560,600],r),a=N/20;
+   items.push({id:"c1",block:"B",type:"num",q:`У пункті тимчасового розміщення ${N} осіб. Скільки туалетів потрібно за мінімальним стандартом?`,formula:"Туалети = кількість осіб ÷ 20",unit:"шт.",answer:a,pts:2,expl:`${N} / 20 = ${a}.`})}
+  {const N=pick([80,120,250,300,450,600],r),a=N*15;
+   items.push({id:"c2",block:"B",type:"num",q:`Яка мінімальна добова кількість води для ${N} осіб (без медичних потреб і резерву)?`,formula:"Вода = кількість осіб × 15 л",unit:"л",answer:a,pts:2,expl:`${N} × 15 = ${a} л.`})}
+  {const C1=pick([5,10],r),C2=pick([0.1,0.2,0.25,0.5],r),V=pick([2,3,4,5,6],r),a=Math.round(C2*V*1000/C1*100)/100;
+   items.push({id:"c3",block:"B",type:"num",q:`Скільки мілілітрів ${C1} % концентрату потрібно, щоб приготувати ${V} л ${fmt(C2)} % робочого розчину?`,formula:"V₁ = C₂ × V₂ / C₁ (V₂ — у мл)",unit:"мл",answer:a,pts:2,expl:`${fmt(C2)} × ${V*1000} / ${C1} = ${fmt(a)} мл; довести водою до ${V} л.`})}
+  {const A=pick([105,140,175,210,280,350],r),a=A/3.5;
+   items.push({id:"c4",block:"B",type:"num",q:`Площа спортзалу для розміщення — ${A} м². Скільки осіб можна розмістити за мінімальним стандартом?`,formula:"Осіб = площа ÷ 3,5 м²",unit:"осіб",answer:a,pts:2,expl:`${A} / 3,5 = ${fmt(a)}.`})}
+  {const S=["Благополучний","Нестійкий","Неблагополучний","Надзвичайний","Карантинний"];
+   const P=[["за тиждень 2 випадки діареї в людей з різних кімнат, не пов’язані між собою; умови задовільні",0],["3 випадки кишкової інфекції в одній родині; туалетів бракує",1],["11 випадків дизентерії за 2 доби серед мешканців одного корпусу",2],["стрімке наростання випадків холери в кількох пунктах розміщення",3]];
+   const p=pick(P,r);mc("c5","B",`У пункті розміщення: ${p[0]}. Яка оцінка санітарно-епідемічного стану?`,S,p[1],2,"Благополучний — поодинокі не пов’язані; нестійкий — поодинокі пов’язані; неблагополучний — груповий спалах; надзвичайний — масове поширення.")}
+  {const CAT=["Червона","Жовта","Зелена","Чорна"];
+   const P=[["ходить, скаржиться на біль у руці",2],["не ходить, ЧД 34/хв",0],["не ходить, ЧД 20/хв, пульс на променевій є, капілярне наповнення 3 с",0],["не ходить, ЧД 18/хв, пульс є, наповнення 1 с, виконує команди",1],["не дихає після відкриття дихальних шляхів",3],["не ходить, ЧД 24/хв, пульс є, наповнення 2 с, на команди не реагує",0]];
+   const p=pick(P,r);mc("c6","B",`START. Постраждалий: ${p[0]}. Категорія?`,CAT,p[1],2,"Ходить → зелена; не дихає після відкриття ДШ → чорна; ЧД > 30, немає пульсу/наповнення > 2 с, не виконує команди → червона; інакше жовта.")}
+  {const E=["I (до 1 год)","II (до 4 год)","III (до 24 год)","Не евакуювати"];
+   const P=[["турнікет на стегні, стан стабільний",0],["опіки 25 % поверхні тіла",0],["перелом стегна, стан стабільний",1],["перелом передпліччя",2],["садна кисті, гарячка, кашель",2]];
+   const p=pick(P,r);mc("c7","B",`Постраждалий: ${p[0]}. Евакуаційна категорія?`,E,p[1],2,"Турнікет і опіки з ризиком шоку — I; стабільний перелом стегна — II; легкі травми — III (інфекційно підозрілих — окремим потоком).")}
+}
+const CARDS=[["g", "Санітарно-епідеміологічна розвідка", "Збір і оцінка даних про санітарні та епідемічні умови в районі НС."], ["g", "Санітарно-епідемічний стан", "Оцінка території: благополучний, нестійкий, неблагополучний, надзвичайний."], ["g", "Обсервація", "Посилене медичне спостереження і обмежувальні заходи для запобігання поширенню інфекції."], ["g", "Карантин", "Комплекс суворих заходів для запобігання поширенню особливо небезпечних інфекцій."], ["g", "Екстрена профілактика", "Заходи (вакцини, імуноглобуліни, ліки) для запобігання хворобі після можливого зараження."], ["g", "Розділення потоків", "Окремі маршрути для травмованих, інфекційно підозрілих і забруднених осіб."], ["g", "Стандарти «Сфера»", "Мінімальні стандарти гуманітарного реагування (вода, санітарія, житло, харчування, охорона здоров’я)."], ["g", "Заключна дезінфекція", "Дезінфекція в осередку після ізоляції або госпіталізації хворого."], ["q", "Назвіть чинники погіршення санітарно-епідемічної обстановки при НС.", "Руйнування водопостачання і каналізації, скупченість, порушення харчування, відходи, переносники, руйнування медичної інфраструктури."], ["q", "Яка інфекція типова після повеней через контакт з водою, забрудненою сечею гризунів?", "Лептоспіроз."], ["q", "Що таке СЕР?", "Санітарно-епідеміологічна розвідка."], ["q", "Назвіть категорії санітарно-епідемічного стану.", "Благополучний, нестійкий, неблагополучний, надзвичайний."], ["q", "Чим карантин відрізняється від обсервації?", "Карантин — суворі заходи з ізоляцією осередку (особливо небезпечні інфекції); обсервація — посилене спостереження і обмеження."], ["q", "Хто встановлює режимно-обмежувальні заходи?", "Уповноважені органи."], ["q", "Мінімальна кількість води на особу на добу за Стандартами «Сфера»?", "15 л."], ["q", "Скільки осіб на один туалет?", "Не більше 20."], ["q", "Мінімальна житлова площа на особу?", "3,5 м²."], ["q", "Скільки триває медичне спостереження за контактними?", "Протягом максимального інкубаційного періоду інфекції."], ["q", "Назвіть види дезінфекції в осередку.", "Профілактична, поточна, заключна."], ["q", "Що передує дезінфекції поверхні?", "Очищення від видимих забруднень."], ["q", "Формула розрахунку розчину?", "V₁ = C₂ × V₂ / C₁."], ["q", "ЗІЗ при аерогенній інфекції?", "Респіратор FFP2/FFP3 з перевіркою прилягання."], ["q", "Що знімають першим при зніманні ЗІЗ?", "Рукавички."], ["q", "Що таке розділення потоків?", "Окремі маршрути для травмованих, інфекційно підозрілих і забруднених."], ["q", "Категорія START при ЧД 34/хв?", "Червона."], ["q", "Коли проводять повторне сортування?", "На пункті збору, після втручань, перед евакуацією, при зміні стану."], ["q", "Евакуаційна категорія I — це евакуація в межах…", "1 год."], ["q", "Що обов’язково фіксують у формі № 002/о?", "Час втручань, сортувальну і евакуаційну категорії, показники з часом."]];
+
+/* ---------- build a variant from seed ---------- */
+function build(seed){
+  const r=rng(seed), items=[];
+  const mc=(id,block,q,opts,correct,pts,expl,extra)=>{const order=shuffle(opts.map((_,i)=>i),r);items.push(Object.assign({id,block,type:"mc",q,opts,order,correct,pts,expl},extra||{}))};
+  // A: tests
+  shuffle(T1.map((_,i)=>i),r).slice(0,10).sort((a,b)=>a-b).forEach(i=>mc("t1_"+i,"A",T1[i][0],T1[i][1],T1[i][2],1,T1[i][3]));
+  shuffle(T2.map((_,i)=>i),r).slice(0,10).sort((a,b)=>a-b).forEach(i=>mc("t2_"+i,"A",T2[i][0],T2[i][1],T2[i][2],1,T2[i][3]));
+  // B
+  calcItems(r,items,mc);
+  // C: cases
+  CASES.forEach((c,ci)=>c[3].forEach((s,si)=>mc(`k${ci}_${si}`,"C",s[0],s[1],0,1,s[2],{caseIdx:ci})));
+  // D: match + seq
+  shuffle([0,1,2,3],r).slice(0,2).sort().forEach(i=>items.push({id:"m"+i,block:"D",type:"match",m:MATCH[i],pts:2,rightOrder:shuffle(MATCH[i][2].map((_,j)=>j),r)}));
+  shuffle([0,1,2,3],r).slice(0,2).sort().forEach(i=>items.push({id:"s"+i,block:"D",type:"seq",s:SEQ[i],pts:2,order:shuffle(SEQ[i][1].map((_,j)=>j),r)}));
+  return items;
+}
+const BLOCKS={A:"Тести",B:"Розрахункові задачі",C:"Ситуаційні задачі",D:"Відповідність і послідовність"};
+
+/* ---------- scoring ---------- */
+const parseNum=s=>parseFloat(String(s||"").replace(/\s/g,"").replace(",","."));
+function answered(it){const a=S.ans[it.id];if(it.type==="mc")return a!=null;if(it.type==="num")return a!=null&&a!==""&&isFinite(parseNum(a));if(it.type==="match")return Array.isArray(a)&&a.every(x=>x!==""&&x!=null)&&a.length===it.m[1].length;if(it.type==="seq")return Array.isArray(a)&&a.length===it.s[1].length;return false}
+function score(it){const a=S.ans[it.id];if(!answered(it))return 0;
+  if(it.type==="mc")return a===it.correct?it.pts:0;
+  if(it.type==="num"){const v=parseNum(a),t=it.answer;return Math.abs(v-t)<=Math.max(0.011,Math.abs(t)*0.02)?it.pts:0}
+  if(it.type==="match"){const ok=a.filter((x,k)=>+x===it.m[3][k]).length;return Math.round(it.pts*ok/a.length*100)/100}
+  if(it.type==="seq"){const ok=a.filter((x,k)=>x===k).length;return Math.round(it.pts*ok/a.length*100)/100}}
+const grade=p=>p>=90?["відмінно","g5",5]:p>=75?["добре","g4",4]:p>=60?["задовільно","g3",3]:["незадовільно","g2",2];
+
+/* ---------- render control ---------- */
+let S=load(), ITEMS=[];
+function renderItem(it,num){
+  const done=S.done,a=S.ans[it.id],rv=false;
+  const head=`<span class="qn"><span>№ ${num}</span><span>${it.pts} ${it.pts===1?"бал":"бали"}</span></span>`;
+  let body="",fb="";
+  if(it.type==="mc"){
+    body=`<div class="qt">${esc(it.q)}</div>${it.formula?`<p class="formula">Формула: <b>${esc(it.formula)}</b></p>`:""}<div class="opts">${it.order.map((oi,k)=>{let c="";if(rv){if(oi===it.correct)c="right";else if(a===oi)c="wrong"}return `<button class="opt ${c}" data-id="${it.id}" data-o="${oi}" aria-pressed="${a===oi}" ${done?"disabled":""}><span class="L">${L[k]}</span><span>${esc(it.opts[oi])}</span></button>`}).join("")}</div>`;
+    if(rv){const ok=a===it.correct;fb=`<div class="fb ${ok?"ok":"no"}">${ok?"Правильно.":a==null?"Без відповіді.":"Неправильно."} ${esc(it.expl)}</div>`}
+  } else if(it.type==="num"){
+    const ok=done&&score(it)>0;
+    body=`<div class="qt">${esc(it.q)}</div>${it.formula?`<p class="formula">Формула: <b>${esc(it.formula)}</b></p>`:""}<div class="numin"><input inputmode="decimal" id="in_${it.id}" data-id="${it.id}" value="${esc(a||"")}" placeholder="0,0" ${done?"disabled":""} class="${rv?(ok?"right":"wrong"):""}" aria-label="Відповідь"><span>${esc(it.unit)}</span></div><p class="small muted">Дробову частину пишіть через кому, до сотих.</p>`;
+    if(rv)fb=`<div class="fb ${ok?"ok":"no"}">${ok?"Правильно.":"Правильна відповідь: "+fmt(it.answer)+" "+esc(it.unit)+"."} ${esc(it.expl)}</div>`;
+  } else if(it.type==="match"){
+    const m=it.m,sel=a||[];
+    body=`<div class="qt">Установіть відповідність: ${esc(m[0])}</div><div class="match">${m[1].map((l,k)=>{let c="";if(rv)c=(+sel[k]===m[3][k]&&sel[k]!=="")?"right":"wrong";return `<div>${k+1}) ${esc(l)}</div><select id="sel_${it.id}_${k}" data-id="${it.id}" data-k="${k}" class="${c}" ${done?"disabled":""} aria-label="${esc(l)}"><option value="">—</option>${it.rightOrder.map((j,x)=>`<option value="${j}" ${String(sel[k])===String(j)?"selected":""}>${L[x]}) ${esc(m[2][j])}</option>`).join("")}</select>`}).join("")}</div>`;
+    if(rv){const sc=score(it);fb=`<div class="fb ${sc===it.pts?"ok":sc>0?"part":"no"}">${fmt(sc,2)} з ${it.pts}. Ключ: ${m[1].map((l,k)=>esc(l)+" — "+esc(m[2][m[3][k]])).join("; ")}.</div>`}
+  } else if(it.type==="seq"){
+    const s=it.s,cur=a||[];
+    body=`<div class="qt">Установіть послідовність: ${esc(s[0])}</div><p class="small muted">Натискайте кроки по черзі, від першого до останнього.</p><div class="seq">${it.order.map(j=>`<button data-id="${it.id}" data-j="${j}" ${done||cur.includes(j)?"disabled":""}>${esc(s[1][j])}</button>`).join("")}</div><div class="seqout">${cur.map((j,k)=>`<div class="${rv?(j===k?"right":"wrong"):""}"><span>${k+1}</span><span>${esc(s[1][j])}</span></div>`).join("")}</div>${done?"":`<div class="row"><button class="btn" data-undo="${it.id}" ${cur.length?"":"disabled"}>Скинути порядок</button></div>`}`;
+    if(rv){const sc=score(it);fb=`<div class="fb ${sc===it.pts?"ok":sc>0?"part":"no"}">${fmt(sc,2)} з ${it.pts}. Правильно: ${s[1].map((t,k)=>(k+1)+". "+esc(t)).join(" → ")}</div>`}
+  }
+  return `<div class="q" id="q_${it.id}">${head}${body}${fb}</div>`;
+}
+function renderControl(){
+  if(!S||!S.started){$("#startBox").hidden=false;$("#testBox").hidden=true;$("#resultBox").hidden=true;route();return}
+  $("#startBox").hidden=true;$("#testBox").hidden=false;
+  ITEMS=build(S.seed);
+  let n=0,html=`<div class="panel row" style="justify-content:space-between"><div><b>${esc(S.name)}</b> <span class="muted">· група ${esc(S.group)}</span></div><span class="small muted">Варіант ${S.variant}${S.retake?" · перездача":""}</span></div>`;
+  ["A","B","C","D"].forEach(b=>{
+    const its=ITEMS.filter(i=>i.block===b),max=its.reduce((s,i)=>s+i.pts,0);
+    html+=`<div class="bhead"><h2>${BLOCKS[b]}</h2><small>${its.length} завд. · ${max} балів</small></div>`;
+    if(b==="C"){let last=-1;its.forEach(it=>{if(it.caseIdx!==last){if(last>=0)html+=`</div>`;const c=CASES[it.caseIdx];html+=`<div class="case"><div class="ct"><span class="tag">Задача ${c[0]}</span><h3>${esc(c[1])}</h3><p>${esc(c[2])}</p></div>`;last=it.caseIdx}html+=renderItem(it,++n)});html+=`</div>`}
+    else its.forEach(it=>html+=renderItem(it,++n));
+  });
+  $("#testBox").innerHTML=html;
+  if(S.done)renderResult();else $("#resultBox").hidden=true;
+  progress();route();
+}
+function progress(){
+  const tot=ITEMS.length,d=ITEMS.filter(answered).length;
+  $("#progT").innerHTML=`Відповіли <b>${d} / ${tot}</b>`;
+  $("#progI").style.width=(d/tot*100)+"%";
+}
+function computeResult(){
+  const rows=["A","B","C","D"].map(b=>{const its=ITEMS.filter(i=>i.block===b);return [BLOCKS[b],its.reduce((s,i)=>s+score(i),0),its.reduce((s,i)=>s+i.pts,0)]});
+  const got=rows.reduce((s,x)=>s+x[1],0),max=rows.reduce((s,x)=>s+x[2],0),p=Math.round(got/max*100);
+  return {rows,got,max,p,g:grade(p)};
+}
+function renderResult(){
+  const {rows,got,max,p,g:[g,gc,gn]}=computeResult();
+  const dt=new Date(S.doneAt);
+  $("#resultBox").hidden=false;
+  $("#resultBox").innerHTML=`<div class="result"><div class="top"><div class="who"><span class="eyebrow">Результат</span><b>${esc(S.name)}</b><span class="muted">Група ${esc(S.group)}</span></div><div class="gradebox"><div class="g ${gc}">${gn} <span style="font-size:.6em">(${g})</span></div><div class="p">${fmt(got,2)} з ${max} балів · ${p} %</div></div></div>
+  <div class="tablebox" style="border:0;border-top:1px solid var(--line);border-radius:0"><table><tr><th>Блок</th><th class="num">Бали</th></tr>${rows.map(x=>`<tr><td>${x[0]}</td><td class="num">${fmt(x[1],2)} / ${x[2]}</td></tr>`).join("")}</table></div>
+  <div class="lcd"><span>Заняття № 10 · варіант ${S.variant}</span><b>${dt.toLocaleDateString("uk-UA")} ${dt.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})}</b></div></div>
+  <p class="small muted">Результат передано викладачу. Розбір завдань буде на занятті.</p>
+  <div class="panel stack" id="retakeBox"><b>Перездача</b><p class="small muted">Лише з дозволу викладача: він вводить свій код на цьому телефоні. Ви отримаєте інший варіант, попередній результат лишиться у викладача.</p>
+  <div class="row"><label class="f" style="max-width:150px">Варіант перездачі<input type="number" inputmode="numeric" id="rtVar" min="1" max="90" value="${Math.min(90,S.variant+30)}"></label><label class="f" style="max-width:180px">Код викладача<input type="password" inputmode="numeric" id="rtPin"></label><button class="btn" id="rtGo" style="align-self:flex-end">Почати перездачу</button></div><p class="small muted">Попередні варіанти на цьому телефоні: ${[...(S.used||[]),S.variant].join(", ")}. Варіанти 31–90 на парі не роздаються.</p><span class="err" id="rtErr"></span></div>`;
+  $("#rtGo").onclick=()=>{if($("#rtPin").value.trim()!==RETAKE_PIN){$("#rtErr").textContent="Невірний код.";return}
+    const used=[...(S.used||[]),S.variant],v=parseInt($("#rtVar").value,10);
+    if(!(v>=1&&v<=90)){$("#rtErr").textContent="Вкажіть варіант від 1 до 90.";return}
+    if(used.includes(v)){$("#rtErr").textContent="Цей варіант студент уже писав. Оберіть інший.";return}
+    S={name:S.name,group:S.group,variant:v,used,retake:(S.retake||0)+1,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0)};
+}
+
+function errList(){
+  const out=[];let n=0;
+  ["A","B","C","D"].forEach(b=>ITEMS.filter(i=>i.block===b).forEach(it=>{n++;const sc=score(it);if(sc>=it.pts)return;const a=S.ans[it.id];
+    if(it.type==="mc")out.push(`№${n}: ${L[it.order.indexOf(a)]||"—"} (треба ${L[it.order.indexOf(it.correct)]})`);
+    else if(it.type==="num")out.push(`№${n}: ${a||"—"} (треба ${fmt(it.answer)})`);
+    else out.push(`№${n}: ${fmt(sc,2)}/${it.pts}`);}));
+  return out.join("; ")||"без помилок";
+}
+/* ---------- send to teacher's register ---------- */
+const RETAKE_PIN="7531";
+const ENDPOINT="https://script.google.com/macros/s/AKfycbxzWnZyTOn50rCaQTg2ax-DwRlJK9tvHY4Nuan0Dcb9wEUInJDWhz9GcvUEgyZzUhKq/exec";
+function send(type){
+  if(!ENDPOINT)return;
+  const d={type,lesson:LESSON,attempt:"z"+LESSON+"-"+S.attempt+"|"+JSON.stringify(S.ans),blocks:"Заняття "+LESSON+(S.retake?" (перездача "+S.retake+")":""),name:S.name,group:S.group,variant:S.variant,answered:ITEMS.filter(answered).length,total:ITEMS.length,device:navigator.userAgent.slice(0,120)};
+  if(type==="finish"){const r=computeResult();Object.assign(d,{score:Math.round(r.got*100)/100,max:r.max,pct:r.p,grade:r.g[2],blocks:"Заняття "+LESSON+(S.retake?" (перездача "+S.retake+")":"")+" ‖ "+r.rows.map(x=>x[0]+": "+fmt(x[1],2)+"/"+x[2]).join("; ")+" ‖ Помилки: "+errList()})}
+  try{fetch(ENDPOINT,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)}).catch(()=>{})}catch(e){}
+}
+
+$("#startForm").addEventListener("submit",e=>{
+  e.preventDefault();const n=$("#sName").value.trim(),g=$("#sGroup").value.trim(),v=parseInt($("#sVar").value,10);
+  const err=n.length<3?"Вкажіть прізвище та ім’я.":!g?"Вкажіть групу.":!(v>=1&&v<=30)?"Вкажіть номер варіанта від 1 до 30, який назвав викладач.":"";
+  if(err){$("#sErr").hidden=false;$("#sErr").textContent=err;return}
+  S={name:n,group:g,variant:v,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0);
+});
+$("#testBox").addEventListener("click",e=>{
+  if(S.done)return;
+  const o=e.target.closest(".opt");
+  if(o){const id=o.dataset.id;S.ans[id]=+o.dataset.o;save();o.parentElement.querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed",x===o));progress();return}
+  const sb=e.target.closest(".seq button");
+  if(sb){const id=sb.dataset.id,it=ITEMS.find(i=>i.id===id);const cur=(S.ans[id]||[]).slice();cur.push(+sb.dataset.j);S.ans[id]=cur;save();$("#q_"+id).outerHTML=renderItem(it,qnum(id));progress();return}
+  const u=e.target.closest("[data-undo]");
+  if(u){const id=u.dataset.undo,it=ITEMS.find(i=>i.id===id);delete S.ans[id];save();$("#q_"+id).outerHTML=renderItem(it,qnum(id));progress()}
+});
+const qnum=id=>{const order=[];["A","B","C","D"].forEach(b=>ITEMS.filter(i=>i.block===b).forEach(i=>order.push(i.id)));return order.indexOf(id)+1};
+$("#testBox").addEventListener("input",e=>{
+  if(S.done)return;const t=e.target;
+  if(t.matches("input[data-id]")){S.ans[t.dataset.id]=t.value;save();progress()}
+  if(t.matches("select[data-id]")){const id=t.dataset.id,it=ITEMS.find(i=>i.id===id);const a=(S.ans[id]||Array(it.m[1].length).fill("")).slice();a[+t.dataset.k]=t.value;S.ans[id]=a;save();progress()}
+});
+function finish(){S.done=true;S.doneAt=Date.now();save();send("finish");$("#barConfirm").hidden=true;$("#barBtns").hidden=false;renderControl();window.scrollTo(0,0)}
+$("#finish").onclick=()=>{const left=ITEMS.length-ITEMS.filter(answered).length;if(left===0){finish();return}
+  $("#confirmT").textContent=`Без відповіді: ${left}. Дайте відповідь на всі завдання, тоді можна завершити.`;$("#barBtns").hidden=true;$("#barConfirm").hidden=false};
+$("#cBack").onclick=()=>{$("#barConfirm").hidden=true;$("#barBtns").hidden=false;const f=ITEMS.find(i=>!answered(i));if(f)$("#q_"+f.id).scrollIntoView({block:"center"})};
+
+
+if(S&&S.name){$("#sName").value=S.name;$("#sGroup").value=S.group||""}
+renderControl();
+
+const SKILLS=[{"t": "Оцінювання санітарно-гігієнічних та епідемічних ризиків осередку НС; план першочергових протиепідемічних заходів", "goal": "виявити ризики виникнення і поширення інфекцій в осередку і визначити першочергові заходи.", "eq": "ситуаційна картка (опис осередку), схема розміщення, бланк оцінки ризиків, бланк плану заходів.", "steps": [["Підготовчий етап", "Зібрати вихідні дані: кількість людей, тривалість, тип НС, стан інфраструктури, наявність медичної допомоги.", "Основа для оцінки."], ["Основний етап", "Оцінити водопостачання (джерело, мережі, знезараження, видача), каналізацію і відходи.", "Вода — найчастіший шлях масових кишкових спалахів."], ["Основний етап", "Оцінити харчування (постачання, зберігання, холодовий ланцюг, персонал) і умови розміщення (щільність, площа, вентиляція, туалети, миття).", "Харчові і респіраторні спалахи."], ["Основний етап", "Оцінити наявність переносників і гризунів, загибель тварин, стан закладів охорони здоров’я, рівень імунізації, вразливі групи.", "Додаткові ризики."], ["Основний етап", "Оцінити інфекційну захворюваність: наявність хворих, зв’язок між випадками, динаміку.", "Основа для оцінки санітарно-епідемічного стану."], ["Основний етап", "Визначити санітарно-епідемічний стан (благополучний, нестійкий, неблагополучний, надзвичайний).", "Визначає обсяг заходів."], ["Основний етап", "Скласти план першочергових заходів за ланками (джерело — механізм передачі — сприйнятливі) у формі: захід — відповідальний — ресурс — строк.", "Конкретність і контроль виконання."], ["Завершальний етап", "Повідомити керівника і відповідальних за санітарне благополуччя території; визначити критерії оцінки ефективності.", "Комунікація і контроль."]], "ok": "оцінено всі групи чинників; ризики записано конкретно; стан визначено обґрунтовано; план охоплює всі ланки, конкретний, з відповідальними і строками.", "err": "загальні формулювання без фактів; оцінка лише одного чинника; заходи, що не діють на ймовірний механізм; відсутність строків і відповідальних; самостійне «оголошення карантину»."}, {"t": "Визначення вимог до безпечного водопостачання, харчування, санітарних зон і поводження з відходами; відбір і маркування проб за показаннями", "goal": "забезпечити мінімальні санітарно-гігієнічні умови в тимчасових місцях розміщення і контроль якості.", "eq": "схема місця розміщення, таблиця мінімальних стандартів, стерильна тара для проб, етикетки, супровідний бланк, термоконтейнер, ЗІЗ.", "steps": [["Підготовчий етап", "Визначити кількість людей і тривалість розміщення.", "Розрахунок потреб."], ["Основний етап", "Розрахувати потребу у воді (не менше 15 л/особу/добу + медичні потреби + резерв), кількість туалетів (1 на 20 осіб), пунктів миття рук, житлову площу (≥ 3,5 м²/особу).", "Мінімальні стандарти."], ["Основний етап", "Визначити розміщення зон: житло, кухня, вода, санвузли (нижче за рельєфом, ≤ 50 м від житла, далеко від вододжерел), відходи, ізолятор.", "Запобігання перехресному забрудненню."], ["Основний етап", "Визначити вимоги до води: безпечне джерело або знезараження, закриті промарковані ємності, видача через кран.", "Безпека води на всьому шляху."], ["Основний етап", "Визначити вимоги до харчування: постачання, строки, холодовий ланцюг, розділення сирого і готового, допуск персоналу.", "Профілактика харчових спалахів."], ["Основний етап", "Визначити поводження з відходами: закриті контейнери, регулярне вивезення, окремо медичні відходи.", "Профілактика гризунів, комах, інфекцій."], ["Основний етап", "За показаннями (підозра на забруднення, групові захворювання) — відібрати проби: стерильна тара, без дотику до горловини, без промивання, з визначеної точки (точка видачі).", "Репрезентативність і придатність проби."], ["Завершальний етап", "Одразу промаркувати (код, об’єкт, точка, дата, час), заповнити супровідний документ, упакувати, забезпечити температуру і доставку.", "Простежуваність результату."]], "ok": "розрахунки відповідають стандартам; зони розміщено правильно; вимоги до води, харчування, відходів визначено; проби відібрано і промарковано правильно.", "err": "туалети біля вододжерела або кухні; недостатня кількість води і туалетів; відсутність ізолятора; проба з джерела замість точки видачі; маркування «по пам’яті»."}, {"t": "Приготування робочого дезінфекційного розчину і знезараження поверхонь та обладнання", "goal": "ефективно і безпечно знезаразити поверхні та обладнання в осередку.", "eq": "дезінфекційний засіб з інструкцією, мірний посуд, ємність з кришкою, етикетка, серветки/ганчірки, відро, ЗІЗ (рукавички, окуляри, фартух, за потреби респіратор), навчальне обладнання (ноші, шина, тонометр).", "steps": [["Підготовчий етап", "Визначити об’єкт і вид дезінфекції; перевірити призначення, строк і інструкцію засобу.", "Відповідність засобу і режиму."], ["Підготовчий етап", "Розрахувати: V₁ = C₂ × V₂ / C₁; перевірити зворотним розрахунком.", "Правильна концентрація."], ["Основний етап", "Надягнути ЗІЗ; забезпечити вентиляцію; приготувати розчин, довівши до кінцевого об’єму; не змішувати засоби.", "Безпека персоналу."], ["Основний етап", "Промаркувати ємність: назва, концентрація, дата і час, строк, відповідальний.", "Запобігання помилкам."], ["Основний етап", "Видалити видимі забруднення з поверхні/обладнання (очищення).", "Органіка знижує ефективність дезінфекції."], ["Основний етап", "Нанести розчин (протирання/зрошення) від чистих ділянок до забруднених; обладнання — засобом, сумісним із матеріалом.", "Запобігання перенесенню мікроорганізмів."], ["Основний етап", "Витримати експозицію від моменту нанесення, поверхня — волога.", "Ефективність дезінфекції."], ["Завершальний етап", "За потреби змити залишки з поверхонь, що контактують з їжею; провітрити; прибрати оснащення; зняти ЗІЗ; гігієна рук; записати проведену обробку.", "Безпека і документування."]], "ok": "засіб відповідає призначенню; розрахунок правильний; ЗІЗ і вентиляція; маркування; очищення перед дезінфекцією; повна експозиція; записи.", "err": "дезінфекція без попереднього очищення; додавання води понад розрахований об’єм концентрату; відлік експозиції від приготування; непромаркована тара; змішування засобів; засіб, несумісний з матеріалом обладнання."}, {"t": "Добір, надягання і знімання ЗІЗ з дотриманням правил інфекційного контролю", "goal": "захистити персонал від інфікування і не допустити перенесення збудників.", "eq": "рукавички, халат, медична маска, респіратор FFP2/FFP3, окуляри/щиток, антисептик для рук, тара для відходів.", "steps": [["Підготовчий етап", "Оцінити очікуваний контакт і ймовірний шлях передачі (контактний, крапельний, аерогенний); обрати комплект; при невідомому діагнозі з респіраторними ознаками — за вищим ризиком.", "ЗІЗ відповідають ризику."], ["Підготовчий етап", "Зняти прикраси, годинник; гігієна рук; перевірити розмір і цілісність ЗІЗ.", "Підготовка."], ["Основний етап: надягання", "Халат (зав’язати) → маска або респіратор (перевірити прилягання) → окуляри/щиток → рукавички поверх манжет.", "Повне закриття і правильна послідовність."], ["Основний етап: робота", "Не торкатися обличчя і чистих предметів; змінювати рукавички між постраждалими і при переході від забрудненого до чистого; гігієна рук.", "Запобігання самозабрудненню і перенесенню."], ["Завершальний етап: знімання", "Рукавички (не торкаючись шкіри) → гігієна рук → окуляри/щиток (за дужки) → халат (вивертаючи) → маска/респіратор (за резинки) → гігієна рук.", "Найбільш забруднені — першими; без контакту зі шкірою."], ["Завершальний етап: знімання", "Одноразові ЗІЗ — у тару для медичних відходів; багаторазові — на обробку.", "Безпечне поводження з відходами."]], "ok": "ЗІЗ обрано за шляхом передачі; правильні послідовності; перевірка прилягання респіратора; гігієна рук на ключових етапах; без самозабруднення.", "err": "медична маска замість респіратора при аерогенній інфекції; знімання маски першою; дотик до обличчя рукавичкою; робота в одних рукавичках з кількома постраждалими; відсутність гігієни рук."}, {"t": "Первинне медичне сортування великої кількості постраждалих за START і повторне сортування", "goal": "швидко розподілити велику кількість постраждалих за терміновістю допомоги з дотриманням інфекційного контролю.", "eq": "сортувальні позначки, маркер, годинник, ЗІЗ (рукавички — запас, маски), бланк обліку за категоріями, засоби зв’язку.", "steps": [["Підготовчий етап", "Безпека, ЗІЗ; розподілити сектори між сортувальними командами; визначити місця для категорій і окремий потік для осіб з ознаками інфекції.", "Організація і інфекційний контроль."], ["Підготовчий етап", "Виділити ходячих («Хто може ходити — до …») — зелена; призначити відповідального за них.", "Швидке зменшення кількості для оцінки."], ["Основний етап (30–60 с на кожного)", "Дихання: немає — відкрити дихальні шляхи; з’явилося — червона; ні — чорна.", "Пріоритет дихальних шляхів."], ["Основний етап (30–60 с на кожного)", "ЧД > 30/хв — червона.", "Тяжка дихальна недостатність."], ["Основний етап (30–60 с на кожного)", "Пульс на променевій відсутній або капілярне наповнення > 2 с — червона; масивна кровотеча — турнікет.", "Шок."], ["Основний етап (30–60 с на кожного)", "Не виконує команди — червона; виконує — жовта.", "Порушення свідомості."], ["Основний етап (30–60 с на кожного)", "Позначка з часом і визначальною ознакою; змінювати рукавички при контакті з кров’ю; відмітити ознаки інфекції (гарячка, кашель, діарея, висип) для окремого потоку.", "Облік і інфекційний контроль."], ["Завершальний етап", "Доповісти кількість за категоріями з часом; повторне сортування — на пункті збору, після втручань, перед евакуацією, при зміні стану.", "Динамічність і управління ресурсами."]], "ok": "організація секторів і потоків; правильна послідовність і критерії START; лише швидкі втручання; позначки з часом; облік; повторне сортування; інфекційний контроль.", "err": "одна команда на всіх без розподілу; тривала допомога одному; позначка без часу; ті самі рукавички на кількох постраждалих з кровотечею; відсутність повторного сортування; змішування інфекційно підозрілих з іншими."}, {"t": "Заповнення форми № 002/о, визначення евакуаційного пріоритету та організація маршрутизації", "goal": "забезпечити документування, своєчасну і обґрунтовану евакуацію та наступність допомоги.", "eq": "навчальні бланки форми № 002/о, маркер, годинник, перелік закладів з профілем і спроможністю (умовний), бланк обліку евакуації, засоби зв’язку.", "steps": [["Підготовчий етап", "Провести повторне сортування перед евакуацією.", "Актуальний стан."], ["Основний етап", "Заповнити форму № 002/о: п. 1 — ідентифікація; п. 2 — механізм; п. 3 — схема ушкоджень, турнікет і час; п. 4 — показники з часом; п. 5 — допомога з часом; п. 6 — додаткові відомості (алергія, інфекційні ознаки, забруднення).", "Наступність допомоги."], ["Основний етап", "Визначити евакуаційний пріоритет: I — термінова (до 1 год), II — пріоритетна (до 4 год), III — звичайна (до 24 год), з урахуванням втручань (турнікет — I).", "Черговість евакуації."], ["Основний етап", "Визначити заклад за профілем і спроможністю; узгодити з координатором; розосередити потік; для інфекційно підозрілих — заклад, визначений для таких хворих, і транспорт з інфекційним контролем.", "Ефективна маршрутизація."], ["Основний етап", "Зафіксувати відправлення: ідентифікатор, категорії (сортувальна і евакуаційна), транспорт, заклад, час.", "Простежуваність кожного постраждалого."], ["Завершальний етап", "Передати бригаді за MIST разом із карткою; отримати підтвердження прийняття; попередити заклад про інфекційні ризики і забруднення.", "Безперервність допомоги, захист персоналу закладу."]], "ok": "форма заповнена фактичними даними з часом; пріоритет обґрунтований; маршрутизація з урахуванням профілю, спроможності і інфекційного статусу; облік відправлень; передача з підтвердженням.", "err": "відсутність часу турнікета; ототожнення кольору START з евакуаційним пріоритетом; евакуація всіх у найближчий заклад; перевезення інфекційно підозрілого разом з іншими без заходів; картка не передана з постраждалим."}];
+/* ---------- skills trainer ---------- */
+(function(){
+  if(!document.getElementById("v-skills")||typeof SKILLS==="undefined")return;
+  const q=s=>document.querySelector(s);
+  const stats={};try{Object.assign(stats,JSON.parse(localStorage.getItem("sk"+LESSON)||"{}"))}catch(e){}
+  const saveSt=()=>{try{localStorage.setItem("sk"+LESSON,JSON.stringify(stats))}catch(e){}};
+  const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  function list(){if(window.__vhub){window.__vhub();return}q("#skRun").hidden=true;q("#skList").hidden=false;q("#skHead").hidden=false;
+    q("#skList").innerHTML=SKILLS.map((s,i)=>`<button data-i="${i}"><span class="n">Навичка ${LESSON}.${i+1} · ${s.steps.length} кроків</span><b>${esc(s.t)}</b><span class="st">${stats[i]!=null?`<span class="done">Пройдено, помилок: ${stats[i]}</span>`:"Не пройдено"}</span></button>`).join("")}
+  q("#skList").onclick=e=>{const b=e.target.closest("button");if(b)run(+b.dataset.i)};
+  function run(si){const S=SKILLS[si],errs=S.err.split(/;\s*/).map(x=>x.replace(/\.$/,"").trim()).filter(Boolean);let k=0,mist=0;
+    q("#skList").hidden=true;q("#skHead").hidden=true;q("#skRun").hidden=false;
+    function draw(){
+      const done=S.steps.slice(0,k);let last="";
+      const doneHtml=done.map((st,i)=>{const ph=st[0]&&st[0]!==last?`<li style="display:block;border:0;background:none;padding:0"><div class="sk-ph">${esc(st[0])}</div></li>`:"";last=st[0]||last;return ph+`<li><span class="k">${i+1}</span><span>${esc(st[1])}<small>${esc(st[2])}</small></span></li>`}).join("");
+      let body="";
+      if(k<S.steps.length){const cur=S.steps[k];const later=S.steps.slice(k+1);const opts=[{t:cur[1],c:1}];
+        if(later.length)opts.push({t:later[Math.floor(Math.random()*later.length)][1],c:0,why:"Рано: цей крок теж потрібен, але пізніше."});
+        const e2=shuf(errs).filter(x=>!opts.some(o=>o.t===x));
+        while(opts.length<3&&e2.length)opts.push({t:e2.shift(),c:0,why:"Це типова помилка з методички."});
+        const o=shuf(opts);
+        body=`<div class="sk-q"><div class="row" style="justify-content:space-between"><b>Крок ${k+1} з ${S.steps.length}${cur[0]?" · "+esc(cur[0]):""}</b><span class="small muted">помилок: ${mist}</span></div><div class="sk-prog"><i style="width:${k/S.steps.length*100}%"></i></div><div class="qt">Яка наступна дія?</div><div class="opts">${o.map((x,j)=>`<button class="opt" data-c="${x.c}" data-why="${esc(x.why||"")}"><span class="L">${L[j]}</span><span>${esc(x.t)}</span></button>`).join("")}</div><div id="skWhy"></div></div>`}
+      else{stats[si]=mist;saveSt();
+        body=`<div class="panel stack"><h3>Навичку виконано. Помилок: ${mist}</h3><div class="crit" style="background:var(--ok-soft);border-radius:8px;padding:10px 12px"><b>Критерії правильного виконання:</b> ${esc(S.ok)}</div><div style="background:var(--bad-soft);border-radius:8px;padding:10px 12px"><b>Типові помилки:</b> ${esc(S.err)}</div><div class="row"><button class="btn primary" id="skAgain">Ще раз</button><button class="btn" id="skBack2">До списку навичок</button></div></div>`}
+      q("#skRun").innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn" id="skBack">← Усі навички</button><span class="eyebrow">Навичка ${LESSON}.${si+1}</span></div><h2>${esc(S.t)}</h2><p><b>Мета:</b> ${esc(S.goal)}</p>${S.eq?`<p class="small muted"><b>Оснащення:</b> ${esc(S.eq)}</p>`:""}${done.length?`<ol class="sk-done">${doneHtml}</ol>`:""}${body}`;
+      q("#skBack").onclick=list;if(q("#skBack2"))q("#skBack2").onclick=list;if(q("#skAgain"))q("#skAgain").onclick=()=>run(si);
+      const opts=q("#skRun .sk-q .opts");if(opts)opts.onclick=e=>{const b=e.target.closest(".opt");if(!b||b.disabled)return;
+        if(b.dataset.c==="1"){k++;draw();const qq=q("#skRun .sk-q")||q("#skRun .panel");if(qq)qq.scrollIntoView({block:"nearest"})}
+        else{mist++;b.classList.add("wrong");b.disabled=true;q("#skWhy").innerHTML=`<div class="fb no">${b.dataset.why}</div>`}};
+    }
+    draw();window.scrollTo(0,0)}
+  window.__textSkill=run;
+  list();
+})();
+
+const VSKILLS={
+"0": {
+"sprite": "img/sp-epid.webp",
+"scene": "img/hero10.webp",
+"intro": "Після паводку в шкільному спортзалі розмістили 180 евакуйованих на 10 діб. За 2 доби — 9 випадків діареї, двоє з гарячкою. Вас призначили медичним працівником пункту. Оцініть ризики і складіть план першочергових заходів.",
+"steps": [
+[
+"Зібрати вихідні дані: кількість людей, тривалість, тип НС, інфраструктура, доступ до медичної допомоги",
+0
+],
+[
+"Оцінити водопостачання: джерело, знезараження, видача; каналізацію і відходи",
+1
+],
+[
+"Оцінити харчування і розміщення: холодовий ланцюг, щільність, вентиляція, туалети, миття рук",
+2
+],
+[
+"Оцінити переносників і гризунів, загибель тварин, імунізацію, вразливі групи",
+3
+],
+[
+"Оцінити захворюваність: хворі, зв’язок між випадками, динаміка",
+4
+],
+[
+"Визначити санітарно-епідемічний стан: благополучний / нестійкий / неблагополучний / надзвичайний",
+5
+],
+[
+"План за ланками (джерело — механізм — сприйнятливі): захід — відповідальний — ресурс — строк",
+6
+],
+[
+"Повідомити керівника і відповідальних за санітарне благополуччя; визначити критерії ефективності",
+7
+]
+],
+"dist": [
+[
+"Записати «санітарний стан незадовільний» без фактів і цифр",
+0,
+"Висновок без фактів (скільки людей, туалетів, води, хворих) не дозволяє планувати заходи.",
+1,
+8,
+"Керівник повертає доповідь: «Скільки людей? Скільки туалетів? Скільки хворих?» Час втрачено, заходи не розпочато."
+],
+[
+"Оцінити лише воду й одразу перейти до висновку",
+1,
+"Оцінюють усі чинники: вода, харчування, розміщення, переносники, захворюваність.",
+1,
+0,
+"Пропущено переповнені туалети без миття рук: через 2 доби — 14 нових випадків діареї."
+],
+[
+"Самостійно оголосити карантин у пункті",
+5,
+"Карантин запроваджує уповноважений орган; ваше завдання — оцінити, доповісти і вжити першочергових заходів.",
+1,
+8,
+"Мешканці панікують, частина самовільно залишає пункт і може рознести інфекцію."
+],
+[
+"Скласти план без строків і відповідальних",
+6,
+"Захід без відповідального і строку не виконується. Формат: захід — відповідальний — ресурс — строк.",
+1,
+0,
+"Через добу жоден захід не виконано: ніхто не знав, що це його завдання."
+],
+[
+"При діареї призначити лише вакцинацію, не чіпаючи воду і харчування",
+3,
+"Захід має діяти на ймовірний механізм передачі — для кишкових інфекцій це вода, їжа, руки.",
+2,
+0,
+"Джерело (вода, їжа, руки) не перекрите: за 3 доби 30 хворих, двоє госпіталізовані з тяжким зневодненням."
+]
+],
+"meter": "Епідемічна ситуація в пункті",
+"cons": "img/sp-cons10.webp"
+},
+"1": {
+"sprite": "img/sp-water.webp",
+"scene": "img/hero10.webp",
+"intro": "Розгортається тимчасовий табір на 120 осіб на 7 діб. Визначте вимоги до води, харчування, санітарних зон і відходів. Через 3 доби в таборі з’явилися випадки діареї — потрібно відібрати пробу води.",
+"steps": [
+[
+"Визначити кількість людей і тривалість розміщення",
+8
+],
+[
+"Розрахувати воду ≥ 15 л/особу/добу + резерв; туалети 1 на 20 осіб; пункти миття рук; площа ≥ 3,5 м²/особу",
+0
+],
+[
+"Розмістити зони: туалети нижче за рельєфом, ≤ 50 м від житла, далеко від вододжерел і кухні; ізолятор",
+1
+],
+[
+"Вода: безпечне джерело або знезараження, закриті промарковані ємності, видача через кран",
+0
+],
+[
+"Харчування: строки, холодовий ланцюг, сире окремо від готового, допуск персоналу",
+3
+],
+[
+"Відходи: закриті контейнери, регулярне вивезення, медичні — окремо",
+4
+],
+[
+"Відібрати пробу в стерильну тару з точки видачі, не торкаючись горловини, без промивання",
+5
+],
+[
+"Одразу промаркувати: код, об’єкт, точка, дата, час; заповнити супровідний документ",
+6
+],
+[
+"Упакувати, забезпечити температуру і доставку до лабораторії",
+7
+]
+],
+"dist": [
+[
+"Поставити туалети поруч із кухнею і вододжерелом — так зручніше",
+1,
+"Туалети розташовують нижче за рельєфом і далеко від вододжерел та кухні — інакше фекально-орального забруднення не уникнути.",
+2,
+0,
+"Стоки з туалетів потрапили до кухні та вододжерела: у таборі спалах кишкової інфекції."
+],
+[
+"Розрахувати 5 л води на особу на добу",
+0,
+"Мінімум — 15 л/особу/добу на пиття, приготування їжі та гігієну, плюс медичні потреби і резерв.",
+1,
+1,
+"Води не вистачає на миття рук і посуду — люди п’ють з неперевіреного джерела."
+],
+[
+"Відібрати пробу з джерела, а не з точки видачі",
+5,
+"Забруднення часто відбувається в ємностях і при видачі; проба має бути з точки, з якої п’ють люди.",
+1,
+4,
+"Лабораторія збудника не знаходить, а люди продовжують хворіти: забруднення було в ємностях на точці видачі."
+],
+[
+"Сполоснути тару для проби водою з крана",
+5,
+"Стерильну тару не промивають — це змінює результат.",
+1,
+4,
+"Лабораторія відбраковує пробу як недостовірну. Відбір доведеться повторити, а час втрачено."
+],
+[
+"Підписати пробу ввечері «по пам’яті»",
+6,
+"Маркують одразу на місці: плутанина проб робить результат непридатним.",
+1,
+4,
+"Проби переплутано — результат неможливо прив’язати до точки відбору."
+]
+],
+"meter": "Санітарна безпека табору",
+"cons": "img/sp-cons10.webp"
+},
+"2": {
+"sprite": "img/sp-disinf.webp",
+"scene": "img/hero10.webp",
+"intro": "У пункті тимчасового розміщення треба знезаразити столи в їдальні та санвузли. Є концентрат 10 %, потрібно 5 л робочого розчину 0,2 %. Приготуйте розчин і проведіть обробку.",
+"steps": [
+[
+"Визначити об’єкт і вид дезінфекції; перевірити призначення, строк і інструкцію засобу",
+0
+],
+[
+"Розрахувати V₁ = C₂ × V₂ / C₁ = 0,2 × 5000 / 10 = 100 мл; перевірити зворотно",
+1
+],
+[
+"Надягнути ЗІЗ, забезпечити вентиляцію",
+8
+],
+[
+"Відміряти 100 мл концентрату і довести водою до 5 л; засоби не змішувати",
+2
+],
+[
+"Промаркувати ємність: назва, концентрація, дата і час, строк, відповідальний",
+3
+],
+[
+"Спочатку видалити видимі забруднення (очищення)",
+4
+],
+[
+"Нанести розчин від чистих ділянок до забруднених",
+5
+],
+[
+"Витримати експозицію від моменту нанесення; поверхня — волога",
+6
+],
+[
+"Змити залишки з поверхонь для їжі, провітрити, зняти ЗІЗ, гігієна рук, записати обробку",
+7
+]
+],
+"dist": [
+[
+"Додати 100 мл концентрату до 5 л води",
+2,
+"Розчин доводять ДО кінцевого об’єму 5 л, а не додають до 5 л — інакше концентрація буде нижчою.",
+1,
+7,
+"Концентрація нижча за потрібну: після обробки на поверхні лишаються мікроорганізми."
+],
+[
+"Одразу розпилити розчин на брудний стіл",
+5,
+"Органічні забруднення інактивують дезінфектант — спершу очищення, потім дезінфекція.",
+1,
+7,
+"Бруд інактивував засіб — стіл виглядає обробленим, але знезараження немає."
+],
+[
+"Почати відлік експозиції з моменту приготування розчину",
+6,
+"Експозицію рахують від моменту нанесення на поверхню.",
+1,
+7,
+"Фактична експозиція коротша — знезараження неповне."
+],
+[
+"Злити залишки двох різних засобів для посилення дії",
+0,
+"Змішування засобів може дати токсичні гази (наприклад, хлор) і знижує ефективність.",
+2,
+2,
+"Виділився токсичний газ: у вас різь в очах і кашель. Обробку зупинено — допомога потрібна вам самим."
+],
+[
+"Залишити розчин у пляшці з-під води без підпису",
+3,
+"Непромаркована тара — ризик отруєння і неправильного застосування.",
+2,
+6,
+"Мешканець прийняв розчин за питну воду: хімічний опік стравоходу й отруєння."
+]
+],
+"meter": "Якість і безпека дезінфекції",
+"cons": "img/sp-cons10.webp"
+},
+"3": {
+"sprite": "img/sp-ppe.webp",
+"scene": "img/hero10.webp",
+"intro": "До медпункту табору звернувся пацієнт із гарячкою, кашлем і задишкою; діагноз невідомий. Вам потрібно оглянути його. Оберіть ЗІЗ за вищим ризиком, правильно надягніть і зніміть їх.",
+"steps": [
+[
+"Шлях передачі невідомий, респіраторні ознаки — обрати комплект за вищим ризиком (респіратор)",
+1
+],
+[
+"Зняти прикраси і годинник; перевірити розмір і цілісність ЗІЗ",
+7
+],
+[
+"Гігієна рук",
+5
+],
+[
+"Надягнути халат і зав’язати",
+0
+],
+[
+"Надягнути респіратор FFP2, перевірити прилягання",
+1
+],
+[
+"Надягнути окуляри або щиток",
+3
+],
+[
+"Надягнути рукавички поверх манжет халата",
+4
+],
+[
+"Знімання: рукавички, не торкаючись шкіри; гігієна рук",
+4
+],
+[
+"Зняти щиток за дужки, потім халат, вивертаючи",
+3
+],
+[
+"Останнім — респіратор за резинки; гігієна рук",
+1
+],
+[
+"Одноразові ЗІЗ — у тару для медичних відходів",
+6
+]
+],
+"dist": [
+[
+"Обмежитися медичною маскою — «це ж просто кашель»",
+2,
+"При можливій аерогенній передачі медична маска не захищає; потрібен респіратор FFP2 і вище.",
+2,
+3,
+"Через 3 доби у вас гарячка і кашель: ви заразилися, а колеги, які з вами контактували, — на самоізоляції."
+],
+[
+"Поправити респіратор рукавичкою під час огляду",
+8,
+"Дотик забрудненою рукавичкою до обличчя — пряме самозараження.",
+2,
+3,
+"Забрудненою рукавичкою ви занесли збудник на обличчя — самозараження."
+],
+[
+"Зняти респіратор першим, бо в ньому важко дихати",
+1,
+"Респіратор знімають останнім, коли руки вже після гігієни, а забруднені ЗІЗ знято.",
+1,
+3,
+"Зовнішня поверхня респіратора забруднена: знімаючи його першим, ви торкаєтеся обличчя брудними руками."
+],
+[
+"Оглянути наступного пацієнта в тих самих рукавичках",
+4,
+"Рукавички змінюють між пацієнтами — інакше ви переносите інфекцію.",
+2,
+0,
+"Наступний пацієнт (з травмою, без інфекції) отримав збудник від попереднього через ваші рукавички."
+],
+[
+"Пропустити гігієну рук після зняття рукавичок",
+5,
+"Рукавички не дають повного захисту; після зняття — обов’язкова гігієна рук.",
+1,
+3,
+"На руках лишилися мікроорганізми, що проникли під рукавички: ви переносите їх на телефон, ручку, обличчя."
+]
+],
+"meter": "Захист медика",
+"cons": "img/sp-cons10.webp"
+},
+"5": {
+"sprite": "img/sp-form.webp",
+"scene": "img/hero10.webp",
+"intro": "Після вибуху на складі — постраждалий 35 р.: накладено турнікет на праве стегно о 14:20, свідомість збережена, ЧД 24, пульс 118. Ще один постраждалий з пункту має гарячку і кашель. Підготуйте евакуацію.",
+"steps": [
+[
+"Провести повторне сортування перед евакуацією",
+7
+],
+[
+"Форма 002/о: ідентифікація, механізм, схема ушкоджень, турнікет і час накладання",
+0
+],
+[
+"Внести показники з часом і надану допомогу з часом",
+2
+],
+[
+"Визначити пріоритет: турнікет — I (термінова, до 1 год)",
+1
+],
+[
+"Узгодити заклад за профілем і спроможністю з координатором; розосередити потік",
+3
+],
+[
+"Інфекційно підозрілого — окремим транспортом з інфекційним контролем у визначений заклад",
+4
+],
+[
+"Зафіксувати відправлення: ідентифікатор, категорії, транспорт, заклад, час",
+6
+],
+[
+"Передати бригаді за MIST разом із карткою; отримати підтвердження",
+8
+],
+[
+"Попередити заклад про інфекційні ризики і забруднення",
+5
+]
+],
+"dist": [
+[
+"Не вписувати час накладання турнікета — «бригада сама подивиться»",
+1,
+"Час турнікета — критична інформація: від нього залежить рішення про збереження кінцівки.",
+1,
+6,
+"У лікарні не знають, скільки триває ішемія під турнікетом: ризик втрати кінцівки зростає."
+],
+[
+"Вважати, що жовта бирка START = III евакуаційна черга",
+7,
+"Колір START і евакуаційний пріоритет — різні речі; пріоритет визначають з урахуванням втручань.",
+1,
+6,
+"Постраждалий чекає евакуацію довше, ніж можна. Тиск падає, свідомість сплутана."
+],
+[
+"Відправити всіх у найближчу лікарню",
+5,
+"Заклад обирають за профілем і спроможністю, потік розосереджують — інакше найближча лікарня буде перевантажена.",
+1,
+5,
+"Найближча лікарня перевантажена: тяжкі постраждалі годину чекають у черзі біля приймального відділення."
+],
+[
+"Посадити хворого з гарячкою і кашлем в одну машину з травмованими",
+4,
+"Інфекційно підозрілих перевозять окремо з інфекційним контролем.",
+2,
+5,
+"Інфекційно хворий їхав разом із травмованими і потрапив у загальне приймальне відділення. Відділення закрито на карантин."
+],
+[
+"Залишити картку в пункті, щоб заповнити журнал",
+0,
+"Картка 002/о супроводжує постраждалого — без неї у закладі не знають, що вже зроблено.",
+1,
+5,
+"Лікар приймального відділення не знає, що вже зроблено: дії повторюють, час втрачено."
+]
+],
+"meter": "Стан постраждалих",
+"cons": "img/sp-cons10.webp"
+}
+};
+const SPECIAL={"4": {"img": "img/s6-patient.webp", "sub": ""}};
+/* ---------- visual skills engine v2: consequences, state meter, failures ---------- */
+(function(){
+  if(!document.getElementById("v-skills")||typeof SKILLS==="undefined")return;
+  const V=typeof VSKILLS!=="undefined"?VSKILLS:{},SPEC=typeof SPECIAL!=="undefined"?SPECIAL:{};
+  const q=s=>document.querySelector(s);
+  const icon=(sp,i,cls)=>`<span class="vic ${cls||""}" style="background-image:url(${sp});background-position:${(i%3)*50}% ${Math.floor(i/3)*50}%"></span>`;
+  const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  let stats={};try{stats=JSON.parse(localStorage.getItem("vs"+LESSON)||"{}")}catch(e){}
+  const saveSt=()=>{try{localStorage.setItem("vs"+LESSON,JSON.stringify(stats))}catch(e){}};
+  const stOf=i=>{const s=stats[i];if(s==null)return null;return typeof s==="number"?{best:s,fails:0,done:1}:s};
+  const oldList=q("#skList");
+  function hub(){q("#skRun").hidden=true;q("#skHead").hidden=false;oldList.hidden=false;
+    oldList.innerHTML=SKILLS.map((s,i)=>{const v=V[i],sp=SPEC[i];const thumb=v?icon(v.sprite,v.steps[0][1],"big"):sp?`<img class="vthumb" src="${sp.img}" alt="">`:"";const st=stOf(i);
+      return `<button data-i="${i}" class="vcard">${thumb}<span class="n">Навичка ${LESSON}.${i+1}${v||sp?" · симулятор":" · покроковий тренажер"}</span><b>${esc(s.t)}</b><span class="st">${st&&st.done?`<span class="done">Виконано · найкраще: ${st.best} помил.${st.fails?` · невдач: ${st.fails}`:""}</span>`:st&&st.fails?`<span class="failed">Невдач: ${st.fails} — ще не виконано</span>`:"Не пройдено"}</span></button>`}).join("")}
+  oldList.onclick=e=>{const b=e.target.closest("button");if(!b)return;e.stopImmediatePropagation();const i=+b.dataset.i;
+    if(SPEC[i]){location.hash="sim";setTimeout(()=>{const t=document.querySelector(`#simSel button[data-s="${SPEC[i].sub}"]`);if(t)t.click()},50);return}
+    if(V[i])run(i);else window.__textSkill&&window.__textSkill(i)};
+  function record(si,ok,mist){const st=stOf(si)||{best:null,fails:0,done:0};
+    if(ok){st.done=(st.done||0)+1;st.best=st.best==null?mist:Math.min(st.best,mist)}else st.fails=(st.fails||0)+1;stats[si]=st;saveSt()}
+  function run(si){const S=SKILLS[si],D=V[si];let k=0,mist=0,meter=100,last=null,failed=null,opts=null;
+    const ML=D.meter||"Стан ситуації",CS=D.cons||D.sprite;
+    oldList.hidden=true;q("#skHead").hidden=true;q("#skRun").hidden=false;
+    function makeOpts(){const later=D.steps.slice(k+1).map(x=>({l:x[0],i:x[1],w:"Рано: цей крок теж потрібен, але пізніше. Порушення послідовності знижує якість.",sev:0}));
+      const ds=shuf(D.dist.map(x=>({l:x[0],i:x[1],w:x[2],sev:x[3]||1,ci:x[4],ct:x[5]})));
+      const o=[{l:D.steps[k][0],i:D.steps[k][1],c:1}];
+      if(later.length&&Math.random()<.4)o.push(shuf(later)[0]);
+      while(o.length<3&&ds.length)o.push(ds.shift());
+      while(o.length<3&&later.length)o.push(later.pop());
+      return shuf(o)}
+    function meterHtml(){const c=meter>70?"ok":meter>40?"warn":"bad";return `<div class="vmeter ${c}"><span>${esc(ML)}</span><b>${Math.max(0,meter)}%</b><i style="width:${Math.max(0,meter)}%"></i></div>`}
+    function consHtml(o,big){if(!o)return "";const im=o.ci!=null?icon(CS,o.ci,big?"cons big2":"cons"):"";
+      return `<div class="vcons ${o.sev>=2?"crit":o.sev?"":"soft"}">${im}<div><span class="eyebrow">${o.sev>=2?"Критичний наслідок":o.sev?"Наслідок":"Порушено порядок"}</span>${o.ct?`<p class="ct">${esc(o.ct)}</p>`:""}<p>${esc(o.w)}</p></div></div>`}
+    function draw(){
+      let body="";
+      if(failed){body=`<div class="vfail"><h3>Невдача</h3>${consHtml(failed,true)}<p class="small">${failed.over?"Через накопичені помилки ситуація вийшла з-під контролю.":"Ця помилка в реальній ситуації має незворотні наслідки, тому спробу завершено."} Виконаних кроків: ${k} з ${D.steps.length}.</p><div class="row"><button class="btn primary" id="vAgain">Почати заново</button><button class="btn" id="vBack2">До списку навичок</button></div></div>`}
+      else if(k<D.steps.length){if(!opts)opts=makeOpts();
+        body=`<div class="sk-q"><div class="row" style="justify-content:space-between"><b>Крок ${k+1} з ${D.steps.length}${S.steps[k]&&S.steps[k][0]?" · "+esc(S.steps[k][0]):""}</b><span class="small muted">помилок: ${mist}</span></div><div class="sk-prog"><i style="width:${k/D.steps.length*100}%"></i></div>${consHtml(last)}<div class="qt">Що робите далі?</div><div class="vopts">${opts.map((o,j)=>`<button class="vopt${o.used?" wrong":""}" data-j="${j}" ${o.used?"disabled":""}>${icon(D.sprite,o.i)}<span>${esc(o.l)}</span></button>`).join("")}</div></div>`}
+      else{const g=mist===0?"Бездоганно":meter>=70?"Виконано з незначними помилками":"Виконано, але з суттєвими помилками";
+        body=`<div class="panel stack"><h3>${g}. Помилок: ${mist}</h3>${meterHtml()}<div style="background:var(--ok-soft);border-radius:8px;padding:10px 12px"><b>Критерії правильного виконання:</b> ${esc(S.ok)}</div><div style="background:var(--bad-soft);border-radius:8px;padding:10px 12px"><b>Типові помилки:</b> ${esc(S.err)}</div><div class="row"><button class="btn primary" id="vAgain">Ще раз</button><button class="btn" id="vBack2">До списку навичок</button></div></div>`}
+      const done=D.steps.slice(0,k).map((st,j)=>`<li>${icon(D.sprite,st[1],"sm")}<span><b>${esc(st[0])}</b><small>${esc((S.steps[j]||[])[2]||"")}</small></span></li>`).join("");
+      q("#skRun").innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn" id="vBack">← Усі навички</button><span class="eyebrow">Навичка ${LESSON}.${si+1}</span></div>
+        <div class="vscene"><img src="${D.scene}" alt=""><div><span class="eyebrow">Ситуація</span><p>${esc(D.intro)}</p></div></div>
+        <h2>${esc(S.t)}</h2>${failed||k>=D.steps.length?"":meterHtml()}${done?`<ol class="vdone">${done}</ol>`:""}${body}`;
+      q("#vBack").onclick=hub;if(q("#vBack2"))q("#vBack2").onclick=hub;if(q("#vAgain"))q("#vAgain").onclick=()=>run(si);
+      const vo=q("#skRun .vopts");if(vo)vo.onclick=e=>{const b=e.target.closest(".vopt");if(!b||b.disabled)return;const o=opts[+b.dataset.j];
+        if(o.c){k++;opts=null;last=null;if(k>=D.steps.length)record(si,true,mist);draw();const t=q("#skRun .sk-q")||q("#skRun .panel");if(t)t.scrollIntoView({block:"center"});return}
+        mist++;o.used=true;meter-=o.sev>=2?100:o.sev===0?5:25;last=o;
+        if(o.sev>=2||meter<=0){failed=Object.assign({},o,{over:o.sev<2});record(si,false,mist)}
+        draw();const t=q("#skRun .vfail")||q("#skRun .vcons");if(t)t.scrollIntoView({block:"center"})};
+    }
+    draw();window.scrollTo(0,0)}
+  window.__vhub=hub;hub();
+})();
+
+/* ---------- START simulator ---------- */
+(function(){
+  if(!document.getElementById("v-sim"))return;
+  const CAT=["Червона","Жовта","Зелена","Чорна"];
+  const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+  let P,n=0,ok=0,picked=false,brTimer=null,swTimer=null,airwayOpened=false;
+  const INF=["Гарячий на дотик, кашляє з мокротою.","Сусід каже: третій день гарячка і пронос.","На тулубі висип, гарячий на дотик.","Кашляє, скаржиться на гарячку й озноб з учора."];
+  const INF2=["Супровідник каже: третій день гарячка і кашель.","Гарячий на дотик, на тулубі висип.","Сусід каже: з учора гарячка і пронос."];
+  let infPick=null;
+  function gen(){
+    const t=Math.random();let p={walk:false,apnea:false,airway:false,rr:ri(14,26),pulse:true,hr:ri(80,110),crt:ri(1,2),cmd:true};
+    if(t<.15){p.walk=true}
+    else if(t<.27){p.apnea=true;p.airway=Math.random()<.5;p.rr=p.airway?ri(10,16):0;p.cmd=false;p.pulse=p.airway;p.hr=ri(50,70);p.crt=4}
+    else if(t<.45){p.rr=ri(32,40)}
+    else if(t<.58){p.pulse=false;p.crt=ri(3,5);p.hr=0}
+    else if(t<.68){p.crt=ri(3,4)}
+    else if(t<.80){p.cmd=false}
+    p.inf=Math.random()<.3;p.infTxt=!p.inf?"":(p.apnea||!p.cmd)?INF2[ri(0,INF2.length-1)]:INF[ri(0,INF.length-1)];
+    return p}
+  function truth(p){
+    if(p.walk)return [2,"Може ходити — зелена (відкладена допомога)."];
+    if(p.apnea)return p.airway?[0,"Не дихав, після відкриття дихальних шляхів дихання з’явилося — червона."]:[3,"Не дихає після відкриття дихальних шляхів — чорна."];
+    if(p.rr>30)return [0,`ЧД ${p.rr}/хв — понад 30 — червона.`];
+    if(!p.pulse)return [0,"Немає пульсу на променевій артерії — червона."];
+    if(p.crt>2)return [0,`Капілярне наповнення ${p.crt} с — понад 2 с — червона.`];
+    if(!p.cmd)return [0,"Не виконує прості команди — червона."];
+    return [1,"Не ходить, але ЧД ≤ 30, пульс є, наповнення ≤ 2 с, виконує команди — жовта."]}
+  const $=s=>document.querySelector(s);
+  function setBreath(){const chest=$("#chestImg");const rr=(P.apnea&&!airwayOpened)?0:P.rr;
+    if(rr>0){chest.style.setProperty("--rr",(60/rr).toFixed(2)+"s");chest.classList.add("on")}else chest.classList.remove("on")}
+  const N=10;let PTS=[],infs=[],tags=[],cur=0,t0=Date.now(),clock=null;
+  function newIncident(){PTS=[];let tries=0;
+    do{PTS=Array.from({length:N},gen);tries++}while(tries<80&&(new Set(PTS.map(p=>truth(p)[0])).size<4||PTS.filter(p=>p.inf).length<2));
+    tags=Array(N).fill(null);infs=Array(N).fill(null);ok=0;t0=Date.now();$("#simSum").innerHTML="";$("#ptTotal").textContent=N;
+    clearInterval(clock);clock=setInterval(()=>{const c=document.querySelector("#ptChips .clock");if(c){const s=Math.floor((Date.now()-t0)/1000);c.textContent=Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}},1000);
+    show(0)}
+  function chips(){$("#ptChips").innerHTML=PTS.map((p,i)=>`<button class="${tags[i]!=null?"t"+tags[i]:""} ${i===cur?"cur":""}" data-i="${i}" aria-label="Постраждалий ${i+1}">${i+1}</button>`).join("")+`<span class="clock">0:00</span>`}
+  function show(i){cur=i;P=PTS[i];picked=tags[i]!=null;airwayOpened=false;clearInterval(brTimer);clearInterval(swTimer);chips();
+    $("#ptNo").textContent=`Постраждалий № ${i+1} з ${N} · відсортовано ${tags.filter(x=>x!=null).length}`;
+    $("#ptText").textContent=(P.walk?"Після команди «Хто може ходити — йдіть до мене» підводиться і йде, кульгає, порізи рук.":"Лежить, на команду «Хто може ходити — йдіть до мене» не підвівся.")+(P.infTxt?" "+P.infTxt:"");
+    setBreath();$("#brT").textContent="";$("#brResp").textContent=P.apnea?"Рухів грудної клітки не видно":"";$("#rrIn").value="";
+    const ring=$("#pulseRing");if(P.pulse){ring.style.setProperty("--hr",(60/P.hr).toFixed(2)+"s");ring.classList.add("on")}else ring.classList.remove("on");
+    $("#plResp").textContent="Пальці на променевій артерії";$("#crT").textContent="";$("#crResp").textContent="Натисніть і утримуйте, потім відпустіть";$("#nail").style.transition="none";$("#nail").style.opacity=0;
+    $("#cmResp").textContent="";
+    document.querySelectorAll("#v-sim [data-pl],#v-sim [data-cr]").forEach(b=>b.setAttribute("aria-pressed","false"));
+    infPick=infs[i];document.querySelectorAll("#infSel button").forEach(b=>{b.disabled=picked;b.setAttribute("aria-pressed",infPick!=null&&+b.dataset.inf===infPick)});
+    document.querySelectorAll("#cats button").forEach(b=>{b.disabled=picked;b.classList.toggle("pick",tags[i]===+b.dataset.c)});
+    $("#simFb").innerHTML=picked?fbHtml(tags[i]):"";$("#simNext").hidden=!picked||tags.every(x=>x!=null);
+    $("#simScore").textContent=`${ok} правильно з ${tags.filter(x=>x!=null).length}`}
+  function next(){const k=tags.findIndex((x,j)=>x==null&&j>cur);const k2=k>=0?k:tags.findIndex(x=>x==null);if(k2>=0)show(k2)}
+  $("#ptChips").onclick=e=>{const b=e.target.closest("button");if(b)show(+b.dataset.i)};
+  function fbHtml(c){const [tc,why]=truth(P);const rrIn=+$("#rrIn").value,lines=[];
+    if(!P.walk&&!(P.apnea&&!P.airway)){if(rrIn)lines.push(`ЧД: ви порахували ${rrIn}, насправді ${P.rr}/хв${Math.abs(rrIn-P.rr)<=4?" — точно":" — потренуйтеся рахувати"}.`);
+      lines.push(`Пульс на променевій артерії: ${P.pulse?"є":"немає"}. Капілярне наповнення: ${P.crt} с. Команди: ${P.cmd?"виконує":"не виконує"}.`)}
+    const ip=infs[cur];if(ip!=null)lines.push(ip===(P.inf?1:0)?(P.inf?"Ознаки інфекції позначено правильно — окремий потік і транспорт з інфекційним контролем.":"Ознак інфекції немає — позначено правильно."):(P.inf?"Пропущено ознаки інфекції — такого постраждалого змішали із загальним потоком.":"Ознак інфекції немає — окремий потік не потрібен."));
+    const good=c===tc&&ip===(P.inf?1:0);
+    return `<div class="simfb ${good?"ok":"no"}"><b>${c===tc?"Категорія правильна":"Неправильно, правильна категорія — "+CAT[tc]}.</b> ${why}${lines.length?`<ul>${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`:""}</div>`}
+  function summary(){clearInterval(clock);const s=Math.floor((Date.now()-t0)/1000);const cnt=k=>tags.filter(x=>x===k).length,tcnt=k=>PTS.filter(p=>truth(p)[0]===k).length;
+    $("#simSum").innerHTML=`<div class="panel stack"><h3>Сортування завершено: ${ok} з ${N} повністю правильно (категорія + інфекція) · ${Math.floor(s/60)} хв ${s%60} с (${Math.round(s/N)} с на постраждалого)</h3>
+    <div class="tablebox"><table class="sumt"><tr><th>Категорія</th><th class="num">Ви</th><th class="num">Насправді</th></tr>${CAT.map((c,k)=>`<tr><td>${c}</td><td class="num">${cnt(k)}</td><td class="num">${tcnt(k)}</td></tr>`).join("")}</table></div>
+    <div class="tablebox"><table class="sumt"><tr><th>№</th><th>Ваша бирка</th><th>Інфекція</th><th>Правильно</th></tr>${PTS.map((p,i)=>{const tc=truth(p)[0],io=infs[i]===(p.inf?1:0);return `<tr><td class="num">${i+1}</td><td>${CAT[tags[i]]}</td><td>${infs[i]?"окремий потік":"—"}${io?"":" ✗"}</td><td>${tags[i]===tc?"✓":"<b>"+CAT[tc]+"</b> — "+truth(p)[1]}${io?"":" Ознаки інфекції: "+(p.inf?"є — потрібен окремий потік.":"немає.")}</td></tr>`}).join("")}</table></div>
+    <p class="small muted">Пам’ятайте: сортування повторюють на пункті збору, після втручань, перед евакуацією і при зміні стану. На бирці — час і визначальна ознака; рукавички змінюють після контакту з кров’ю. Доповідь: кількість за категоріями з часом, окремо — з ознаками інфекції.</p>
+    <div class="row"><button class="btn primary" id="simAgain">Новий інцидент</button></div></div>`;
+    $("#simAgain").onclick=()=>{newIncident();document.getElementById("v-sim").scrollIntoView({block:"start"})};$("#simSum").scrollIntoView({block:"start"})}
+  $("#brStart").onclick=()=>{clearInterval(brTimer);let t=15;$("#brT").textContent=t;brTimer=setInterval(()=>{t--;$("#brT").textContent=t>0?t:"стоп";if(t<=0){clearInterval(brTimer);$("#brResp").textContent="Помножте кількість вдихів на 4"}},1000)};
+  $("#airway").onclick=()=>{if(!P.apnea){$("#brResp").textContent="Дихальні шляхи прохідні, постраждалий дихає";return}
+    airwayOpened=true;if(P.airway){$("#brResp").textContent="Після закидання голови з’явилось дихання";setBreath()}else{$("#brResp").textContent="Після відкриття дихальних шляхів дихання не з’явилось"}};
+  document.querySelectorAll("#v-sim [data-pl]").forEach(b=>b.onclick=()=>{document.querySelectorAll("#v-sim [data-pl]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  document.querySelectorAll("#v-sim [data-cr]").forEach(b=>b.onclick=()=>{document.querySelectorAll("#v-sim [data-cr]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  const nail=$("#nail"),press=$("#press");
+  let pressed=false;
+  const down=e=>{e.preventDefault();pressed=true;nail.style.transition="opacity .15s";nail.style.opacity=.92;$("#crResp").textContent="Тисніть…"};
+  const up=()=>{if(!pressed)return;pressed=false;nail.style.transition=`opacity ${P.crt}s ease-in`;requestAnimationFrame(()=>{nail.style.opacity=0});$("#crResp").textContent="Відпустили — рахуйте, за скільки повернеться колір"};
+  press.addEventListener("pointerdown",down);press.addEventListener("pointerup",up);press.addEventListener("pointerleave",up);press.addEventListener("pointercancel",up);
+  $("#sw").onclick=()=>{clearInterval(swTimer);const t0=Date.now();swTimer=setInterval(()=>{const s=(Date.now()-t0)/1000;$("#crT").textContent=s.toFixed(1);if(s>8)clearInterval(swTimer)},100)};
+  $("#cmd").onclick=()=>{if(P.walk||P.cmd){$("#cmResp").textContent="Стискає вашу руку, відповідає на питання"}
+    else{$("#cmResp").textContent=P.apnea&&!P.airway?"Не реагує":"Не виконує, стогне, погляд блукає"}};
+  $("#infSel").onclick=e=>{const b=e.target.closest("button");if(!b||picked)return;infPick=+b.dataset.inf;document.querySelectorAll("#infSel button").forEach(x=>x.setAttribute("aria-pressed",x===b))};
+  $("#cats").onclick=e=>{const b=e.target.closest("button");if(!b||picked)return;if(infPick==null){$("#simFb").innerHTML=`<div class="simfb no">Спочатку позначте, чи є ознаки інфекції — це частина сортування.</div>`;return}picked=true;const c=+b.dataset.c,[tc]=truth(P);
+    tags[cur]=c;infs[cur]=infPick;if(c===tc&&infPick===(P.inf?1:0))ok++;
+    document.querySelectorAll("#infSel button").forEach(x=>{x.disabled=true});
+    document.querySelectorAll("#cats button").forEach(x=>{x.disabled=true});b.classList.add("pick");
+    $("#simFb").innerHTML=fbHtml(c);chips();$("#simScore").textContent=`${ok} правильно з ${tags.filter(x=>x!=null).length}`;
+    $("#ptNo").textContent=`Постраждалий № ${cur+1} з ${N} · відсортовано ${tags.filter(x=>x!=null).length}`;
+    if(tags.every(x=>x!=null)){$("#simNext").hidden=true;summary()}else $("#simNext").hidden=false};
+  $("#simNext").onclick=()=>{next();document.getElementById("ptChips").scrollIntoView({block:"start"})};
+  newIncident();
+})();
+
+/* ---------- practice ---------- */
+(function(){
+  const PQ=T1.concat(T2);let right=0,done=0;
+  function drawTests(){right=0;done=0;
+    $("#pTests").innerHTML=PQ.map((q,i)=>`<div class="q pq" data-i="${i}"><span class="qn"><span>№ ${i+1}</span><span>${i<T1.length?"І рівень":"ІІ рівень"}</span></span><div class="qt">${esc(q[0])}</div><div class="opts">${q[1].map((o,j)=>`<button class="opt" data-j="${j}"><span class="L">${L[j]}</span><span>${esc(o)}</span></button>`).join("")}</div></div>`).join("")+`<div class="pscore" id="pScore"><span>0 / ${PQ.length}</span><button class="btn" style="padding:2px 10px;font-size:13px" id="pReset">Почати знову</button></div>`;
+    $("#pReset").onclick=()=>{drawTests();window.scrollTo(0,0)}}
+  $("#pTests").addEventListener("click",e=>{const b=e.target.closest(".opt");if(!b||b.disabled)return;const card=b.closest(".pq"),q=PQ[+card.dataset.i],j=+b.dataset.j;
+    card.querySelectorAll(".opt").forEach((x,k)=>{x.disabled=true;if(k===q[2])x.classList.add("right")});
+    if(j!==q[2])b.classList.add("wrong");else right++;done++;
+    card.insertAdjacentHTML("beforeend",`<div class="fb ${j===q[2]?"ok":"no"}">${j===q[2]?"Правильно.":"Правильна відповідь: "+L[q[2]]+") "+esc(q[1][q[2]])}${q[3]?" "+esc(q[3]):""}</div>`);
+    $("#pScore").children[0].textContent=`${right} правильно з ${done} · всього ${PQ.length}`});
+  drawTests();
+  let ck="q",deck=CARDS.filter(c=>c[0]==="q");
+  function drawCards(){$("#cardsBox").innerHTML=deck.map((c,i)=>`<button class="card"><div class="in"><div class="fc"><small>${ck==="q"?"Питання":"Термін"} ${i+1}</small>${esc(c[1])}</div><div class="bc">${esc(c[2])}</div></div></button>`).join("")}
+  $("#cardsBox").addEventListener("click",e=>{const c=e.target.closest(".card");if(c)c.classList.toggle("flip")});
+  $("#cShuffle").onclick=()=>{for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}drawCards()};
+  $("#cReset").onclick=()=>document.querySelectorAll(".card.flip").forEach(c=>c.classList.remove("flip"));
+  $("#ctabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;ck=b.dataset.k;deck=CARDS.filter(c=>c[0]===ck);document.querySelectorAll("#ctabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawCards()});
+  drawCards();
+  $("#ptabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#ptabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));$("#pTests").hidden=b.dataset.k!=="t";$("#pCards").hidden=b.dataset.k!=="c"});
+})();
+
+
+})();
+</script>
+
+</body>
+</html>
