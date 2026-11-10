@@ -252,6 +252,7 @@ body{margin:0}
   <div id="testBox" class="stack" hidden></div>
 </section>
 
+
 <!-- ================= PRACTICE ================= -->
 <section class="view" id="v-practice" hidden>
   <div class="stack">
@@ -352,7 +353,7 @@ const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||null}catch(e){
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
 /* ---------- routing ---------- */
-const views=["control","practice","tools"].filter(v=>document.getElementById("v-"+v));
+const views=["control","sim","practice","tools"].filter(v=>document.getElementById("v-"+v));
 function route(){
   let h=(location.hash||"").slice(1); if(!views.includes(h)) h="control";
   views.forEach(v=>{$("#v-"+v).hidden=v!==h});
@@ -620,6 +621,7 @@ $("#cBack").onclick=()=>{$("#barConfirm").hidden=true;$("#barBtns").hidden=false
 
 if(S&&S.name){$("#sName").value=S.name;$("#sGroup").value=S.group||""}
 renderControl();
+
 
 /* ---------- practice ---------- */
 (function(){

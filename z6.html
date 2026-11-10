@@ -195,6 +195,7 @@ body{margin:0}
     </div>
     <nav class="tabs" aria-label="Розділи">
       <a href="#control">Підсумковий контроль</a>
+      <a href="#sim">Симулятор</a>
       <a href="#practice">Тренування</a>
       
     </nav>
@@ -252,6 +253,100 @@ body{margin:0}
   <div id="testBox" class="stack" hidden></div>
 </section>
 
+<!-- ================= SIM ================= -->
+<section class="view" id="v-sim" hidden>
+<style>
+.sim-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sim-score{font:600 14px var(--f-mono);color:var(--muted)}
+.pt{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.pt .tag{font:600 12px var(--f-mono);color:var(--olive)}
+.simgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.simgrid>*{min-width:0}
+.st{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.st h3{font-size:15px;padding:10px 14px;border-bottom:1px solid var(--line);margin:0;display:flex;justify-content:space-between;gap:8px}
+.st h3 small{font:500 12px var(--f-mono);color:var(--muted)}
+.st .stage{background:#2A3424;display:flex;align-items:center;justify-content:center;height:170px;position:relative}
+.st .ctl{padding:10px 14px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.st .ctl .row{gap:6px}
+.st svg{width:100%;height:100%;max-width:300px}
+@keyframes breathe{0%,100%{transform:scaleY(1) scaleX(1)}45%{transform:scaleY(1.09) scaleX(1.04)}}
+@keyframes beat{0%,100%{transform:scale(1);opacity:.25}12%{transform:scale(1.6);opacity:.9}30%{transform:scale(1);opacity:.25}}
+#chest{transform-origin:150px 120px;transform-box:view-box}
+#chest.on{animation:breathe var(--rr,3s) ease-in-out infinite}
+#pulseRing{transform-origin:178px 96px;transform-box:view-box;opacity:.2}
+#pulseRing.on{animation:beat var(--hr,1s) linear infinite}
+#nail{transition:fill .15s}
+.timer{font:700 22px var(--f-mono);color:#B9F08C;position:absolute;top:8px;right:12px}
+.resp{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#F4F7EF;font-size:14px;padding:0 10px}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cats button{border:0;border-radius:8px;padding:12px 4px;font-weight:700;font-size:14px;cursor:pointer;color:#fff}
+.c-red{background:#C0392B}.c-yel{background:#E0B000;color:#1C2219!important}.c-grn{background:#2E8B4A}.c-blk{background:#1C1C1C}
+.cats button[disabled]{opacity:.45;cursor:default}
+.cats button.pick{outline:3px solid var(--ink);outline-offset:2px;opacity:1}
+.simfb{border-radius:10px;padding:12px 14px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.simfb.ok{background:var(--ok-soft);color:var(--ok)}.simfb.no{background:var(--bad-soft);color:var(--bad)}
+#v-sim .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.simfb ul{margin:0;padding-left:18px;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){#chest.on,#pulseRing.on{animation-duration:var(--rr)}}
+</style>
+  <div class="stack">
+    <span class="eyebrow">Симулятор · на оцінку не впливає</span>
+    <div class="sim-head"><h2>Сортування START</h2><span class="sim-score" id="simScore"></span></div>
+    <p class="muted">Обстежте постраждалого так, як на місці події: порахуйте дихання, знайдіть пульс, перевірте капілярне наповнення і реакцію на команду. Потім оберіть категорію.</p>
+  </div>
+  <div class="pt"><span class="tag" id="ptNo"></span><b id="ptText"></b></div>
+  <div class="simgrid">
+    <div class="st"><h3>Дихання <small>15 с × 4</small></h3>
+      <div class="stage">
+        <svg viewBox="0 0 300 170" aria-label="Грудна клітка постраждалого">
+          <rect x="0" y="120" width="300" height="50" fill="#3A4730"/>
+          <g id="chest"><path d="M70 125 Q75 60 150 52 Q225 60 230 125 Z" fill="#6B7F57"/><path d="M150 58 L150 122" stroke="#55663F" stroke-width="3"/><path d="M100 80 Q150 95 200 80" stroke="#55663F" stroke-width="2" fill="none"/></g>
+          <ellipse cx="150" cy="40" rx="26" ry="22" fill="#D9B79A"/>
+        </svg>
+        <span class="timer" id="brT"></span><span class="resp" id="brResp"></span>
+      </div>
+      <div class="ctl">
+        <div class="row"><button class="btn" id="brStart">Рахувати 15 с</button><button class="btn" id="airway">Відкрити дихальні шляхи</button></div>
+        <label class="f">Частота дихання, за хв<input type="number" id="rrIn" inputmode="numeric" min="0" max="80" placeholder="напр. 24"></label>
+      </div>
+    </div>
+    <div class="st"><h3>Пульс на променевій артерії</h3>
+      <div class="stage">
+        <svg viewBox="0 0 300 170" aria-label="Зап'ясток з пальцями на променевій артерії">
+          <path d="M0 80 Q120 70 210 88 L300 92 L300 130 L210 128 Q120 132 0 125 Z" fill="#D9B79A"/>
+          <circle id="pulseRing" cx="178" cy="96" r="16" fill="#E05A4A"/>
+          <path d="M150 70 Q170 60 195 72 L198 90 Q175 84 152 88 Z" fill="#C9A385" stroke="#A88468"/>
+          <path d="M160 92 Q180 86 202 94 L203 108 Q181 102 161 108 Z" fill="#C9A385" stroke="#A88468"/>
+        </svg>
+        <span class="resp" id="plResp">Пальці на променевій артерії</span>
+      </div>
+      <div class="ctl"><span>Пульс на променевій артерії:</span><div class="row"><button class="btn" data-pl="1">Є</button><button class="btn" data-pl="0">Немає</button></div></div>
+    </div>
+    <div class="st"><h3>Капілярне наповнення <small>норма ≤ 2 с</small></h3>
+      <div class="stage">
+        <svg viewBox="0 0 300 170" aria-label="Палець з нігтьовим ложем">
+          <rect x="95" y="20" width="110" height="160" rx="50" fill="#D9B79A"/>
+          <rect id="nail" x="118" y="38" width="64" height="62" rx="22" fill="#E8A3A0"/>
+        </svg>
+        <span class="timer" id="crT"></span><span class="resp" id="crResp">Натисніть і утримуйте, потім відпустіть</span>
+      </div>
+      <div class="ctl"><div class="row"><button class="btn" id="press">Натиснути на ніготь</button><button class="btn" id="sw">Секундомір</button></div>
+        <div class="row"><button class="btn" data-cr="0">≤ 2 с</button><button class="btn" data-cr="1">&gt; 2 с</button></div></div>
+    </div>
+    <div class="st"><h3>Психічний стан</h3>
+      <div class="stage"><svg viewBox="0 0 300 170" aria-hidden="true"><ellipse cx="150" cy="80" rx="50" ry="56" fill="#D9B79A"/><path id="eyes" d="M125 72 h14 M161 72 h14" stroke="#3A2A20" stroke-width="4" stroke-linecap="round"/><path id="mouth" d="M135 108 Q150 112 165 108" stroke="#3A2A20" stroke-width="3" fill="none"/></svg>
+        <span class="resp" id="cmResp"></span></div>
+      <div class="ctl"><button class="btn" id="cmd">«Стисніть мою руку»</button></div>
+    </div>
+  </div>
+  <div class="stack">
+    <b>Категорія:</b>
+    <div class="cats" id="cats"><button class="c-red" data-c="0">Червона</button><button class="c-yel" data-c="1">Жовта</button><button class="c-grn" data-c="2">Зелена</button><button class="c-blk" data-c="3">Чорна</button></div>
+    <div id="simFb"></div>
+    <div class="row"><button class="btn primary" id="simNext" hidden>Наступний постраждалий</button></div>
+  </div>
+</section>
+
 <!-- ================= PRACTICE ================= -->
 <section class="view" id="v-practice" hidden>
   <div class="stack">
@@ -293,7 +388,7 @@ const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||null}catch(e){
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
 /* ---------- routing ---------- */
-const views=["control","practice","tools"].filter(v=>document.getElementById("v-"+v));
+const views=["control","sim","practice","tools"].filter(v=>document.getElementById("v-"+v));
 function route(){
   let h=(location.hash||"").slice(1); if(!views.includes(h)) h="control";
   views.forEach(v=>{$("#v-"+v).hidden=v!==h});
@@ -469,6 +564,70 @@ $("#cBack").onclick=()=>{$("#barConfirm").hidden=true;$("#barBtns").hidden=false
 
 if(S&&S.name){$("#sName").value=S.name;$("#sGroup").value=S.group||""}
 renderControl();
+
+/* ---------- START simulator ---------- */
+(function(){
+  if(!document.getElementById("v-sim"))return;
+  const CAT=["Червона","Жовта","Зелена","Чорна"];
+  const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+  let P,n=0,ok=0,picked=false,brTimer=null,swTimer=null,airwayOpened=false;
+  function gen(){
+    const t=Math.random();let p={walk:false,apnea:false,airway:false,rr:ri(14,26),pulse:true,hr:ri(80,110),crt:ri(1,2),cmd:true};
+    if(t<.15){p.walk=true}
+    else if(t<.27){p.apnea=true;p.airway=Math.random()<.5;p.rr=p.airway?ri(10,16):0;p.cmd=false;p.pulse=p.airway;p.hr=ri(50,70);p.crt=4}
+    else if(t<.45){p.rr=ri(32,40)}
+    else if(t<.58){p.pulse=false;p.crt=ri(3,5);p.hr=0}
+    else if(t<.68){p.crt=ri(3,4)}
+    else if(t<.80){p.cmd=false}
+    return p}
+  function truth(p){
+    if(p.walk)return [2,"Може ходити — зелена (відкладена допомога)."];
+    if(p.apnea)return p.airway?[0,"Не дихав, після відкриття дихальних шляхів дихання з’явилося — червона."]:[3,"Не дихає після відкриття дихальних шляхів — чорна."];
+    if(p.rr>30)return [0,`ЧД ${p.rr}/хв — понад 30 — червона.`];
+    if(!p.pulse)return [0,"Немає пульсу на променевій артерії — червона."];
+    if(p.crt>2)return [0,`Капілярне наповнення ${p.crt} с — понад 2 с — червона.`];
+    if(!p.cmd)return [0,"Не виконує прості команди — червона."];
+    return [1,"Не ходить, але ЧД ≤ 30, пульс є, наповнення ≤ 2 с, виконує команди — жовта."]}
+  const $=s=>document.querySelector(s);
+  function setBreath(){const chest=$("#chest");const rr=(P.apnea&&!airwayOpened)?0:P.rr;
+    if(rr>0){chest.style.setProperty("--rr",(60/rr).toFixed(2)+"s");chest.classList.add("on")}else chest.classList.remove("on")}
+  function next(){
+    P=gen();n++;picked=false;airwayOpened=false;clearInterval(brTimer);clearInterval(swTimer);
+    $("#ptNo").textContent="Постраждалий № "+n;
+    $("#ptText").textContent=P.walk?"Після команди «Хто може ходити — йдіть до мене» підводиться і йде, кашляє, сльозяться очі.":"Лежить, на команду «Хто може ходити — йдіть до мене» не підвівся.";
+    setBreath();$("#brT").textContent="";$("#brResp").textContent=P.apnea?"Рухів грудної клітки не видно":"";$("#rrIn").value="";
+    const ring=$("#pulseRing");if(P.pulse){ring.style.setProperty("--hr",(60/P.hr).toFixed(2)+"s");ring.classList.add("on")}else ring.classList.remove("on");
+    $("#plResp").textContent="Пальці на променевій артерії";$("#crT").textContent="";$("#crResp").textContent="Натисніть і утримуйте, потім відпустіть";$("#nail").style.fill="#E8A3A0";
+    $("#cmResp").textContent="";$("#mouth").setAttribute("d","M135 108 Q150 112 165 108");
+    document.querySelectorAll("#v-sim [data-pl],#v-sim [data-cr]").forEach(b=>b.setAttribute("aria-pressed","false"));
+    document.querySelectorAll("#cats button").forEach(b=>{b.disabled=false;b.classList.remove("pick")});
+    $("#simFb").innerHTML="";$("#simNext").hidden=true;
+    $("#simScore").textContent=n>1?`${ok} з ${n-1} правильно`:"";
+  }
+  $("#brStart").onclick=()=>{clearInterval(brTimer);let t=15;$("#brT").textContent=t;brTimer=setInterval(()=>{t--;$("#brT").textContent=t>0?t:"стоп";if(t<=0){clearInterval(brTimer);$("#brResp").textContent="Помножте кількість вдихів на 4"}},1000)};
+  $("#airway").onclick=()=>{if(!P.apnea){$("#brResp").textContent="Дихальні шляхи прохідні, постраждалий дихає";return}
+    airwayOpened=true;if(P.airway){$("#brResp").textContent="Після закидання голови з’явилось дихання";setBreath()}else{$("#brResp").textContent="Після відкриття дихальних шляхів дихання не з’явилось"}};
+  document.querySelectorAll("#v-sim [data-pl]").forEach(b=>b.onclick=()=>{document.querySelectorAll("#v-sim [data-pl]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  document.querySelectorAll("#v-sim [data-cr]").forEach(b=>b.onclick=()=>{document.querySelectorAll("#v-sim [data-cr]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  const nail=$("#nail"),press=$("#press");
+  const down=e=>{e.preventDefault();nail.style.transition="fill .15s";nail.style.fill="#F4EDE6";$("#crResp").textContent="Тисніть…"};
+  const up=()=>{nail.style.transition=`fill ${P.crt}s linear`;requestAnimationFrame(()=>{nail.style.fill="#E8A3A0"});$("#crResp").textContent="Відпустили — рахуйте, за скільки повернеться колір"};
+  press.addEventListener("pointerdown",down);press.addEventListener("pointerup",up);press.addEventListener("pointerleave",e=>{if(nail.style.fill!=="rgb(232, 163, 160)"&&e.buttons)up()});
+  $("#sw").onclick=()=>{clearInterval(swTimer);const t0=Date.now();swTimer=setInterval(()=>{const s=(Date.now()-t0)/1000;$("#crT").textContent=s.toFixed(1);if(s>8)clearInterval(swTimer)},100)};
+  $("#cmd").onclick=()=>{if(P.walk||P.cmd){$("#cmResp").textContent="Стискає вашу руку, відповідає на питання";$("#mouth").setAttribute("d","M135 106 Q150 116 165 106")}
+    else{$("#cmResp").textContent=P.apnea&&!P.airway?"Не реагує":"Не виконує, стогне, погляд блукає";$("#mouth").setAttribute("d","M138 110 Q150 104 162 110")}};
+  $("#cats").onclick=e=>{const b=e.target.closest("button");if(!b||picked)return;picked=true;const c=+b.dataset.c,[tc,why]=truth(P);
+    document.querySelectorAll("#cats button").forEach(x=>{x.disabled=true});b.classList.add("pick");b.disabled=false;
+    if(c===tc)ok++;
+    const rrIn=+$("#rrIn").value,lines=[];
+    if(!P.walk&&!(P.apnea&&!P.airway)){
+      if(rrIn)lines.push(`ЧД: ви порахували ${rrIn}, насправді ${P.rr}/хв${Math.abs(rrIn-P.rr)<=4?" — точно":" — потренуйтеся рахувати"}.`);
+      lines.push(`Пульс на променевій артерії: ${P.pulse?"є":"немає"}. Капілярне наповнення: ${P.crt} с. Команди: ${P.cmd?"виконує":"не виконує"}.`)}
+    $("#simFb").innerHTML=`<div class="simfb ${c===tc?"ok":"no"}"><b>${c===tc?"Правильно":"Неправильно, правильна категорія — "+CAT[tc]}.</b> ${why}${lines.length?`<ul>${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`:""}</div>`;
+    $("#simNext").hidden=false;$("#simScore").textContent=`${ok} з ${n} правильно`};
+  $("#simNext").onclick=()=>{next();document.getElementById("v-sim").scrollIntoView({block:"start"})};
+  next();
+})();
 
 /* ---------- practice ---------- */
 (function(){
