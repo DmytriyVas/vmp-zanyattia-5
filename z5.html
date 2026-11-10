@@ -195,6 +195,7 @@ body{margin:0}
     </div>
     <nav class="tabs" aria-label="Розділи">
       <a href="#control">Підсумковий контроль</a>
+      <a href="#sim">Симулятор</a>
       <a href="#practice">Тренування</a>
       <a href="#tools">Калькулятори</a>
     </nav>
@@ -252,6 +253,64 @@ body{margin:0}
   <div id="testBox" class="stack" hidden></div>
 </section>
 
+<!-- ================= SIM ================= -->
+<section class="view" id="v-sim" hidden>
+<style>
+.dz{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:14px;align-items:start}
+@media (max-width:700px){.dz{grid-template-columns:1fr}}
+.dev{background:#2B332A;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:inset 0 0 0 2px #3C4738}
+.dev .brandl{display:flex;justify-content:space-between;color:#9FB08F;font:600 12px var(--f-mono)}
+.scr{background:#B7C9A0;border-radius:10px;padding:12px 14px;color:#1B2414;font-family:var(--f-mono);box-shadow:inset 0 2px 6px rgba(0,0,0,.35);min-height:112px;display:flex;flex-direction:column;gap:2px}
+.scr .md{font-size:12px;display:flex;justify-content:space-between}
+.scr .val{font-size:clamp(34px,9vw,46px);font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.scr .un{font-size:14px;font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:#1B2414;opacity:.1;display:inline-block}
+.dot.on{opacity:1}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.keys button{background:#424D3E;color:#E4EBDA;border:0;border-radius:10px;padding:12px 6px;font:600 13px var(--f-body);cursor:pointer}
+.keys button:active{background:#56634F}
+.keys button.go{background:#E3AE00;color:#1C2219}
+.scene{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.field{position:relative;height:90px;border-radius:10px;background:repeating-linear-gradient(90deg,var(--surface-2) 0 9.9%,var(--line) 9.9% 10%);overflow:hidden;border:1px solid var(--line)}
+.src{position:absolute;left:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:#E3AE00;display:flex;align-items:center;justify-content:center;font-size:20px}
+.wall{position:absolute;top:8px;bottom:8px;width:12px;background:repeating-linear-gradient(0deg,#8A8F86 0 6px,#6F746B 6px 12px);border-radius:2px}
+.man{position:absolute;top:50%;transform:translate(-50%,-50%);font-size:28px;transition:left .2s}
+.task{background:var(--signal-soft);color:var(--signal-ink);border-radius:10px;padding:12px 14px;font-size:15px}
+.reads{font:500 14px var(--f-mono);display:flex;gap:6px;flex-wrap:wrap}
+.reads span{background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+.dzfb{border-radius:10px;padding:12px 14px;font-size:15px}
+.dzfb.ok{background:var(--ok-soft);color:var(--ok)}.dzfb.no{background:var(--bad-soft);color:var(--bad)}
+#v-sim .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--olive)}
+</style>
+  <div class="stack">
+    <span class="eyebrow">Симулятор · на оцінку не впливає</span>
+    <h2>Дозиметр-радіометр</h2>
+    <p class="muted">Навчальний прилад з покажчиком, що коливається, як справжній. Оберіть завдання, виконайте вимірювання і запишіть результат.</p>
+    <div class="row" id="dzTasks"><button class="btn" data-t="0" aria-pressed="true">1. Фон</button><button class="btn" data-t="1" aria-pressed="false">2. Захист відстанню</button><button class="btn" data-t="2" aria-pressed="false">3. Забрудненість поверхні</button></div>
+  </div>
+  <div class="task" id="dzTask"></div>
+  <div class="dz">
+    <div class="dev" aria-label="Дозиметр-радіометр">
+      <div class="brandl"><span>ДР-навч</span><span id="dzBat">▮▮▮ повірка до 03.2027</span></div>
+      <div class="scr" aria-live="polite">
+        <div class="md"><span id="dzMode">ВИМКНЕНО</span><span class="dot" id="dzDot"></span></div>
+        <div class="val" id="dzVal">&nbsp;</div>
+        <div class="un" id="dzUnit">&nbsp;</div>
+      </div>
+      <div class="keys">
+        <button id="kPow">Увімк.</button><button id="kMode">Режим</button><button class="go" id="kRec">Відлік</button>
+      </div>
+    </div>
+    <div class="scene">
+      <div class="field" id="dzField"><div class="src" id="dzSrc" title="Джерело">☢</div><div class="wall" id="dzWall" hidden></div><div class="man" id="dzMan">🧍</div></div>
+      <div id="dzCtl" class="stack"></div>
+      <div class="reads" id="dzReads"></div>
+      <div id="dzAnswer" class="stack"></div>
+      <div id="dzFb"></div>
+    </div>
+  </div>
+</section>
 
 <!-- ================= PRACTICE ================= -->
 <section class="view" id="v-practice" hidden>
@@ -569,9 +628,12 @@ function renderResult(){
   <div class="lcd"><span>Заняття № 5 · варіант ${S.variant}</span><b>${dt.toLocaleDateString("uk-UA")} ${dt.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})}</b></div></div>
   <p class="small muted">Результат передано викладачу. Розбір завдань буде на занятті.</p>
   <div class="panel stack" id="retakeBox"><b>Перездача</b><p class="small muted">Лише з дозволу викладача: він вводить свій код на цьому телефоні. Ви отримаєте інший варіант, попередній результат лишиться у викладача.</p>
-  <div class="row"><input type="password" inputmode="numeric" id="rtPin" placeholder="Код викладача" aria-label="Код викладача" style="max-width:180px"><button class="btn" id="rtGo">Почати перездачу</button><span class="err" id="rtErr"></span></div></div>`;
+  <div class="row"><label class="f" style="max-width:150px">Варіант перездачі<input type="number" inputmode="numeric" id="rtVar" min="1" max="90" value="${Math.min(90,S.variant+30)}"></label><label class="f" style="max-width:180px">Код викладача<input type="password" inputmode="numeric" id="rtPin"></label><button class="btn" id="rtGo" style="align-self:flex-end">Почати перездачу</button></div><p class="small muted">Попередні варіанти на цьому телефоні: ${[...(S.used||[]),S.variant].join(", ")}. Варіанти 31–90 на парі не роздаються.</p><span class="err" id="rtErr"></span></div>`;
   $("#rtGo").onclick=()=>{if($("#rtPin").value.trim()!==RETAKE_PIN){$("#rtErr").textContent="Невірний код.";return}
-    const v=S.variant+30;S={name:S.name,group:S.group,variant:v,retake:(S.retake||0)+1,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0)};
+    const used=[...(S.used||[]),S.variant],v=parseInt($("#rtVar").value,10);
+    if(!(v>=1&&v<=90)){$("#rtErr").textContent="Вкажіть варіант від 1 до 90.";return}
+    if(used.includes(v)){$("#rtErr").textContent="Цей варіант студент уже писав. Оберіть інший.";return}
+    S={name:S.name,group:S.group,variant:v,used,retake:(S.retake||0)+1,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0)};
 }
 
 function errList(){
@@ -622,6 +684,79 @@ $("#cBack").onclick=()=>{$("#barConfirm").hidden=true;$("#barBtns").hidden=false
 if(S&&S.name){$("#sName").value=S.name;$("#sGroup").value=S.group||""}
 renderControl();
 
+/* ---------- dosimeter simulator ---------- */
+(function(){
+  if(!document.getElementById("v-sim"))return;
+  const q=s=>document.querySelector(s);
+  const f2=x=>String(parseFloat(x.toFixed(2))).replace(".",",");
+  const gauss=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+  let task=0,on=false,mode=0,settleUntil=0,tick=null,shown=null,reads=[],earlyRead=false,T={};
+  // mode 0: gamma dose rate (мкЗв/год); mode 1: beta surface (част./(хв·см²))
+  function trueValue(){
+    if(task===0)return mode===0?T.bg:T.bgB;
+    if(task===1){if(mode===1)return T.bgB;const r=+q("#dzR").value;let p=T.P1/(r*r);if(q("#dzSh")&&q("#dzSh").checked)p/=10;return p+T.bg}
+    if(task===2){if(mode===0)return T.bg;const where=q("#dzWhere").value;const h=+q("#dzH").value;if(where==="bg")return T.bgB;const k=h<=1?1:1/(h*h);return T.bgB+(T.cont?T.surf*k:0)}
+  }
+  function render(){
+    if(!on){q("#dzMode").textContent="ВИМКНЕНО";q("#dzVal").innerHTML="&nbsp;";q("#dzUnit").innerHTML="&nbsp;";return}
+    q("#dzMode").textContent=mode===0?"ПОТУЖН. ДОЗИ γ":"ЗАБРУДН. β";
+    q("#dzUnit").textContent=mode===0?"мкЗв/год":"част./(хв·см²)";
+    if(Date.now()<settleUntil){q("#dzVal").textContent="- - -";shown=null;return}
+    const tv=trueValue();if(task===2&&mode===1&&q("#dzWhere").value==="surf"&&+q("#dzH").value===0){q("#dzVal").textContent="!!!";shown=null;return}
+    const noise=mode===0?0.14:0.18;const v=Math.max(0,tv*(1+gauss()*noise));
+    if(mode===0&&v>9999){q("#dzVal").textContent="ПЕРЕВ.";shown=null;return}
+    shown=v;q("#dzVal").textContent=mode===0?(v<10?v.toFixed(2):v.toFixed(1)).replace(".",","):Math.round(v);
+    const dot=q("#dzDot");dot.classList.add("on");setTimeout(()=>dot.classList.remove("on"),120);
+  }
+  function restartSettle(){settleUntil=Date.now()+4000}
+  q("#kPow").onclick=()=>{on=!on;q("#kPow").textContent=on?"Вимк.":"Увімк.";if(on){q("#dzMode").textContent="САМОТЕСТ…";settleUntil=Date.now()+5500}render()};
+  q("#kMode").onclick=()=>{if(!on)return;mode=1-mode;restartSettle();render()};
+  q("#kRec").onclick=()=>{if(!on){fb("no","Спочатку увімкніть прилад і дочекайтесь самотестування.");return}
+    if(shown==null){earlyRead=true;fb("no","Показ ще не встановився — зачекайте, поки на екрані з’явиться число.");return}
+    reads.push({v:shown,mode,ctx:ctxLabel()});drawReads()};
+  function ctxLabel(){if(task===1)return q("#dzR").value+" м"+(q("#dzSh").checked?", за стіною":"");if(task===2)return q("#dzWhere").value==="bg"?"фон":"поверхня "+q("#dzH").value+" см";return ""}
+  function drawReads(){q("#dzReads").innerHTML=reads.length?"Відліки: "+reads.map(r=>`<span>${r.mode===0?f2(r.v):Math.round(r.v)}${r.ctx?" · "+r.ctx:""}</span>`).join(""):""}
+  function fb(c,t){q("#dzFb").innerHTML=`<div class="dzfb ${c}">${t}</div>`}
+  const UNITS=["мкЗв/год","мЗв/год","мкЗв","мЗв","Бк"];
+  function setTask(t){task=t;reads=[];earlyRead=false;q("#dzFb").innerHTML="";drawReads();
+    document.querySelectorAll("#dzTasks button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.t===t));
+    T={bg:0.10+Math.random()*0.08,bgB:4+Math.random()*4,P1:pick5([40,60,80,120]),surf:pick5([25,40,60]),cont:Math.random()<0.6,lim:pick5([2,3,5])};
+    q("#dzWall").hidden=true;q("#dzSrc").style.display=t===1?"flex":"none";
+    if(t===0){q("#dzTask").innerHTML="<b>Завдання 1.</b> Виміряйте природний радіаційний фон у точці А. Увімкніть прилад, дочекайтесь самотестування, оберіть режим потужності дози гамма-випромінювання, зніміть 3 відліки після встановлення показу. Запишіть середнє з одиницею.";
+      q("#dzCtl").innerHTML='<p class="small muted">Прилад тримаєте на висоті близько 1 м над землею.</p>';man(50);
+      q("#dzAnswer").innerHTML=`<b>Запис у журнал</b><div class="row"><input type="number" step="any" inputmode="decimal" id="aVal" placeholder="Середнє" style="max-width:150px"><select id="aUnit" style="max-width:160px"><option value="">одиниця…</option>${UNITS.map(u=>`<option>${u}</option>`).join("")}</select><button class="btn primary" id="aChk">Перевірити</button></div>`;
+      q("#aChk").onclick=()=>{const g=reads.filter(r=>r.mode===0);if(g.length<3)return fb("no","Потрібно щонайменше 3 відліки в режимі потужності дози γ.");
+        const mean=g.reduce((s,r)=>s+r.v,0)/g.length,val=parseFloat(String(q("#aVal").value).replace(",",".")),u=q("#aUnit").value,errs=[];
+        if(u!=="мкЗв/год")errs.push(u?`Одиниця «${u}» неправильна: потужність дози записують у мкЗв/год.${u==="мЗв/год"?" Помилка в префіксі — у 1000 разів!":""}${u==="мкЗв"||u==="мЗв"?" Це одиниця дози, а не потужності дози.":""}`:"Не вказано одиницю: число без одиниці — не результат.");
+        if(!(Math.abs(val-mean)<=Math.max(0.01,mean*0.05)))errs.push(`Середнє ваших відліків = ${f2(mean)}; ви записали ${isFinite(val)?f2(val):"—"}.`);
+        if(earlyRead)errs.push("Ви намагались зняти відлік до встановлення показу — на практиці це грубе порушення методики.");
+        fb(errs.length?"no":"ok",errs.length?errs.join(" "):`Правильно: фон ${f2(mean)} мкЗв/год — у межах звичайного природного фону (0,1–0,2 мкЗв/год). Повний запис: дата, час, точка А, режим γ, ${f2(mean)} мкЗв/год, висота 1 м, середнє з ${g.length} відліків.`)}}
+    if(t===1){q("#dzTask").innerHTML=`<b>Завдання 2.</b> Біля точкового джерела. Рухаючись від джерела, знайдіть найменшу відстань, на якій потужність дози не перевищує <b>${T.lim} мкЗв/год</b> (без укриття). Потім перевірте, що дає бетонна стіна.`;
+      q("#dzCtl").innerHTML=`<label class="f">Відстань від джерела: <b id="dzRl">2 м</b><input type="range" id="dzR" min="1" max="10" step="0.5" value="2"></label><label class="chk"><input type="checkbox" id="dzSh"> Стати за бетонну стіну</label><p class="formula">Формула: <b>P₂ = P₁ × (r₁ / r₂)²</b></p>`;
+      const upd=()=>{const r=+q("#dzR").value;q("#dzRl").textContent=String(r).replace(".",",")+" м";man(8+r*9);q("#dzWall").hidden=!q("#dzSh").checked;q("#dzWall").style.left=(8+r*9-6)+"%";if(on&&mode===0)restartSettle();render()};
+      q("#dzR").oninput=upd;q("#dzSh").onchange=upd;upd();
+      q("#dzAnswer").innerHTML=`<b>Відповідь</b><div class="row"><input type="number" step="0.5" inputmode="decimal" id="aDist" placeholder="Відстань, м" style="max-width:150px"><button class="btn primary" id="aChk">Перевірити</button></div>`;
+      q("#aChk").onclick=()=>{const d=parseFloat(String(q("#aDist").value).replace(",","."));let need=1;for(let r=1;r<=10;r+=0.5){if(T.P1/(r*r)+T.bg<=T.lim){need=r;break}}
+        const okd=Math.abs(d-need)<=0.5;fb(okd?"ok":"no",(okd?"Правильно. ":"Не зовсім. ")+`Потужність ≤ ${T.lim} мкЗв/год досягається приблизно з ${String(need).replace(".",",")} м. Зверніть увагу: удвічі далі — учетверо менше; бетонна стіна послаблює ще приблизно в 10 разів. Від гамма-випромінювання захищають час, відстань і екранування, а не респіратор.`)}}
+    if(t===2){q("#dzTask").innerHTML="<b>Завдання 3.</b> Оцініть бета-забрудненість поверхні ношів. Спершу виміряйте фон у чистому місці, потім піднесіть датчик до поверхні на 0,5–1 см, не торкаючись її. Зробіть висновок.";
+      q("#dzCtl").innerHTML=`<div class="row"><select id="dzWhere" style="max-width:220px"><option value="bg">Чисте місце (фон)</option><option value="surf">Поверхня ношів</option></select></div><label class="f">Відстань датчика від поверхні: <b id="dzHl">5 см</b><input type="range" id="dzH" min="0" max="10" step="0.5" value="5"></label>`;
+      const upd=()=>{const h=+q("#dzH").value;q("#dzHl").textContent=String(h).replace(".",",")+" см";man(50);if(q("#dzWhere").value==="surf"&&h===0)fb("no","Датчик торкнувся поверхні — його забруднено! Замініть плівку і повторіть.");else q("#dzFb").innerHTML="";if(on&&mode===1)restartSettle();render()};
+      q("#dzWhere").onchange=upd;q("#dzH").oninput=upd;upd();
+      q("#dzAnswer").innerHTML=`<b>Висновок</b><div class="row"><button class="btn" data-c="1">Перевищення фону є</button><button class="btn" data-c="0">Перевищення фону немає</button></div>`;
+      q("#dzAnswer").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;const bR=reads.filter(r=>r.mode===1&&r.ctx==="фон"),sR=reads.filter(r=>r.mode===1&&r.ctx.startsWith("поверхня")),errs=[];
+        if(!bR.length)errs.push("Не виміряно фон у чистому місці — без нього висновок необґрунтований.");
+        if(!sR.length)errs.push("Не знято жодного відліку з поверхні в режимі β.");
+        if(sR.some(r=>+r.ctx.split(" ")[1]>2))errs.push("Частину відліків знято задалеко від поверхні (понад 2 см) — показ занижено.");
+        const right=(+b.dataset.c===1)===T.cont;
+        fb(right&&!errs.length?"ok":"no",(right?"Висновок правильний: ":"Висновок неправильний: ")+(T.cont?"поверхня забруднена, показ значно вищий за фон.":"показ на поверхні не відрізняється від фону.")+(errs.length?" "+errs.join(" "):""))}}
+    if(on){restartSettle()}render();
+  }
+  function man(pct){q("#dzMan").style.left=pct+"%"}
+  function pick5(a){return a[Math.floor(Math.random()*a.length)]}
+  q("#dzTasks").onclick=e=>{const b=e.target.closest("button");if(b)setTask(+b.dataset.t)};
+  setTask(0);
+  tick=setInterval(()=>{if(!document.getElementById("v-sim").hidden)render()},1000);
+})();
 
 /* ---------- practice ---------- */
 (function(){

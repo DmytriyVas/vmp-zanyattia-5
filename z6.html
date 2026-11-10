@@ -512,9 +512,12 @@ function renderResult(){
   <div class="lcd"><span>Заняття № 6 · варіант ${S.variant}</span><b>${dt.toLocaleDateString("uk-UA")} ${dt.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})}</b></div></div>
   <p class="small muted">Результат передано викладачу. Розбір завдань буде на занятті.</p>
   <div class="panel stack" id="retakeBox"><b>Перездача</b><p class="small muted">Лише з дозволу викладача: він вводить свій код на цьому телефоні. Ви отримаєте інший варіант, попередній результат лишиться у викладача.</p>
-  <div class="row"><input type="password" inputmode="numeric" id="rtPin" placeholder="Код викладача" aria-label="Код викладача" style="max-width:180px"><button class="btn" id="rtGo">Почати перездачу</button><span class="err" id="rtErr"></span></div></div>`;
+  <div class="row"><label class="f" style="max-width:150px">Варіант перездачі<input type="number" inputmode="numeric" id="rtVar" min="1" max="90" value="${Math.min(90,S.variant+30)}"></label><label class="f" style="max-width:180px">Код викладача<input type="password" inputmode="numeric" id="rtPin"></label><button class="btn" id="rtGo" style="align-self:flex-end">Почати перездачу</button></div><p class="small muted">Попередні варіанти на цьому телефоні: ${[...(S.used||[]),S.variant].join(", ")}. Варіанти 31–90 на парі не роздаються.</p><span class="err" id="rtErr"></span></div>`;
   $("#rtGo").onclick=()=>{if($("#rtPin").value.trim()!==RETAKE_PIN){$("#rtErr").textContent="Невірний код.";return}
-    const v=S.variant+30;S={name:S.name,group:S.group,variant:v,retake:(S.retake||0)+1,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0)};
+    const used=[...(S.used||[]),S.variant],v=parseInt($("#rtVar").value,10);
+    if(!(v>=1&&v<=90)){$("#rtErr").textContent="Вкажіть варіант від 1 до 90.";return}
+    if(used.includes(v)){$("#rtErr").textContent="Цей варіант студент уже писав. Оберіть інший.";return}
+    S={name:S.name,group:S.group,variant:v,used,retake:(S.retake||0)+1,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0)};
 }
 
 function errList(){
