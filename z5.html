@@ -306,6 +306,7 @@ body{margin:0}
 .sk-res{display:flex;align-items:center;gap:12px}.sk-res b{font:800 40px/1 var(--f-mono);width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--ok-soft)}
 .sk-res b.g2{background:var(--bad-soft)}.sk-res b.g3{background:#FFF1D6}
 .sk-send{display:flex;flex-wrap:wrap;gap:6px}.sk-send input{flex:1;min-width:140px}
+.sk-reset{font-size:13px;color:var(--muted)}.sk-reset summary{cursor:pointer}.sk-reset .sk-send{margin-top:6px}
 .vdone{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .vdone li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:6px 8px;font-size:14px}
 .vdone li small{display:block;color:var(--muted);font-size:12px}
@@ -826,6 +827,9 @@ const SPECIAL={"1": {"img": "img/s5-dosimeter.webp", "sub": ""}};
       ${all?`<div class="sk-res"><b class="g${gr}">${gr}</b><span>${pct}% — ${gr===5?"відмінно":gr===4?"добре":gr===3?"задовільно":"незадовільно"}</span></div>
       ${sent?`<p class="small" style="margin:0">✓ Надіслано викладачу ${sent}.</p>`:`<div class="sk-send"><input id="sgName" placeholder="Прізвище та ім’я" value="${esc(nm)}"><input id="sgGroup" placeholder="Група" value="${esc(grp)}"><button class="btn primary" id="sgSend">Надіслати оцінку викладачу</button></div>`}`
       :`<p class="small muted" style="margin:0">Перша повна спроба кожної навички — залікова. Бали: бездоганно — 100 %, з помилками — 75 %, багато помилок — 50 %, невдача — 0. Оцінка: від 90 % — 5, від 75 % — 4, від 60 % — 3.</p>`}`;
+    el.insertAdjacentHTML("beforeend",`<details class="sk-reset"><summary>Скинути навички (для викладача)</summary><div class="sk-send"><input id="sgPin" type="password" inputmode="numeric" placeholder="PIN викладача"><button class="btn" id="sgReset">Скинути все на цьому пристрої</button></div><p class="small muted" style="margin:0">Обнуляє залікові спроби й результати всіх навичок цього заняття на цьому телефоні.</p></details>`);
+    q("#sgReset").onclick=()=>{if(q("#sgPin").value!==(typeof RETAKE_PIN!=="undefined"?RETAKE_PIN:"7531")){q("#sgPin").value="";q("#sgPin").placeholder="Невірний PIN";return}
+      ["vg","vgs","vs"].forEach(k=>{try{localStorage.removeItem(k+LESSON)}catch(e){}});stats={};location.reload()};
     const b=q("#sgSend");if(b)b.onclick=()=>{const n=q("#sgName").value.trim(),g=q("#sgGroup").value.trim();if(n.length<3||!g){q("#sgName").focus();return}
       const d={type:"skills",lesson:LESSON,attempt:"s"+LESSON+"-"+Date.now().toString(36),name:n,group:g,variant:"",answered:SKILLS.length,total:SKILLS.length,score:pct,max:100,pct,grade:gr,
         blocks:"Заняття "+LESSON+" · НАВИЧКИ ‖ "+rows.map(r=>LESSON+"."+(r.i+1)+": "+GL[r.f]+" ("+PTS[r.f]+"%)").join("; "),device:navigator.userAgent.slice(0,120)};
