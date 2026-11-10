@@ -537,11 +537,11 @@ function errList(){
   return out.join("; ")||"без помилок";
 }
 /* ---------- send to teacher's register ---------- */
-const ENDPOINT="";
+const ENDPOINT="https://script.google.com/macros/s/AKfycbyUVNslEAKRWEeJv2gsUC-XO2ZFtdiiW3IAXZrbzykMjwzrweY2BhUHQR29YcEmW_jH/exec";
 function send(type){
   if(!ENDPOINT)return;
   const d={type,attempt:S.attempt,name:S.name,group:S.group,variant:S.variant,answered:ITEMS.filter(answered).length,total:ITEMS.length,device:navigator.userAgent.slice(0,120)};
-  if(type==="finish"){const r=computeResult();Object.assign(d,{score:Math.round(r.got*100)/100,max:r.max,pct:r.p,grade:r.g[2],blocks:r.rows.map(x=>x[0]+": "+fmt(x[1],2)+"/"+x[2]).join("; "),errors:errList()})}
+  if(type==="finish"){const r=computeResult();Object.assign(d,{score:Math.round(r.got*100)/100,max:r.max,pct:r.p,grade:r.g[2],blocks:r.rows.map(x=>x[0]+": "+fmt(x[1],2)+"/"+x[2]).join("; ")+" ‖ Помилки: "+errList()})}
   try{fetch(ENDPOINT,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)}).catch(()=>{})}catch(e){}
 }
 
