@@ -276,7 +276,7 @@ body{margin:0}
 .sk-prog{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.sk-prog i{display:block;height:100%;background:var(--olive)}
 .vic{display:block;background-size:300% 300%;background-repeat:no-repeat;aspect-ratio:1;width:100%;border-radius:10px;background-color:#DADCD6}
 .vic.sm{width:44px;flex:none}
-.vic.big,.vthumb{width:100%;max-height:140px;aspect-ratio:16/9;object-fit:cover;border-radius:8px}
+.vic.big,.vthumb{width:100%;max-height:140px;aspect-ratio:16/9;object-fit:cover;object-position:50% 22%;border-radius:8px}
 .vic.big{background-size:300% 300%;aspect-ratio:16/9}
 .vopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 @media (max-width:520px){.vopts{grid-template-columns:1fr}.vopt{flex-direction:row!important;align-items:center}.vopt .vic{width:72px;flex:none}}
@@ -340,7 +340,7 @@ body{margin:0}
 .ring.on{animation:beat var(--hr,1s) linear infinite}
 .blanch{position:absolute;left:42.5%;top:15%;width:15.5%;height:17%;border-radius:40% 40% 30% 30%;background:#FBF6F1;opacity:0}
 .faceImg{transform:scale(2.3);transform-origin:50% 20%}
-@keyframes breathe{0%,100%{transform:scale(1,1)}45%{transform:scale(1.025,1.045)}}
+@keyframes breathe{0%,100%{transform:scale(1,1)}45%{transform:scale(1.05,1.08)}}
 @keyframes beat{0%,100%{transform:scale(.7);opacity:0}10%{transform:scale(1.1);opacity:.95}35%{transform:scale(1.5);opacity:0}}
 .timer{font:700 22px var(--f-mono);color:#B9F08C;position:absolute;top:8px;right:12px}
 .resp{text-shadow:0 1px 3px #000,0 0 8px #000;font-weight:600;position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#F4F7EF;font-size:14px;padding:0 10px}
@@ -405,10 +405,35 @@ body{margin:0}
 .gm-say:after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:#fff}
 .gm-say.bad{background:#ffe3df}.gm-say.bad:after{border-top-color:#ffe3df}
 @keyframes say{from{opacity:0;transform:translate(-50%,calc(-100% - 2px)) scale(.8)}to{opacity:1}}
+.gm-pre>*:not(.gm-brief){display:none!important}
+.gm:not(.gm-pre)>.gm-brief{display:none}
+.gm-brief{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.gm-brief h3{margin:0;font-size:19px}
+.gb-sec{display:flex;flex-direction:column;gap:4px;font-size:15px}.gb-sec p{margin:0}
+.gb-sec ol,.gb-sec ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.gb-sec.ok{background:var(--ok-soft);border-radius:10px;padding:8px 10px}
+.gb-th{background:#FFF6E0;border-radius:10px;padding:8px 10px;font-size:14px}.gb-th summary{font-weight:700;cursor:pointer}.gb-th p{margin:6px 0 0}
+.gm-start{min-height:52px;font-size:17px}
+.gm-info{align-self:flex-start;font-size:13px;padding:6px 10px}
+#v-sim,#v-skills{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#v-sim input,#v-sim textarea{-webkit-user-select:text;user-select:text}
+@media (max-width:640px){
+ .gm-stage{width:min(100%,46vh);margin:0 auto}
+ .gm-bar .pill{font-size:12px;padding:4px 9px}
+ .gm-msg{font-size:14px;padding:8px 10px}
+ .note{font-size:14px}
+}
 #simSel{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}#simSel .btn{white-space:nowrap}
 </style>
 <div class="row" id="simSel" role="group" aria-label="Міні-ігри"><button class="btn" data-s="gInsp" aria-pressed="true">Огляд пункту</button><button class="btn" data-s="gCamp" aria-pressed="false">Табір</button><button class="btn" data-s="gDis" aria-pressed="false">Дезрозчин</button><button class="btn" data-s="gPpe" aria-pressed="false">ЗІЗ</button><button class="btn" data-s="simStart" aria-pressed="false">START</button><button class="btn" data-s="gEvac" aria-pressed="false">Евакуація</button></div>
-  <div id="simStart" class="stack" hidden>
+  <div id="simStart" class="stack gm gm-pre" hidden><div class="gm-brief"><span class="eyebrow">Практична навичка</span><h3>Первинне медичне сортування START</h3>
+<div class="gb-sec"><b>Ситуація</b><p>Вибух газу в пункті тимчасового розміщення, де вже тиждень реєструють гостру респіраторну інфекцію і кишкові розлади. На пункт збору доставлено 10 постраждалих. Ви — перший медик на місці, працюєте в ЗІЗ.</p></div>
+<div class="gb-sec"><b>Що робити</b><ol><li>Номери вгорі — постраждалі. Для кожного прочитайте, що він робить, і оцініть за START.</li><li><b>Дихання:</b> «Рахувати 15 с» і рахуйте підйоми грудної клітки, ×4. Якщо не дихає — «Відкрити дихальні шляхи».</li><li><b>Пульс:</b> дивіться, чи пульсує червоне коло на зап’ясті. <b>Капілярне наповнення:</b> утримуйте «Натиснути на ніготь», відпустіть і стежте, за скільки секунд повернеться колір.</li><li><b>Свідомість:</b> «Стисніть мою руку». Позначте ознаки інфекції і оберіть колір бирки.</li></ol></div>
+<div class="gb-sec ok"><b>Критерії успіху</b><ul><li>правильна категорія для всіх 10</li><li>правильно позначено ознаки інфекції (окремий потік)</li><li>до 60 с на одного постраждалого</li></ul></div>
+<details class="gb-th" open><summary>Коротка теорія</summary><p><b>START:</b> ходить → <b>зелений</b>. Не ходить → дихання: немає → відкрити дихальні шляхи → не з’явилося → <b>чорний</b>, з’явилося → <b>червоний</b>. ЧД понад 30 → <b>червоний</b>. Немає пульсу на променевій артерії або капілярне наповнення понад 2 с → <b>червоний</b>. Не виконує прості команди → <b>червоний</b>. Інакше → <b>жовтий</b>.<br>Гарячка, кашель, діарея, висип → позначка «інфекція», окремий потік і транспорт з інфекційним контролем. Сортування повторюють: на пункті збору, після втручань, перед евакуацією.</p></details>
+<button class="btn primary gm-start">Почати</button></div>
+<button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
+
   <div class="stack">
     <span class="eyebrow">Симулятор · на оцінку не впливає</span>
     <div class="sim-head"><h2>Сортування START</h2><span class="sim-score" id="simScore"></span></div>
@@ -417,6 +442,7 @@ body{margin:0}
   </div>
   <div class="chips" id="ptChips"></div>
   <div class="pt"><span class="tag" id="ptNo"></span><b id="ptText"></b></div>
+  <div id="walkNote" class="note" hidden><b>Постраждалий підійшов до вас сам</b>, розмовляє, дихає рівно, на ногах тримається. Подальші вимірювання за START для того, хто ходить, не проводять — оберіть категорію нижче.</div>
   <div class="simgrid">
     <div class="st"><h3>Дихання <small>15 с × 4</small></h3>
       <div class="stage">
@@ -459,16 +485,33 @@ body{margin:0}
     <div class="row"><button class="btn primary" id="simNext" hidden>Наступний постраждалий</button></div>
   </div>
   </div>
-<div id="gInsp" class="gm">
-  <div class="note"><b>Ситуація.</b> Шкільний спортзал, третя доба після евакуації: тут живе близько 180 людей. Черговий медик повідомив: <b>за 2 доби — 9 випадків діареї</b>, двоє з гарячкою. Вас призначили відповідальним медиком пункту. О 09:00 керівник чекає доповідь.<br><b>Завдання:</b> оглянути приміщення (торкайтеся того, що хочете роздивитися), оцінити стан і скласти план заходів. Від плану залежить, що буде з людьми через тиждень.</div>
-  <div class="gm-bar"><span class="pill" id="giClock">08:00</span><span class="pill" id="giFound">Ризиків: 0</span><button class="btn" id="giHint">Підказка (−10 хв)</button><button class="btn primary" id="giDone">Завершити огляд</button></div>
+<div id="gInsp" class="gm gm-pre"><div class="gm-brief"><span class="eyebrow">Практична навичка</span><h3>Оцінювання санітарно-гігієнічних та епідемічних ризиків</h3>
+<div class="gb-sec"><b>Ситуація</b><p>Шкільний спортзал — пункт тимчасового розміщення, третя доба після евакуації, близько 180 людей. Черговий медик повідомив: <b>за 2 доби — 9 випадків діареї</b>, двоє з гарячкою. Вас призначили відповідальним медиком пункту. Керівник чекає доповідь і план.</p></div>
+<div class="gb-sec"><b>Що робити</b><ol><li><b>Огляд.</b> На фото — 9 точок огляду (білі кружечки з номерами). Торкніться кожної, прочитайте, що там видно, і вирішіть: <b>це ризик поширення інфекції чи норма</b>.</li><li><b>Оцінка стану.</b> Визначте санітарно-епідемічний стан пункту.</li><li><b>План.</b> До кожного ризику оберіть захід і строк.</li><li><b>Результат.</b> Програма покаже, скільки людей захворіє за наступний тиждень за вашим планом.</li></ol></div>
+<div class="gb-sec ok"><b>Критерії успіху</b><ul><li>усі 7 ризиків розпізнано, норму не сплутано з ризиком</li><li>стан визначено правильно</li><li>для кожного ризику — дієвий захід у правильний строк</li><li>за 7 діб — не більше 15 нових випадків («спалах локалізовано»)</li></ul></div>
+<details class="gb-th" open><summary>Коротка теорія</summary><p><b>Що оцінюють:</b> воду (джерело, знезараження, зберігання, видача через кран), харчування (холодовий ланцюг, захист від мух, персонал), туалети і миття рук (1 туалет на 20 осіб, мило), розміщення (не менше 3,5 м² на особу, провітрювання), відходи (закриті контейнери, вивезення), хворих (виявлення, ізоляція), переносників.<br><b>Стан:</b> благополучний — поодинокі непов’язані випадки; нестійкий — поодинокі пов’язані випадки, умови погіршуються; неблагополучний — груповий спалах; надзвичайний — масове швидке поширення.<br><b>Заходи</b> діють на ланки: джерело (виявлення, ізоляція), механізм передачі (вода, їжа, руки, туалети), сприйнятливих (гігієна, щеплення). План: захід — відповідальний — ресурс — строк.</p></details>
+<button class="btn primary gm-start">Почати</button></div>
+<button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
+
+  <div class="gm-bar"><span class="pill" id="giClock">Оглянуто: 0 з 9</span><span class="pill" id="giFound">Помилок: 0</span></div><p class="small muted" style="margin:0">Етап 1 з 3 · Торкніться пронумерованої точки на фото.</p>
   <div class="gm-stage" id="giStage"><img src="img/g10-shelter.webp" alt="Спортзал — пункт тимчасового розміщення" width="1000" height="1000"><div id="giMarks"></div></div>
-  <div id="giMsg"></div>
+  <div id="giMsg"></div><button class="btn primary" id="giDone">Завершити огляд</button><button id="giHint" hidden></button>
   <ol class="gm-log" id="giLog"></ol>
   <div id="giPanel" class="gm"></div>
 </div>
-<div id="gCamp" class="gm" hidden>
-  <div class="note"><b>Ситуація.</b> Розгортаєте польовий табір на 120 осіб на 7 діб. Аерофото ділянки: вгорі дорога, ліворуч угорі — артезіанська свердловина (джерело води), праворуч унизу — заболочена низина, ділянка має схил до неї. Вітер — західний (дме зліва направо). Масштаб: ширина ділянки ≈ 200 м.<br><b>Завдання:</b> розмістіть 7 об’єктів. Торкніться об’єкта внизу, потім — місця на фото. Потім запустіть табір і подивіться, що станеться за тиждень.</div>
+<style>
+.gi-pin{position:absolute;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;border:3px solid #fff;background:rgba(20,24,18,.75);color:#fff;font:700 15px var(--f-mono);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px rgba(255,211,77,.7),0 2px 8px rgba(0,0,0,.5);cursor:pointer;padding:0;animation:pinp 1.6s infinite}
+.gi-pin.ok{background:#2C7A3C;animation:none;box-shadow:0 2px 6px rgba(0,0,0,.4)}.gi-pin.no{background:#B3261E;animation:none;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+@keyframes pinp{50%{box-shadow:0 0 0 7px rgba(255,211,77,.25),0 2px 8px rgba(0,0,0,.5)}}
+.gi-card p{font-size:15px}
+</style><div id="gCamp" class="gm gm-pre" hidden><div class="gm-brief"><span class="eyebrow">Практична навичка</span><h3>Санітарні зони табору</h3>
+<div class="gb-sec"><b>Ситуація</b><p>Розгортаєте польовий табір на 120 осіб на 7 діб. Аерофото ділянки: вгорі дорога, ліворуч угорі — артезіанська свердловина (джерело води), праворуч унизу — заболочена низина. Ділянка має схил до низини. Вітер західний — дме зліва направо. Ширина ділянки близько 200 м.</p></div>
+<div class="gb-sec"><b>Що робити</b><ol><li>Торкніться об’єкта внизу (кухня, туалети, вода…), потім — кола на фото, куди його поставити. Щоб переставити, торкніться поставленого об’єкта.</li><li>Розмістіть усі 7 об’єктів.</li><li>Натисніть «Запустити табір» і подивіться, що відбуватиметься 7 діб: дощі, вітер, стоки.</li></ol></div>
+<div class="gb-sec ok"><b>Критерії успіху</b><ul><li>жодної критичної помилки (спалаху)</li><li>не більше одного порушення</li></ul></div>
+<details class="gb-th" open><summary>Коротка теорія</summary><p><b>Вода:</b> не менше 15 л на особу на добу; закриті промарковані ємності, видача через кран; пункт видачі — на підвищенні, далеко від стоків.<br><b>Туалети:</b> 1 на 20 осіб; нижче за рельєфом від води, кухні й житла; не далі ≈50 м від житла; не ближче 50 м від кухні та води; поруч — миття рук.<br><b>Кухня</b> — з навітряного боку від туалетів і відходів. <b>Відходи</b> — закриті контейнери, окремий майданчик, не ближче 50 м від кухні й води, вивезення щодня.<br><b>Ізолятор</b> — окремо від житла (з окремим туалетом), але досяжний для медика. <b>Медпункт</b> — біля під’їзної дороги. Низину і заболочені ділянки під табір не використовують. Площа — не менше 3,5 м² на особу.</p></details>
+<button class="btn primary gm-start">Почати</button></div>
+<button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
+
   <div class="gm-bar"><span class="pill">🌬 вітер →</span><span class="pill">⬊ схил до низини</span><span class="pill" id="gcLeft">Розміщено 0 з 7</span></div>
   <div class="gm-stage" id="gcStage"><img src="img/g10-field.webp" alt="Аерофото ділянки під табір" width="1000" height="1000"><div class="gc-rain" id="gcRain"></div><div id="gcFx"></div><div id="gcSlots"></div><span class="gc-dayb" id="gcDay" hidden></span><span class="gc-well">свердловина</span><span class="gc-low">низина</span></div>
   <div class="gc-tray" id="gcTray"></div>
@@ -506,11 +549,17 @@ body{margin:0}
 .gc-day b{font:700 13px var(--f-mono)}
 @keyframes pop2{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
-<div id="gDis" class="gm" hidden>
-  <div class="note"><b>Ситуація.</b> У пункті розміщення — випадки кишкової інфекції. Потрібно знезаразити столи в їдальні. Є концентрат дезінфекційного засобу. <b id="gdTask"></b><br><b>Завдання:</b> безпечно приготувати робочий розчин, промаркувати його і правильно обробити стіл. Торкайтеся предметів на фото та утримуйте кнопки, щоб наливати.</div>
-  <div class="gm-bar"><span class="pill" id="gdPpe">ЗІЗ: —</span><span class="pill" id="gdMist">Помилок: 0</span></div>
+<div id="gDis" class="gm gm-pre" hidden><div class="gm-brief"><span class="eyebrow">Практична навичка</span><h3>Приготування дезрозчину і знезараження поверхні</h3>
+<div class="gb-sec"><b>Ситуація</b><p>У пункті розміщення — кишкова інфекція. Треба знезаразити столи в їдальні. На столі: каністра з концентратом, мірний циліндр 250 мл, ємність 10 л з рисками, рукавички й окуляри. Яку концентрацію і скільки розчину треба — буде вказано зверху гри.</p></div>
+<div class="gb-sec"><b>Що робити</b><ol><li><b>Торкайтеся підписаних предметів на фото:</b> каністри — щоб прочитати етикетку; рукавичок і окулярів — щоб медик їх надягнув (його видно в кутку фото).</li><li><b>Розрахуйте</b> об’єм концентрату V₁ і впишіть у поле.</li><li><b>Утримуйте</b> кнопку «Наливати концентрат» — рівень у циліндрі росте; відпустіть на потрібній позначці (шкала — під фото).</li><li>Перелийте в ємність і <b>утримуйте</b> «Доливати воду» до кінцевого об’єму (шкала ємності).</li><li>Перемішайте, промаркуйте, потім обробіть стіл: ганчіркою — бруд, розпилювачем — розчин (ведіть пальцем по столу).</li></ol></div>
+<div class="gb-sec ok"><b>Критерії успіху</b><ul><li>ЗІЗ надягнуто до роботи з концентратом</li><li>концентрація правильна (об’єм у межах ±3 %)</li><li>етикетка повна</li><li>стіл спершу очищено, потім оброблено; експозицію 60 хв витримано</li><li>жодного змішування засобів</li></ul></div>
+<details class="gb-th" open><summary>Коротка теорія</summary><p><b>Формула:</b> V₁ = C₂ × V₂ / C₁, де C₁ — концентрація концентрату, C₂ — потрібна концентрація (%), V₂ — кінцевий об’єм у мл. Приклад: 5 л 0,2 % з 10 %: 0,2 × 5000 / 10 = 100 мл концентрату і <b>довести водою ДО 5 л</b> (не додавати до 5 л!).<br><b>Безпека:</b> рукавички й окуляри, провітрювання, засоби не змішувати. <b>Обробка:</b> спершу очищення від бруду (бруд інактивує засіб), потім нанесення, експозиція — від моменту нанесення, поверхні для їжі після експозиції змивають водою. Ємність маркують: назва, концентрація, дата і час, строк, хто приготував.</p></details>
+<button class="btn primary gm-start">Почати</button></div>
+<button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
+
+  <div class="gd-task" id="gdTaskBox"></div><div class="gm-bar"><span class="pill" id="gdPpe">ЗІЗ: —</span><span class="pill" id="gdMist">Помилок: 0</span></div><div class="gd-prog" id="gdProg"></div>
   <div class="gm-stage" id="gdStage"><img src="img/g10-bench.webp" alt="Стіл: концентрат, мірний циліндр, ємність, рукавички, окуляри" width="1000" height="1000">
-    <div class="gd-liq c" id="gdLiqC"></div><div class="gd-liq b" id="gdLiqB"></div><div class="gd-gas" id="gdGas"></div><div id="gdMarks"></div></div>
+    <div class="gd-liq c" id="gdLiqC"></div><div class="gd-liq b" id="gdLiqB"></div><div class="gd-gas" id="gdGas"></div><div id="gdMarks"></div><span class="gd-doc" id="gdDoc" title="Ви"></span><div id="gdPins"></div></div>
   <div class="gd-meters">
     <div class="gd-m"><span>Циліндр, мл</span><div class="gd-tube" id="gdTube"><i id="gdTubeL"></i></div></div>
     <div class="gd-m"><span>Ємність, л</span><div class="gd-tank" id="gdTank"><i id="gdTankL"></i></div></div>
@@ -548,9 +597,19 @@ body{margin:0}
 .gd-bar2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .gd-bar2 .lbl{font:600 12px var(--f-mono);color:var(--muted)}
 @media (max-width:420px){.gd-meters{grid-template-columns:70px 112px 1fr}.gd-tank{width:78px}}
+.gd-doc{position:absolute;left:6px;top:6px;width:30%;aspect-ratio:1;border-radius:10px;border:2px solid #fff;background-size:300% 300%;background-color:#ddd;box-shadow:0 2px 8px rgba(0,0,0,.35);pointer-events:none}
+.gd-pin{position:absolute;transform:translate(-50%,-50%);border:2px solid #fff;background:rgba(20,24,18,.78);color:#fff;font:700 11px var(--f-body);padding:4px 8px;border-radius:999px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.4);cursor:pointer;z-index:2}
+.gd-prog{display:flex;flex-wrap:wrap;gap:4px}.gd-prog span{font:600 11px var(--f-mono);padding:3px 7px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}.gd-prog span.on{background:var(--ok-soft);border-color:var(--ok);color:var(--ink)}
+.gd-task{background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 12px;font:600 15px var(--f-body)}
 </style>
-<div id="gPpe" class="gm" hidden>
-  <div class="note"><b>Ситуація.</b> Медпункт табору. Пацієнт 40 р.: гарячка 38,9 °C, кашель з мокротою, задишка. Діагноз невідомий — можлива аерогенна передача. Вам треба його оглянути.<br><b>Завдання:</b> підготуватися, надягнути ЗІЗ, оглянути пацієнта і безпечно зняти ЗІЗ. Обирайте дію — медик на фото змінюватиметься.</div>
+<div id="gPpe" class="gm gm-pre" hidden><div class="gm-brief"><span class="eyebrow">Практична навичка</span><h3>Добір, надягання і знімання ЗІЗ</h3>
+<div class="gb-sec"><b>Ситуація</b><p>Медпункт табору. Привели пацієнта 40 років: гарячка 38,9 °C, кашель з мокротою, задишка. Діагноз невідомий — можлива інфекція, що передається повітряно-крапельним шляхом. Вам треба його оглянути, не заразитися самому і не перенести збудника іншим пацієнтам.</p></div>
+<div class="gb-sec"><b>Що робити</b><ol><li>Обирайте дії в тому порядку, як робили б насправді. Медик на фото змінюється після кожної дії — <b>помилки теж видно</b>.</li><li>Виконані правильні дії зникають зі списку. Неправильну можна виправити кнопкою «Зняти…».</li><li>Коли готові — «Зайти до пацієнта». Після огляду зніміть ЗІЗ у правильному порядку.</li></ol></div>
+<div class="gb-sec ok"><b>Критерії успіху</b><ul><li>респіратор FFP2 (не медична маска) з перевіркою прилягання</li><li>порядок надягання: прикраси → гігієна рук → халат → респіратор → окуляри → рукавички</li><li>під час роботи не торкатися обличчя</li><li>порядок знімання: рукавички → гігієна рук → окуляри → халат → респіратор → гігієна рук → відходи</li></ul></div>
+<details class="gb-th" open><summary>Коротка теорія</summary><p><b>ЗІЗ обирають за шляхом передачі.</b> Невідомий діагноз + респіраторні ознаки → комплект за вищим ризиком: халат, респіратор FFP2 і вище, захист очей, рукавички.<br><b>Надягання:</b> зняти прикраси й годинник → гігієна рук → халат → респіратор, перевірка прилягання (різкий видих — повітря не виходить по краях) → окуляри або щиток → рукавички поверх манжет.<br><b>Знімання</b> (найбрудніше — першим): рукавички, не торкаючись шкіри → гігієна рук → окуляри за дужки → халат, вивертаючи → респіратор за резинки останнім → гігієна рук → усе одноразове — в медичні відходи.</p></details>
+<button class="btn primary gm-start">Почати</button></div>
+<button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
+
   <div class="gm-bar"><span class="pill" id="gpPhase">Надягання</span><span class="pill" id="gpMist">Помилок: 0</span></div>
   <div class="gp-wrap">
     <div class="gp-photo" id="gpPhoto"><span class="gp-stamp" id="gpStamp" hidden></span></div>
@@ -574,10 +633,18 @@ body{margin:0}
 #gpActs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 #gpActs button{min-height:52px;font-size:14px}
 #gpActs button.hold{background:var(--olive-soft)}
-@media (max-width:420px){.gp-wrap{grid-template-columns:1fr}.gp-side{display:none}.gp-photo{width:min(100%,44vh);margin:0 auto}}
+#gpActs .gp-enter{grid-column:1/-1;background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gp-undo{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;padding-top:6px;border-top:1px dashed var(--line)}.gp-undo button{flex:1;min-height:40px!important;font-size:13px!important;background:var(--bad-soft)!important;border-color:var(--bad)!important}
+@media (max-width:420px){.gp-wrap{grid-template-columns:1fr}.gp-side{display:none}.gp-photo{width:min(100%,36vh);margin:0 auto}}
 </style>
-<div id="gEvac" class="gm" hidden>
-  <div class="note"><b>Ситуація.</b> О 14:10 — вибух на складі біля пункту розміщення. Постраждалий 35 р., уламкове поранення правого стегна, турнікет накладено на місці. Зараз <b>14:35</b>, швидка біля вас. У пункті є ще чоловік з гарячкою й кашлем, який просить поїхати з вами.<br><b>Завдання:</b> повторно оглянути (торкайтеся тіла, приладів, турнікета), заповнити картку, визначити пріоритет і заклад, передати бригаді за MIST. <b>Час іде — стан змінюється.</b></div>
+<div id="gEvac" class="gm gm-pre" hidden><div class="gm-brief"><span class="eyebrow">Практична навичка</span><h3>Форма 002/о, евакуаційний пріоритет і маршрутизація</h3>
+<div class="gb-sec"><b>Ситуація</b><p>О 14:10 — вибух на складі біля пункту розміщення. Постраждалий 35 років, уламкове поранення правого стегна, турнікет накладено на місці. Зараз 14:35, швидка поруч. У пункті є ще чоловік з гарячкою й кашлем, який просить поїхати з вами. <b>Час іде — тиск у постраждалого падає.</b></p></div>
+<div class="gb-sec"><b>Що робити</b><ol><li><b>Повторний огляд:</b> на фото підписані точки — свідомість, дихання, тиск, пульсоксиметр, турнікет, пов’язка. Торкніться їх — значення з’являться на моніторі. Час накладання написаний маркером на турнікеті.</li><li>Торкніться <b>рації</b> — зв’язок з координатором (куди везти).</li><li><b>Заповніть картку</b> 002/о, оберіть пріоритет, заклад і що робити з хворим з кашлем.</li><li><b>Передайте бригаді</b> за схемою MIST.</li></ol></div>
+<div class="gb-sec ok"><b>Критерії успіху</b><ul><li>огляд повний (свідомість, тиск, пульс, турнікет)</li><li>картку заповнено правильно, час турнікета вказано</li><li>пріоритет I, заклад узгоджено з координатором</li><li>інфекційно хворого — окремо</li><li>постраждалий передан до того, як тиск упаде критично</li></ul></div>
+<details class="gb-th" open><summary>Коротка теорія</summary><p><b>Картка 002/о:</b> ідентифікація, механізм, схема ушкоджень, турнікет і <b>час накладання</b>, показники з часом, надана допомога з часом. Картка їде разом із постраждалим.<br><b>Пріоритет:</b> I — терміново (до 1 год): турнікет, шок, порушення дихання; II — до 4 год; III — до 24 год. Колір START і пріоритет евакуації — не одне й те саме.<br><b>Заклад</b> обирають за профілем і спроможністю, узгоджують з координатором; потік розосереджують. Інфекційно підозрілих — окремим транспортом з інфекційним контролем.<br><b>MIST:</b> M — механізм і час, I — ушкодження, S — ознаки (показники), T — лікування (що і коли зроблено).</p></details>
+<button class="btn primary gm-start">Почати</button></div>
+<button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
+
   <div class="ge-vitals" id="geVit"></div>
   <div class="gm-stage" id="geStage"><img src="img/g10-evac.webp" alt="Постраждалий на ношах з турнікетом на правому стегні біля швидкої" width="1000" height="1000"><div id="geMarks"></div></div>
   <div id="geMsg"></div>
@@ -590,6 +657,11 @@ body{margin:0}
 .ge-card{background:#fbfaf3;border:1px solid #cfc9a8;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;font-size:14px}
 .ge-card h4{margin:0;font:700 14px var(--f-mono)}
 .ge-row{display:flex;flex-direction:column;gap:4px}.ge-row>span{font:600 12px var(--f-mono);color:#6b6650}
+.ge-pin{position:absolute;transform:translate(-50%,-50%);border:2px solid #fff;background:rgba(20,24,18,.8);color:#fff;font:700 11px var(--f-body);padding:4px 7px;border-radius:999px;white-space:nowrap;box-shadow:0 0 0 3px rgba(255,211,77,.65),0 2px 8px rgba(0,0,0,.5);cursor:pointer;animation:pinp 1.6s infinite;z-index:2}
+.ge-pin.seen{background:#2C7A3C;box-shadow:0 2px 6px rgba(0,0,0,.4);animation:none}
+@keyframes pinp{50%{box-shadow:0 0 0 7px rgba(255,211,77,.25),0 2px 8px rgba(0,0,0,.5)}}
+.ge-tqlbl{position:absolute;left:46.5%;top:54.5%;transform:rotate(-28deg);background:#f4f2ea;color:#111;font:700 11px var(--f-mono);padding:1px 4px;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.5);pointer-events:none}
+.ge-col{flex-direction:column}.ge-col button{text-align:left}
 </style>
 </section>
 
@@ -1295,7 +1367,7 @@ const VSKILLS={
 "cons": "img/sp-cons10.webp"
 }
 };
-const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img": "img/g10-field.webp", "sub": "gCamp"}, "2": {"img": "img/g10-bench.webp", "sub": "gDis"}, "3": {"img": "img/g10-ppe.webp", "sub": "gPpe", "pos": "50% 50%"}, "4": {"img": "img/g10-pt.webp", "sub": "simStart"}, "5": {"img": "img/g10-evac.webp", "sub": "gEvac"}};
+const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img": "img/g10-field.webp", "sub": "gCamp"}, "2": {"img": "img/g10-bench.webp", "sub": "gDis"}, "3": {"img": "img/g10-ppe-th.webp", "sub": "gPpe"}, "4": {"img": "img/g10-pt.webp", "sub": "simStart"}, "5": {"img": "img/g10-evac.webp", "sub": "gEvac"}};
 /* ---------- visual skills engine v2: consequences, state meter, failures ---------- */
 (function(){
   if(!document.getElementById("v-skills")||typeof SKILLS==="undefined")return;
@@ -1390,6 +1462,7 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
   function show(i){cur=i;P=PTS[i];picked=tags[i]!=null;airwayOpened=false;clearInterval(brTimer);clearInterval(swTimer);chips();
     $("#ptNo").textContent=`Постраждалий № ${i+1} з ${N} · відсортовано ${tags.filter(x=>x!=null).length}`;
     $("#ptText").textContent=(P.walk?"Після команди «Хто може ходити — йдіть до мене» підводиться і йде, кульгає, порізи рук.":"Лежить, на команду «Хто може ходити — йдіть до мене» не підвівся.")+(P.infTxt?" "+P.infTxt:"");
+    {const g=document.querySelector("#simStart .simgrid");if(g)g.hidden=!!P.walk;const w=document.getElementById("walkNote");if(w)w.hidden=!P.walk;}
     setBreath();$("#brT").textContent="";$("#brResp").textContent=P.apnea?"Рухів грудної клітки не видно":"";$("#rrIn").value="";
     const ring=$("#pulseRing");if(P.pulse){ring.style.setProperty("--hr",(60/P.hr).toFixed(2)+"s");ring.classList.add("on")}else ring.classList.remove("on");
     $("#plResp").textContent="Пальці на променевій артерії";$("#crT").textContent="";$("#crResp").textContent="Натисніть і утримуйте, потім відпустіть";$("#nail").style.transition="none";$("#nail").style.opacity=0;
@@ -1445,7 +1518,7 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
   const $=s=>root.querySelector(s);
   const say=(stage,x,y,t,bad)=>{stage.querySelectorAll(".gm-say").forEach(e=>e.remove());const xx=Math.min(Math.max(x,22),78);stage.insertAdjacentHTML("beforeend",`<span class="gm-say ${bad?"bad":""}" style="left:${xx}%;top:${Math.max(y,14)}%">${t}</span>`);clearTimeout(stage.__sayT);stage.__sayT=setTimeout(()=>stage.querySelectorAll(".gm-say").forEach(e=>e.remove()),4200)};
   const R=[
-    {id:"water",pts:[[9,73,11]],t:"Бак з питною водою",f:"Кран підтікає, під ним калюжа. Хто і коли наповнював бак, чи знезаражували воду — ніхто не знає.",w:.35,urg:0,
+    {id:"water",why:"Невідомо, чи вода безпечна, а кран тече в калюжу.",pts:[[9,73,11]],t:"Бак з питною водою",f:"Кран підтікає, під ним калюжа. Хто і коли наповнював бак, чи знезаражували воду — ніхто не знає.",w:.35,urg:0,
      m:[["Перевірити джерело, знезаразити воду, закрити бак, видача лише через кран; щоденний контроль залишкового хлору",2,"Перекриває головний шлях кишкових інфекцій."],["Повісити табличку «Пити лише кип’ячену воду»",1,"Кип’ятити в спортзалі ніде — люди питимуть як є. Захід слабкий."],["Нічого не робити до результатів лабораторії",0,"Лабораторія — 2–3 доби. Весь цей час люди п’ють потенційно заражену воду."]]},
     {id:"ladle",say:"А як інакше пити? Кружок нема",pts:[[22,90,9]],t:"Відро з ковшем",f:"Воду черпають спільним ковшем з відкритого відра. Кожна рука — в спільній воді.",w:.2,urg:0,
      m:[["Прибрати відкрите відро і ківш; лише закриті ємності з краном",2,"Розриває передачу через руки."],["Мити ківш раз на день",1,"Між миттями ківш торкаються десятки рук."],["Додати друге відро, щоб менше черги",0,"Дві відкриті ємності — подвійний ризик."]]},
@@ -1460,31 +1533,33 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
     {id:"food",say:"Ковбасу ще зранку привезли",pts:[[78,80,11],[85,72,6]],t:"Стіл з їжею",f:"Ковбаса і хліб лежать відкрито без охолодження, каструля без кришки, мухи. Роздають руками без рукавичок.",w:.25,urg:0,
      m:[["Прибрати продукти без холоду, закрита видача, персонал у рукавичках з допуском, миття рук перед їжею",2,"Харчовий шлях — другий за значенням."],["Накрити стіл серветкою",1,"Холодовий ланцюг і руки персоналу лишаються проблемою."],["Роздати всю їжу зараз, щоб не зіпсувалась",0,"Зіпсовані продукти потраплять до людей одночасно."]]}
   ];
-  const N=[{pts:[[68,8,10]],f:"Вікна відчиняються — провітрювання можливе. Це не ризик."},{pts:[[41,22,8]],f:"Шведська стінка. До санітарного стану не стосується."},{pts:[[25,13,7]],f:"Баскетбольний щит. Не стосується завдання."}];
+  const N=[{id:"win",t:"Вікна",pts:[[68,8,10]],f:"Вікна відчиняються, вранці приміщення провітрювали. Температура в залі комфортна."},{id:"box",t:"Коробки з речами",pts:[[66,46,7]],f:"Коробки з теплим одягом і ковдрами — сухі, стоять окремо від їжі. Ковдр вистачає всім."}];
   const URG=["Негайно","Сьогодні","Цього тижня"];
   let t,found,ph,state,plan,hits;
   const clk=()=>{const m=8*60+t;return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0")};
   function msg(c,h){$("#giMsg").innerHTML=h?`<div class="gm-msg ${c}">${h}</div>`:""}
-  function hud(){$("#giClock").textContent=clk();$("#giClock").className="pill"+(t>=50?" bad":t>=40?" warn":"");$("#giFound").textContent=`Ризиків: ${found.length}`}
-  function reset(){root.__warned=0;t=0;found=[];ph=0;state=null;plan={};hits=0;$("#giMarks").innerHTML="";$("#giLog").innerHTML="";$("#giPanel").innerHTML="";msg("","");
-    $("#giHint").hidden=false;$("#giDone").hidden=false;hud()}
+  function hud(){$("#giClock").textContent=`Оглянуто: ${Object.keys(dec).length} з 9`;$("#giFound").textContent=`Помилок: ${err0}`;$("#giFound").className="pill"+(err0?" warn":"")}
+  function reset(){root.__warned=0;t=0;found=[];ph=0;state=null;plan={};hits=0;dec={};err0=0;$("#giMarks").innerHTML="";$("#giLog").innerHTML="";$("#giPanel").innerHTML="";msg("","");
+    $("#giDone").hidden=false;pins();hud()}
   function near(x,y,pts){return pts.some(([px,py,r])=>Math.hypot(px-x,py-y)<=r)}
   function mark(x,y,txt,cls){$("#giMarks").insertAdjacentHTML("beforeend",`<span class="gm-mark ${cls||""}" style="left:${x}%;top:${y}%">${txt}</span>`)}
-  $("#giStage").addEventListener("click",e=>{if(ph!==0)return;const r=$("#giStage").getBoundingClientRect(),x=(e.clientX-r.left)/r.width*100,y=(e.clientY-r.top)/r.height*100;
-    $("#giMarks").insertAdjacentHTML("beforeend",`<span class="gm-ripple" style="left:${x}%;top:${y}%"></span>`);
-    const k=R.find(o=>near(x,y,o.pts));
-    if(k){if(found.includes(k)){msg("","Це вже записано.");return}
-      found.push(k);t+=5;const [px,py]=k.pts[0];mark(px,py,found.length);
-      $("#giLog").insertAdjacentHTML("beforeend",`<li><b class="k">${found.length}</b><span><b>${k.t}</b><small>${k.f}</small></span></li>`);
-      msg("warn",`<b>${k.t}.</b> ${k.f}`);if(k.say)say($("#giStage"),px,py,k.say)}
-    else{const n=N.find(o=>near(x,y,o.pts));t+=n?4:2;msg("",n?n.f:"Тут нічого важливого для санітарного стану.")}
-    hud();if(t>=45&&!root.__warned&&t<60){root.__warned=1;say($("#giStage"),50,20,"📞 Керівник: «Де доповідь? Люди хворіють!»",1)}if(t>=60)endInsp(true)});
-  $("#giHint").onclick=()=>{const k=R.find(o=>!found.includes(o));if(!k)return;t+=10;hits++;const [x,y]=k.pts[0];
-    $("#giMarks").insertAdjacentHTML("beforeend",`<span class="gm-hint" style="left:${x}%;top:${y}%"></span>`);msg("","Підказка: придивіться до виділеного місця.");hud();if(t>=60)endInsp(true)};
-  $("#giDone").onclick=()=>endInsp(false);
-  function endInsp(timeout){if(ph!==0)return;ph=1;$("#giHint").hidden=true;$("#giDone").hidden=true;
-    msg(timeout?"no":"",timeout?"<b>09:00 — час огляду вичерпано.</b> Керівник чекає доповідь з тим, що ви встигли знайти.":`Огляд завершено о ${clk()}. Знайдено ризиків: ${found.length}.`);
+  let SP=[],dec={},err0=0;
+  function pins(){SP=[...R,...N].map(o=>({o,x:o.pts[0][0],y:o.pts[0][1]})).sort((a,b)=>a.y-b.y||a.x-b.x);
+    $("#giMarks").innerHTML=SP.map((p,i)=>{const d=dec[p.o.id];return `<button class="gi-pin ${d?(d.ok?"ok":"no"):""}" data-i="${i}" style="left:${p.x}%;top:${p.y}%">${d?(d.v==="r"?"⚠":"✓"):i+1}</button>`}).join("")}
+  function open(i){const p=SP[i],o=p.o,d=dec[o.id];
+    if(o.say)say($("#giStage"),p.x,p.y-4,o.say);
+    $("#giMsg").innerHTML=`<div class="gm-card gi-card"><b>Точка ${i+1}: ${o.t}</b><p style="margin:0">${o.f}</p>${d?`<div class="gm-msg ${d.ok?"ok":"no"}">${d.txt}</div>`:`<div class="gm-seg"><button data-v="r">⚠ Це ризик</button><button data-v="n">✓ Норма</button></div>`}</div>`;
+    const sg=$("#giMsg .gm-seg");if(sg)sg.onclick=e=>{const b=e.target.closest("button");if(!b)return;const isR=R.includes(o),v=b.dataset.v,ok=(v==="r")===isR;
+      dec[o.id]={v,ok,txt:ok?(isR?"Правильно — це ризик. Його треба внести в план.":"Правильно — тут усе гаразд."):(isR?"Помилка: це ризик поширення інфекції. "+(o.why||""):"Помилка: це не ризик — так і має бути.")};
+      if(!ok){err0++;$("#giStage").classList.add("shake");setTimeout(()=>$("#giStage").classList.remove("shake"),400)}
+      if(isR&&v==="r")found.push(o);t+=5;hud();pins();open(i);
+      if(Object.keys(dec).length===SP.length)setTimeout(()=>endInsp(false),400)};
+    $("#giMsg").scrollIntoView({behavior:"smooth",block:"nearest"})}
+  $("#giMarks").addEventListener("click",e=>{const b=e.target.closest(".gi-pin");if(!b||ph!==0)return;open(+b.dataset.i)});
+  function endInsp(timeout){if(ph!==0)return;const left=SP.length-Object.keys(dec).length;if(left&&!timeout&&!confirm2())return;ph=1;$("#giDone").hidden=true;
+    $("#giMsg").innerHTML=`<div class="gm-msg ${err0?"warn":"ok"}">Огляд завершено. Ризиків розпізнано: <b>${found.length} з ${R.length}</b>, помилок: ${err0}.${left?` Не оглянуто точок: ${left} — ризики там лишаться поза планом.`:""}</div>`;
     stateStep()}
+  function confirm2(){if(root.__c2){root.__c2=0;return true}root.__c2=1;$("#giMsg").innerHTML=`<div class="gm-msg warn">Ви оглянули не всі точки. Натисніть «Завершити огляд» ще раз, якщо впевнені.</div>`;return false}
   function stateStep(){const S=[["Благополучний","поодинокі випадки, не пов’язані між собою"],["Нестійкий","поодинокі пов’язані випадки, умови погіршуються"],["Неблагополучний","груповий спалах"],["Надзвичайний","масове швидке поширення, кілька осередків"]];
     $("#giPanel").innerHTML=`<div class="gm-card"><h4>Крок 2. Санітарно-епідемічний стан пункту</h4><p class="small muted">9 випадків діареї за 2 доби серед мешканців одного приміщення.</p><div class="gm-ch" id="giS">${S.map((s,i)=>`<button data-i="${i}"><b>${s[0]}</b><br><small>${s[1]}</small></button>`).join("")}</div><div id="giSf"></div></div>`;
     $("#giS").onclick=e=>{const b=e.target.closest("button");if(!b||state!=null)return;state=+b.dataset.i;
@@ -1581,6 +1656,7 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
 (function(){
   const root=document.getElementById("gDis");if(!root)return;
   const $=s=>root.querySelector(s);
+  const say=(stage,x,y,t,bad)=>{stage.querySelectorAll(".gm-say").forEach(e=>e.remove());const xx=Math.min(Math.max(x,22),78);stage.insertAdjacentHTML("beforeend",`<span class="gm-say ${bad?"bad":""}" style="left:${xx}%;top:${Math.max(y,14)}%">${t}</span>`);clearTimeout(stage.__sayT);stage.__sayT=setTimeout(()=>stage.querySelectorAll(".gm-say").forEach(e=>e.remove()),3500)};
   const f1=x=>String(Math.round(x*100)/100).replace(".",",");
   const COMBOS=[[5,0.2,3],[5,0.25,4],[10,0.5,5],[5,0.2,5],[10,0.5,4],[10,0.4,5]];
   let C1,C2,V2,V1,st,ml,L,conc,mist,hold=null,timer=null,labelSel,failed;
@@ -1591,12 +1667,14 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
   function err(h,crit){mist++;$("#gdMist").textContent="Помилок: "+mist;$("#gdMist").className="pill "+(mist>2?"bad":"warn");root.querySelector(".gm-stage").classList.remove("shake");void root.offsetWidth;root.querySelector(".gm-stage").classList.add("shake");
     if(crit){fail(h);return}msg("no",h)}
   function fail(h){failed=true;stopHold();$("#gdActs").innerHTML="";$("#gdStep2").innerHTML=`<div class="gm-result fail"><h3>Невдача</h3><p>${h}</p><button class="btn primary" id="gdAgain">Почати заново</button></div>`;$("#gdAgain").onclick=reset;msg("","");$("#gdStep2").scrollIntoView({behavior:"smooth",block:"center"});window.__gameDone&&window.__gameDone("dis",-1)}
-  function draw(){$("#gdLiqC").style.height=(ml*0.136)+"%";$("#gdLiqB").style.height=(Math.min(L,10)*2.6)+"%";
+  function doc(){const d=$("#gdDoc");if(!d)return;const [sp,i]=st.gl&&st.go?["B",2]:st.gl?["B",0]:st.go?["B",1]:["A",0];d.style.backgroundImage=`url(img/${sp==="B"?"g10-ppe2":"g10-ppe"}.webp)`;d.style.backgroundPosition=`${(i%3)*50}% ${Math.floor(i/3)*50}%`}
+  function prog(){const P=[["read","Етикетка"],["ppe","ЗІЗ"],["calc","Розрахунок"],["poured","Концентрат"],["filled","До об’єму"],["label","Маркування"],["surf","Стіл"]];$("#gdProg").innerHTML=P.map(([k,t])=>`<span class="${(k==="ppe"?st.gl&&st.go:st[k])?"on":""}">${t}</span>`).join("")}
+  function draw(){doc();prog();$("#gdLiqC").style.height=(ml*0.136)+"%";$("#gdLiqB").style.height=(Math.min(L,10)*2.6)+"%";
     $("#gdTubeL").style.height=Math.min(ml/250*100,100)+"%";$("#gdTankL").style.height=Math.min(L/10*100,100)+"%";
     $("#gdPpe").textContent="ЗІЗ: "+(st.gl?"рукавички ✓ ":"")+(st.go?"окуляри ✓":"")+(!st.gl&&!st.go?"не вдягнено":"");$("#gdPpe").className="pill "+(st.gl&&st.go?"ok":"")}
   function reset(){const c=COMBOS[Math.floor(Math.random()*COMBOS.length)];[C1,C2,V2]=c;V1=Math.round(C2*V2*1000/C1);
     st={read:0,gl:0,go:0,calc:0,poured:0,moved:0,filled:0,mixed:0,label:0};ml=0;L=0;conc=0;mist=0;failed=false;labelSel=new Set();
-    $("#gdTask").textContent=`Потрібно ${V2} л ${f1(C2)} % робочого розчину з ${C1} % концентрату.`;
+    $("#gdTaskBox").innerHTML=`🎯 Приготувати <b>${V2} л</b> робочого розчину концентрацією <b>${f1(C2)} %</b> з концентрату <b>${C1} %</b> і обробити стіл.`;
     $("#gdMist").textContent="Помилок: 0";$("#gdMist").className="pill";$("#gdGas").classList.remove("on");$("#gdStep2").innerHTML="";msg("","Почніть з того, що робите першим. Предмети на фото теж можна торкатися.");acts();draw()}
   function acts(){const A=[];
     if(!st.calc)A.push(`<div class="gd-calc"><span class="small">V₁ = C₂ × V₂ / C₁ =</span><input type="number" inputmode="decimal" id="gdV1" placeholder="мл"><button class="btn" id="gdV1b">OK</button></div>`);
@@ -1641,19 +1719,23 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
       else msg("ok","Концентрат у ємності. Тепер доведіть водою до кінцевого об’єму.");draw();acts()}
     if(a==="mix"){st.mixed=1;msg("ok","Перемішано.");acts()}
     if(a==="label")labelStep()});
-  $("#gdStage").addEventListener("click",e=>{if(failed)return;const r=$("#gdStage").getBoundingClientRect(),x=(e.clientX-r.left)/r.width*100,y=(e.clientY-r.top)/r.height*100;
-    if(Math.hypot(x-24,y-55)<14){st.read=1;msg("ok",`<b>Етикетка й інструкція:</b> засіб для дезінфекції поверхонь, концентрат ${C1} %, строк придатності не минув. Для поверхонь при кишкових інфекціях — <b>${f1(C2)} %</b>, експозиція <b>60 хв</b>; поверхні, що контактують з їжею, після експозиції промивають водою. Працювати в рукавичках і захисних окулярах, не змішувати з іншими засобами.`)}
-    else if(Math.hypot(x-32,y-78)<12){if(!st.gl){st.gl=1;msg("ok","Рукавички надягнуто.")}}
-    else if(Math.hypot(x-69,y-77)<10){if(!st.go){st.go=1;msg("ok","Захисні окуляри надягнуто.")}}
-    else if(Math.hypot(x-50,y-45)<8)msg("","Мірний циліндр 250 мл. Шкала — праворуч від фото, рівень видно і на ньому.");
-    else if(Math.hypot(x-77,y-55)<16)msg("","Ємність 10 л з рисками. Шкала — під фото.");
-    draw()});
+  $("#gdPins").innerHTML=[["can",24,44,"Каністра"],["gl",30,72,"Рукавички"],["go",72,70,"Окуляри"],["cyl",50,20,"Циліндр"],["tank",77,33,"Ємність"]].map(([k,x,y,t])=>`<button class="gd-pin" data-x="${x}" data-y="${y}" data-k="${k}" style="left:${x}%;top:${y}%">${t}</button>`).join("");
+  const PT={can:[24,55],gl:[32,78],go:[69,77],cyl:[50,45],tank:[77,55]};
+  $("#gdPins").addEventListener("click",e=>{const b=e.target.closest(".gd-pin");if(!b)return;e.stopPropagation();const [x,y]=PT[b.dataset.k];tapAt(x,y)});
+  $("#gdStage").addEventListener("click",e=>{const r=$("#gdStage").getBoundingClientRect();tapAt((e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100)});
+  function tapAt(x,y){if(failed)return;
+    if(Math.hypot(x-24,y-55)<14){st.read=1;say($("#gdStage"),24,40,"Етикетка прочитана — текст під фото");msg("ok",`<b>Етикетка й інструкція:</b> засіб для дезінфекції поверхонь, концентрат ${C1} %, строк придатності не минув. Для поверхонь при кишкових інфекціях — <b>${f1(C2)} %</b>, експозиція <b>60 хв</b>; поверхні, що контактують з їжею, після експозиції промивають водою. Працювати в рукавичках і захисних окулярах, не змішувати з іншими засобами.`)}
+    else if(Math.hypot(x-32,y-78)<12){if(!st.gl){st.gl=1;say($("#gdStage"),32,68,"Рукавички надягнуто ✓");msg("ok","Рукавички надягнуто — медик у кутку фото тепер у рукавичках.")}else say($("#gdStage"),32,68,"Вже надягнуто")}
+    else if(Math.hypot(x-69,y-77)<10){if(!st.go){st.go=1;say($("#gdStage"),69,68,"Окуляри надягнуто ✓");msg("ok","Захисні окуляри надягнуто — дивіться на медика в кутку фото.")}else say($("#gdStage"),69,68,"Вже надягнуто")}
+    else if(Math.hypot(x-50,y-45)<8)say($("#gdStage"),50,30,"Циліндр 250 мл — шкала під фото");
+    else if(Math.hypot(x-77,y-55)<16)say($("#gdStage"),77,40,"Ємність 10 л — шкала під фото");
+    draw()}
   function labelStep(){const F=[["Назва засобу",1],["Концентрація розчину",1],["Дата і час приготування",1],["Строк придатності розчину",1],["Хто приготував",1],["Кількість хворих у пункті",0],["Група крові",0],["Номер кімнати",0]].sort(()=>Math.random()-.5);
     $("#gdStep2").innerHTML=`<div class="gm-card"><h4>Етикетка на ємність</h4><p class="small muted">Оберіть, що обов’язково пишуть на етикетці робочого розчину.</p><div class="gd-chips" id="gdChips">${F.map(f=>`<button data-ok="${f[1]}">${f[0]}</button>`).join("")}</div><button class="btn primary" id="gdLb">Наклеїти етикетку</button></div>`;
     $("#gdChips").onclick=e=>{const b=e.target.closest("button");if(b)b.classList.toggle("sel")};
     $("#gdLb").onclick=()=>{const s=[...root.querySelectorAll("#gdChips button")];const bad=s.filter(b=>b.classList.contains("sel")!==(b.dataset.ok==="1"));
       if(bad.length){err("Етикетка неповна або з зайвим: "+bad.map(b=>(b.dataset.ok==="1"?"бракує «":"зайве «")+b.textContent+"»").join(", ")+".");return}
-      st.label=1;msg("ok",`Ємність промарковано: ${f1(C2)} % розчин, дата, час, строк, хто приготував. Тепер обробіть стіл.`);acts();surface()}}
+      st.label=1;draw();msg("ok",`Ємність промарковано: ${f1(C2)} % розчин, дата, час, строк, хто приготував. Тепер обробіть стіл.`);acts();surface()}}
   /* ----- surface ----- */
   function surface(){
     $("#gdStep2").innerHTML=`<div class="gm-card"><h4>Обробка столу в їдальні</h4><p class="small muted">Оберіть інструмент і ведіть пальцем по столу. Потім витримайте експозицію.</p>
@@ -1692,70 +1774,95 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
       done[f]=1;b.disabled=true;b.classList.add("sel");
       if(f==="rinse"){wx.clearRect(0,0,W,H);upd()}
       if(["rinse","air","doff","log"].every(k=>done[k]))finish()};
-    function finish(){const g=mist===0?2:mist<=2?1:0;$("#gdStep2").insertAdjacentHTML("beforeend",`<div class="gm-result ${g?"":"fail"}"><h3>${g===2?"Бездоганно":g?"Виконано з помилками":"Виконано, але з багатьма помилками"}</h3><p>Помилок: ${mist}. Розчин ${f1(C2)} % (${V1} мл концентрату до ${V2} л), стіл очищено, оброблено, експозицію витримано.</p><p class="small muted">Порядок: інструкція → ЗІЗ → розрахунок → відмірювання → довести водою до кінцевого об’єму → маркування → очищення → нанесення від чистого до брудного → експозиція → змивання (поверхні для їжі) → провітрювання → зняття ЗІЗ, гігієна рук → запис.</p><button class="btn primary" id="gdAgain">Ще раз</button></div>`);$("#gdAgain").onclick=()=>{reset();root.scrollIntoView()};window.__gameDone&&window.__gameDone("dis",g)}
+    function finish(){st.surf=1;draw();const g=mist===0?2:mist<=2?1:0;$("#gdStep2").insertAdjacentHTML("beforeend",`<div class="gm-result ${g?"":"fail"}"><h3>${g===2?"Бездоганно":g?"Виконано з помилками":"Виконано, але з багатьма помилками"}</h3><p>Помилок: ${mist}. Розчин ${f1(C2)} % (${V1} мл концентрату до ${V2} л), стіл очищено, оброблено, експозицію витримано.</p><p class="small muted">Порядок: інструкція → ЗІЗ → розрахунок → відмірювання → довести водою до кінцевого об’єму → маркування → очищення → нанесення від чистого до брудного → експозиція → змивання (поверхні для їжі) → провітрювання → зняття ЗІЗ, гігієна рук → запис.</p><button class="btn primary" id="gdAgain">Ще раз</button></div>`);$("#gdAgain").onclick=()=>{reset();root.scrollIntoView()};window.__gameDone&&window.__gameDone("dis",g)}
   }
   reset();
 })();
-/* ---------- game: PPE donning / doffing ---------- */
+/* ---------- game: PPE donning / doffing v2 ---------- */
 (function(){
   const root=document.getElementById("gPpe");if(!root)return;
   const $=s=>root.querySelector(s);
-  let S,mist,ph,failed,dq;
+  let S,mist,ph,failed,dq,dirtyHands;
   const pos=i=>`${(i%3)*50}% ${Math.floor(i/3)*50}%`;
-  function pic(i,stamp,ok){$("#gpPhoto").style.backgroundPosition=pos(i);$("#gpPhoto").classList.remove("flash");void root.offsetWidth;$("#gpPhoto").classList.add("flash");
+  function pic(c,stamp,ok){const [sp,i]=c;const el=$("#gpPhoto");el.style.backgroundImage=`url(img/${sp==="B"?"g10-ppe2":"g10-ppe"}.webp)`;el.style.backgroundPosition=pos(i);el.classList.remove("flash");void el.offsetWidth;el.classList.add("flash");
     const s=$("#gpStamp");if(stamp){s.hidden=false;s.textContent=stamp;s.className="gp-stamp"+(ok?" ok":"")}else s.hidden=true}
-  function img(){if(ph==="work"||ph==="doff")return 7;if(!S.gown)return 0;if(!S.resp)return 1;if(S.resp==="mask")return 5;if(!S.gog)return 2;if(!S.glv)return 2;return 4}
+  function cur(){if(ph==="work")return["A",7];
+    if(ph==="doff"){if(dirtyHands)return["B",7];if(S.gown)return["A",7];if(S.resp)return["B",5];return["A",0]}
+    if(!S.jw&&!S.gown&&!S.glv&&!S.gog&&!S.resp)return["B",8];
+    if(!S.gown){if(S.resp)return["B",5];if(S.glv)return["B",S.gog?2:0];if(S.gog)return["B",1];return["A",0]}
+    if(S.glvUnder)return["B",3];
+    if(S.resp==="mask")return["A",5];
+    if(!S.resp)return S.gog?["B",4]:["A",1];
+    if(!S.gog)return["A",2];if(!S.glv)return["A",3];return["A",4]}
   function msg(c,h){$("#gpMsg").innerHTML=h?`<div class="gm-msg ${c}">${h}</div>`:""}
-  function err(h){mist++;$("#gpMist").textContent="Помилок: "+mist;$("#gpMist").className="pill "+(mist>2?"bad":"warn");msg("no",h);$("#gpPhoto").classList.add("shake");setTimeout(()=>$("#gpPhoto").classList.remove("shake"),400)}
-  function fail(i,stamp,h){failed=true;pic(i,stamp);$("#gpActs").innerHTML="";msg("","");
+  function err(h){mist++;$("#gpMist").textContent="Помилок: "+mist;$("#gpMist").className="pill "+(mist>2?"bad":"warn");msg("no","✗ "+h);$("#gpPhoto").classList.add("shake");setTimeout(()=>$("#gpPhoto").classList.remove("shake"),400)}
+  function fail(c,stamp,h){failed=true;pic(c,stamp);$("#gpActs").innerHTML="";msg("","");
     $("#gpOut").innerHTML=`<div class="gm-result fail"><h3>Невдача</h3><p>${h}</p><button class="btn primary" id="gpAgain">Почати заново</button></div>`;$("#gpAgain").onclick=reset;$("#gpOut").scrollIntoView({behavior:"smooth",block:"center"});window.__gameDone&&window.__gameDone("ppe",-1)}
-  function on(){const L=[];if(S.jw)L.push(["Прикраси зняті",""]);if(S.gown)L.push(["Халат",ph==="doff"&&!S.offGown?"dirty":""]);if(S.resp)L.push([S.resp==="mask"?"Медична маска":"Респіратор FFP2"+(S.seal?" ✓":""),S.resp==="mask"?"bad":ph==="doff"?"dirty":""]);if(S.gog)L.push(["Окуляри",ph==="doff"?"dirty":""]);if(S.glv)L.push(["Рукавички",ph==="doff"?"dirty":""]);
-    $("#gpOn").innerHTML=L.length?L.map(x=>`<li class="${x[1]}">${x[0]}</li>`).join(""):"<li>нічого</li>"}
-  function reset(){S={hy:0,jw:0,gown:0,resp:null,seal:0,gog:0,glv:0};mist=0;ph="don";failed=false;dq=[];$("#gpOut").innerHTML="";$("#gpMist").textContent="Помилок: 0";$("#gpMist").className="pill";$("#gpPhase").textContent="Надягання";
-    pic(0);msg("","Підготуйтеся до огляду. Обирайте дії в тому порядку, як робили б насправді.");don()}
-  const DON=[["jw","Зняти годинник і каблучку"],["hy","Гігієна рук"],["gown","Надягнути халат"],["ffp","Надягнути респіратор FFP2"],["mask","Надягнути медичну маску"],["seal","Перевірити прилягання респіратора"],["gog","Надягнути окуляри"],["glv","Надягнути рукавички"],["enter","Зайти до пацієнта"]];
-  function don(){$("#gpActs").innerHTML=DON.filter(([k])=>!(k==="mask"&&S.resp)&&!(k==="ffp"&&S.resp==="ffp")).map(([k,t])=>`<button data-k="${k}">${k==="mask"&&false?"":t}</button>`).join("")+(S.resp==="mask"?`<button data-k="unmask">Зняти маску</button>`:"");on();pic(img())}
+  function on(){const L=[];if(!S.jw)L.push(["Годинник і каблучка","bad"]);if(S.gown)L.push(["Халат",ph==="doff"?"dirty":""]);if(S.resp)L.push([S.resp==="mask"?"Медична маска":"Респіратор FFP2"+(S.seal?" ✓":""),S.resp==="mask"?"bad":ph==="doff"?"dirty":""]);if(S.gog)L.push(["Окуляри",ph==="doff"?"dirty":""]);if(S.glv)L.push([S.glvUnder&&S.gown?"Рукавички під манжетами":"Рукавички",S.glvUnder&&S.gown?"bad":ph==="doff"?"dirty":""]);
+    $("#gpOn").innerHTML=L.length?L.map(x=>`<li class="${x[1]}">${x[0]}</li>`).join(""):"<li>лише медична форма</li>"}
+  function reset(){S={hy:0,jw:0,gown:0,resp:null,seal:0,gog:0,glv:0,glvUnder:0};mist=0;ph="don";failed=false;dq=[];dirtyHands=0;$("#gpOut").innerHTML="";$("#gpMist").textContent="Помилок: 0";$("#gpMist").className="pill";$("#gpPhase").textContent="Етап 1: надягання";
+    msg("","Ви в медичній формі, на руці годинник і каблучка. Обирайте дії по черзі — медик на фото змінюватиметься.");don()}
+  function don(){const A=[];
+    if(!S.jw)A.push(["jw","Зняти годинник і каблучку"]);
+    if(!S.hy)A.push(["hy","Гігієна рук"]);
+    if(!S.gown)A.push(["gown","Надягнути халат"]);
+    if(!S.resp){A.push(["ffp","Надягнути респіратор FFP2"]);A.push(["mask","Надягнути медичну маску"])}
+    if(S.resp==="ffp"&&!S.seal)A.push(["seal","Перевірити прилягання респіратора"]);
+    if(!S.gog)A.push(["gog","Надягнути окуляри"]);
+    if(!S.glv)A.push(["glv","Надягнути рукавички"]);
+    const U=[];if(S.resp)U.push(["x_resp",S.resp==="mask"?"Зняти маску":"Зняти респіратор"]);if(S.gog)U.push(["x_gog","Зняти окуляри"]);if(S.glv)U.push(["x_glv","Зняти рукавички"]);if(S.gown)U.push(["x_gown","Зняти халат"]);
+    $("#gpActs").innerHTML=A.map(([k,t])=>`<button data-k="${k}">${t}</button>`).join("")+`<button data-k="enter" class="gp-enter">Зайти до пацієнта →</button>`+(U.length?`<div class="gp-undo">${U.map(([k,t])=>`<button data-k="${k}">${t}</button>`).join("")}</div>`:"");
+    on();pic(cur())}
   $("#gpActs").onclick=e=>{const b=e.target.closest("button");if(!b||failed)return;const k=b.dataset.k;
     if(ph==="don")doDon(k);else if(ph==="work")doWork(k);else if(ph==="doff")doDoff(k)};
-  function doDon(k){
-    if(k==="jw"){if(S.hy){err("Прикраси знімають ДО гігієни рук: під каблучкою й годинником лишилися мікроорганізми. Гігієну рук доведеться повторити.");S.hy=0}S.jw=1;msg("ok","Годинник і каблучку знято: під ними не обробити руки, вони рвуть рукавички.")}
-    else if(k==="hy"){if(S.glv){err("Гігієну рук роблять до рукавичок.");return}S.hy=1;msg("ok","Гігієна рук: антисептик 20–30 с на всі поверхні кистей.")}
-    else if(k==="gown"){if(!S.hy){err("Спочатку гігієна рук — ви торкатиметеся чистих ЗІЗ.");return}if(S.glv){err("Халат після рукавичок — манжети опиняться поверх рукавичок.");return}S.gown=1;msg("ok","Халат надягнуто й зав’язано ззаду.")}
-    else if(k==="ffp"||k==="mask"){if(!S.gown){err("Порядок: халат → респіратор → окуляри → рукавички.");return}S.resp=k==="ffp"?"ffp":"mask";S.seal=0;
-      msg(k==="ffp"?"ok":"warn",k==="ffp"?"Респіратор FFP2 надягнуто: носовий затискач обтиснуто по переніссю.":"Медичну маску надягнуто.")}
-    else if(k==="unmask"){S.resp=null;err("Добре, що помітили: при можливій аерогенній передачі медична маска не захищає того, хто її носить. Потрібен респіратор FFP2 і вище.")}
-    else if(k==="seal"){if(S.resp!=="ffp"){err(S.resp==="mask"?"Медична маска не прилягає щільно — перевірку прилягання роблять для респіратора.":"Спочатку надягніть респіратор.");return}S.seal=1;msg("ok","Перевірка прилягання: різкий видих — повітря не виходить по краях. Щільно.")}
-    else if(k==="gog"){if(!S.resp){err("Окуляри — після респіратора, інакше його не одягнути й не обтиснути правильно.");return}S.gog=1;msg("ok","Окуляри надягнуто.")}
-    else if(k==="glv"){if(!S.gown){err("Рукавички натягують поверх манжет халата — спершу халат.");return}if(!S.gog||!S.resp){err("Рукавички — останніми. Інакше поправлятимете обличчя руками в рукавичках.");return}S.glv=1;msg("ok","Рукавички натягнуто поверх манжет халата.")}
-    else if(k==="enter"){enter();return}
-    don()}
+  function doDon(k){const any=S.gown||S.glv||S.gog||S.resp;
+    if(k.startsWith("x_")){const it=k.slice(2);if(it==="glv"){S.glv=0;S.glvUnder=0}else if(it==="resp"){S.resp=null;S.seal=0}else S[it]=0;msg("","Знято. Продовжуйте.");don();return}
+    if(k==="jw"){S.jw=1;if(S.hy){S.hy=0;err("Прикраси знімають ДО гігієни рук: під каблучкою й годинником лишилися мікроорганізми. Гігієну рук треба повторити.")}else if(S.glv){err("Годинник під рукавичкою — рукавички довелося б знімати. Прикраси знімають першими.")}else msg("ok","✓ Годинник і каблучку знято: під ними не обробити руки, а каблучка рве рукавичку.");don();return}
+    if(k==="hy"){if(S.glv){err("Гігієну рук роблять до рукавичок, а не поверх них.");return}S.hy=1;msg(S.jw?"ok":"warn",S.jw?"✓ Гігієна рук: антисептик 20–30 с на всі поверхні кистей.":"Гігієну рук виконано, але на руці ще годинник і каблучка — під ними руки не оброблено.");don();return}
+    if(!S.hy&&!any)err("Ви берете чисті ЗІЗ необробленими руками — спочатку гігієна рук.");
+    if(k==="gown"){S.gown=1;if(S.glv){S.glvUnder=1;err("Халат надягнуто ПОВЕРХ рукавичок: манжети закривають рукавички, а при русі між ними відкривається шкіра зап’ястя. Рукавички мають бути поверх манжет — зніміть рукавички й надягніть знову.")}
+      else if(S.resp)err("Халат після респіратора: зав’язуючи й поправляючи халат, ви зачіпаєте респіратор. Порядок: халат → респіратор.");else if(S.hy)msg("ok","✓ Халат надягнуто й зав’язано ззаду.");don();return}
+    if(k==="ffp"||k==="mask"){S.resp=k;S.seal=0;
+      if(k==="mask")err("Медична маска захищає пацієнта від вас, але не вас від аерозолю. При гарячці, кашлі й невідомому діагнозі потрібен респіратор FFP2 і вище.");
+      else if(!S.gown)err("Респіратор раніше за халат. Порядок: халат → респіратор → окуляри → рукавички.");
+      else if(S.gog)err("Окуляри вже на обличчі — респіратор правильно не обтиснути. Спочатку респіратор, потім окуляри.");
+      else msg("ok","✓ Респіратор FFP2 надягнуто: носовий затискач обтиснуто по переніссю. Перевірте прилягання.");don();return}
+    if(k==="seal"){S.seal=1;msg("ok","✓ Різкий видих — повітря не виходить по краях. Прилягання щільне.");don();return}
+    if(k==="gog"){S.gog=1;if(!S.resp)err("Окуляри раніше за респіратор — потім респіратор не одягнути й не обтиснути, не зачепивши окулярів.");else msg("ok","✓ Окуляри надягнуто.");don();return}
+    if(k==="glv"){S.glv=1;if(!S.gown){S.glvUnder=1;err("Рукавички раніше за халат: халат потім ляже поверх рукавичок. Рукавички — останніми, поверх манжет.")}else if(!S.gog||!S.resp)err("Рукавички раніше за обличчя: тепер, поправляючи респіратор чи окуляри, ви торкаєтеся обличчя руками в рукавичках. Рукавички — останніми.");else msg("ok","✓ Рукавички натягнуто поверх манжет халата.");don();return}
+    if(k==="enter")enter()}
   function enter(){
-    if(S.resp==="mask")return fail(5,"Медична маска замість респіратора","Ви оглядали пацієнта з можливою аерогенною інфекцією в медичній масці. Через 3 доби — гарячка й кашель: ви заразилися, а колеги, які з вами контактували, — на самоізоляції. При респіраторних симптомах і невідомому шляху передачі — респіратор FFP2 і вище.");
-    if(!S.resp)return fail(1,"Без захисту органів дихання","Пацієнт кашляв на відстані витягнутої руки. Без респіратора ви вдихали аерозоль — через 3 доби у вас гарячка.");
-    if(!S.seal)return fail(6,"Респіратор не прилягав","Ви не перевірили прилягання: під час огляду респіратор сповз, повітря проходило в щілини біля носа. Через 4 доби — гарячка. Перевірку прилягання роблять щоразу.");
-    if(!S.gog)return fail(2,"Без захисту очей","Пацієнт закашлявся вам в обличчя — бризки мокроти потрапили на кон’юнктиву. Слизова оболонка ока — вхідні ворота інфекції.");
-    if(!S.glv||!S.gown)return fail(img(),"Не повний комплект","Без "+(!S.gown?"халата":"рукавичок")+" мокрота пацієнта потрапила на "+(!S.gown?"ваш одяг":"шкіру рук")+". Ви винесли збудника з палати.");
-    if(!S.jw)err("Каблучку не зняли — під час огляду рукавичка порвалася на пальці. Комплект витримав, але це ризик.");
-    ph="work";$("#gpPhase").textContent="Огляд пацієнта";pic(7,"Пацієнт: «Кхе-кхе!.. Вибачте, не можу зупинитися»");on();
+    if(!S.resp)return fail(S.gown?["A",1]:["A",0],"Без захисту органів дихання","Пацієнт кашляв на відстані витягнутої руки. Ви вдихали аерозоль — через 3 доби у вас гарячка.");
+    if(S.resp==="mask")return fail(["A",5],"Медична маска замість респіратора","Ви оглядали пацієнта з можливою повітряно-крапельною інфекцією в медичній масці. Через 3 доби — гарячка й кашель: ви заразилися, колеги, що з вами контактували, — на самоізоляції.");
+    if(!S.seal)return fail(["A",6],"Респіратор не прилягав","Ви не перевірили прилягання: під час огляду респіратор сповз, повітря йшло в щілини біля носа. Через 4 доби — гарячка. Перевірку прилягання роблять щоразу.");
+    if(!S.gog)return fail(["A",2],"Без захисту очей","Пацієнт закашлявся вам в обличчя — бризки мокроти потрапили на кон’юнктиву. Слизова оболонка ока — вхідні ворота інфекції.");
+    if(!S.gown)return fail(["B",S.glv?2:5],"Без халата","Мокрота пацієнта потрапила на вашу медичну форму. У ній ви пішли до інших пацієнтів — і рознесли збудника.");
+    if(!S.glv)return fail(["B",4],"Без рукавичок","Ви торкалися пацієнта і його речей голими руками — збудник на шкірі рук.");
+    if(S.glvUnder)return fail(["B",3],"Рукавички під манжетами","Під час огляду манжета поїхала вгору — мокрота потрапила на шкіру зап’ястя.");
+    if(!S.jw)err("Каблучку не зняли — під час огляду рукавичка порвалася на пальці. Цього разу пощастило.");
+    ph="work";$("#gpPhase").textContent="Етап 2: огляд пацієнта";pic(cur(),"Пацієнт: «Кхе-кхе!.. Вибачте, не можу зупинитися»");on();
     msg("warn","Ви оглянули пацієнта: він кашляв, мокрота потрапила на рукавички й халат. Окуляри запітніли, респіратор тисне на перенісся. Що робите?");
     $("#gpActs").innerHTML=[["fix","Поправити респіратор рукою в рукавичці"],["goff","Зняти окуляри, щоб краще бачити"],["ok","Не торкатися обличчя, завершити огляд і вийти"]].sort(()=>Math.random()-.5).map(([k,t])=>`<button data-k="${k}">${t}</button>`).join("")}
   function doWork(k){
-    if(k==="fix")return fail(8,"Дотик брудною рукавичкою до обличчя","Ви поправили респіратор рукавичкою з мокротою пацієнта — збудник на обличчі й біля носа. Самозараження. Під час роботи обличчя не торкаються; якщо ЗІЗ треба поправити — виходять і змінюють їх за правилами.");
-    if(k==="goff")return fail(7,"Очі без захисту","Пацієнт закашлявся саме тоді, коли ви зняли окуляри. Бризки на кон’юнктиві.");
-    ph="doff";$("#gpPhase").textContent="Знімання";msg("ok","Правильно. Огляд завершено, ви вийшли в зону знімання ЗІЗ. Усе, що зовні на вас, — забруднене. Знімайте в правильному порядку.");doffUI()}
-  const DOFF=[["glv","Зняти рукавички, не торкаючись шкіри"],["hy","Гігієна рук"],["gog","Зняти окуляри за дужки"],["gown","Зняти халат, вивертаючи"],["resp","Зняти респіратор за резинки"],["respF","Зняти респіратор, взявшись спереду"],["bin","Скинути ЗІЗ у контейнер медичних відходів"]];
+    if(k==="fix")return fail(["A",8],"Дотик брудною рукавичкою до обличчя","Ви поправили респіратор рукавичкою з мокротою пацієнта — збудник на обличчі біля носа. Самозараження. Під час роботи обличчя не торкаються; якщо ЗІЗ треба поправити — виходять і змінюють їх за правилами.");
+    if(k==="goff")return fail(["A",7],"Очі без захисту","Пацієнт закашлявся саме тоді, коли ви зняли окуляри. Бризки на кон’юнктиві.");
+    ph="doff";$("#gpPhase").textContent="Етап 3: знімання";pic(cur());msg("ok","✓ Огляд завершено, ви вийшли в зону знімання ЗІЗ. Усе зовні на вас — забруднене. Знімайте так, щоб не забруднити себе.");doffUI()}
+  const DOFF=[["glv","Зняти рукавички, вивертаючи, не торкаючись шкіри"],["glvBad","Стягнути рукавички пальцями за край"],["hy","Гігієна рук"],["gog","Зняти окуляри за дужки"],["gown","Зняти халат, вивертаючи брудним усередину"],["gownHead","Стягнути халат через голову"],["resp","Зняти респіратор за резинки"],["respF","Зняти респіратор, взявшись спереду"],["bin","Скинути ЗІЗ у контейнер медичних відходів"]];
   const ORD=["glv","hy","gog","gown","resp","hy","bin"];
-  function doffUI(){$("#gpActs").innerHTML=DOFF.map(([k,t])=>`<button data-k="${k}">${t}</button>`).join("");on()}
+  function doffUI(){const done=new Set(dq);$("#gpActs").innerHTML=DOFF.filter(([k])=>{if(k==="hy")return true;if(k==="glvBad")return !done.has("glv");if(k==="gownHead")return !done.has("gown");if(k==="respF")return !done.has("resp");return !done.has(k)}).map(([k,t])=>`<button data-k="${k}">${t}</button>`).join("");on()}
   function doDoff(k){const need=ORD[dq.length];
-    if(k==="respF"){if(S.glv)return fail(8,"Брудні рукавички біля обличчя","Ви взялися за передню частину респіратора в забруднених рукавичках — збудник на обличчі.");err("Передня частина респіратора забруднена. Знімають лише за резинки, не торкаючись передньої частини. Тепер на руках збудник — гігієна рук.");k="resp"}
-    if((k==="gog"||k==="resp")&&S.glv)return fail(8,"Брудні рукавички біля обличчя","Ви знімали "+(k==="gog"?"окуляри":"респіратор")+" ще в забруднених рукавичках — руки біля очей і носа. Самозараження. Рукавички знімають першими.");
+    if(k==="gownHead")return fail(["B",6],"Халат через голову","Брудна передня частина халата пройшлася по обличчю й респіратору. Халат знімають, розв’язавши, від плечей уперед, вивертаючи брудною стороною всередину.");
+    if(k==="glvBad"){if(dq.includes("glv"))return;dirtyHands=1;dq.push("glv");S.glv=0;pic(cur(),"Руки забруднено");err("Стягуючи рукавички пальцями, ви торкнулися брудної зовнішньої поверхні — на шкірі мокрота. Негайно гігієна рук. Правильно: першу рукавичку знімають за зовнішній край, вивертаючи; другу — пальцем зсередини.");doffUI();return}
+    if(k==="respF"){if(S.glv)return fail(["A",8],"Брудні рукавички біля обличчя","Ви взялися за передню частину респіратора в забруднених рукавичках — збудник на обличчі.");dirtyHands=1;pic(cur(),"Руки забруднено");err("Передня частина респіратора забруднена. Знімають лише за резинки. Тепер на руках збудник — гігієна рук.");k="resp"}
+    if((k==="gog"||k==="resp")&&S.glv)return fail(["A",8],"Брудні рукавички біля обличчя","Ви знімали "+(k==="gog"?"окуляри":"респіратор")+" ще в забруднених рукавичках — руки біля очей і носа. Самозараження. Рукавички знімають першими.");
+    if(k==="hy"){if(dirtyHands){dirtyHands=0;msg("ok","✓ Гігієна рук — руки знову чисті.");}if(need==="hy"){dq.push("hy");if(!dirtyHands)msg("ok","✓ Гігієна рук.")}else if(dq[dq.length-1]!=="hy")msg("ok","✓ Додаткова гігієна рук між етапами — правильно.");pic(cur());check();doffUI();return}
+    if(dirtyHands&&k!=="bin"){err("Руки брудні — спершу гігієна рук, інакше ви забрудните все, до чого торкнетеся.");return}
     if(k!==need){if(k==="bin"){err("Спершу зніміть усе — потім у контейнер.");return}
-      if(k==="hy"){if(dq[dq.length-1]==="hy"){msg("","Гігієну рук уже виконано.");return}msg("ok","Гігієна рук між етапами — правильно.");return}
-      err(need==="hy"?"Після зняття рукавичок — одразу гігієна рук: рукавички не дають повного захисту.":`Порушено порядок. Наступним — «${DOFF.find(x=>x[0]===need)[1]}».`);return}
-    dq.push(k);if(k==="glv")S.glv=0;if(k==="gog")S.gog=0;if(k==="gown"){S.gown=0;S.offGown=1}if(k==="resp")S.resp=null;
-    const T={glv:"Рукавички знято: друга знімається, вивертаючи всередину першу.",hy:"Гігієна рук.",gog:"Окуляри знято за дужки, не торкаючись лінз.",gown:"Халат знято, вивертаючи брудною стороною всередину.",resp:"Респіратор знято за резинки — останнім, бо захищає дихання до кінця.",bin:"Усе одноразове — в контейнер медичних відходів."};msg("ok",T[k]);on();
-    if(dq.length===ORD.length){ph="done";pic(0,"Знято безпечно",true);$("#gpActs").innerHTML="";const g=mist===0?2:mist<=2?1:0;
-      $("#gpOut").innerHTML=`<div class="gm-result ${g?"":"fail"}"><h3>${g===2?"Бездоганно":g?"Виконано з помилками":"Виконано, але з багатьма помилками"}</h3><p>Помилок: ${mist}.</p><p class="small muted">Надягання: прикраси → гігієна рук → халат → респіратор + перевірка прилягання → окуляри → рукавички поверх манжет. Знімання: рукавички → гігієна рук → окуляри → халат → респіратор за резинки → гігієна рук → відходи.</p><button class="btn primary" id="gpAgain">Ще раз</button></div>`;$("#gpAgain").onclick=()=>{reset();root.scrollIntoView()};window.__gameDone&&window.__gameDone("ppe",g)}}
+      err(need==="hy"?"Після зняття рукавичок — одразу гігієна рук: рукавички не дають повного захисту.":`Порушено порядок. Наступним має бути «${DOFF.find(x=>x[0]===need)[1]}».`);return}
+    dq.push(k);if(k==="glv")S.glv=0;if(k==="gog")S.gog=0;if(k==="gown")S.gown=0;if(k==="resp")S.resp=null;
+    const T={glv:"✓ Рукавички знято: першу — за зовнішній край, вивертаючи; другу — пальцем зсередини.",gog:"✓ Окуляри знято за дужки, не торкаючись лінз.",gown:"✓ Халат знято, брудною стороною всередину.",resp:"✓ Респіратор знято за резинки — останнім, бо захищав дихання до кінця.",bin:"✓ Усе одноразове — в контейнер медичних відходів."};msg("ok",T[k]);pic(cur());check();doffUI()}
+  function check(){if(dq.length<ORD.length)return;ph="done";pic(["A",0],"Знято безпечно",true);$("#gpActs").innerHTML="";const g=mist===0?2:mist<=2?1:0;
+    $("#gpOut").innerHTML=`<div class="gm-result ${g?"":"fail"}"><h3>${g===2?"Бездоганно":g?"Виконано з помилками":"Виконано, але з багатьма помилками"}</h3><p>Помилок: ${mist}.</p><p class="small muted">Надягання: прикраси → гігієна рук → халат → респіратор + перевірка прилягання → окуляри → рукавички поверх манжет. Знімання: рукавички → гігієна рук → окуляри → халат → респіратор за резинки → гігієна рук → відходи.</p><button class="btn primary" id="gpAgain">Ще раз</button></div>`;$("#gpAgain").onclick=()=>{reset();root.scrollIntoView()};window.__gameDone&&window.__gameDone("ppe",g)}
   reset();
 })();
 /* ---------- game: casualty card, priority, routing, MIST ---------- */
@@ -1778,14 +1885,15 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
   function msg(c,h){$("#geMsg").innerHTML=h?`<div class="gm-msg ${c}">${h}</div>`:""}
   function err(h,m){mist++;msg("no",h);pass(m||3);moan();$("#geStage").classList.add("shake");setTimeout(()=>$("#geStage").classList.remove("shake"),400)}
   function fail(h){failed=true;$("#gePanel").innerHTML=`<div class="gm-result fail"><h3>Невдача</h3><p>${h}</p><button class="btn primary" id="geAgain">Почати заново</button></div>`;$("#geAgain").onclick=reset;msg("","");$("#gePanel").scrollIntoView({behavior:"smooth",block:"center"});window.__gameDone&&window.__gameDone("evac",-1)}
-  function reset(){V={};tmin=0;seen={};mist=0;ph=0;failed=false;card={};coord=false;pass(0);$("#geMarks").innerHTML="";msg("","Почніть з повторного огляду: торкніться обличчя, грудей, манжети тонометра, пульсоксиметра на пальці, турнікета і пов’язки.");
+  function reset(){V={};tmin=0;seen={};mist=0;ph=0;failed=false;card={};coord=false;pass(0);pins();msg("","Почніть з повторного огляду: торкніться обличчя, грудей, манжети тонометра, пульсоксиметра на пальці, турнікета і пов’язки.");
     $("#gePanel").innerHTML=`<button class="btn primary" id="geToCard">Огляд завершено — заповнити картку</button>`;$("#geToCard").onclick=toCard}
-  $("#geStage").addEventListener("click",e=>{if(failed||ph>1)return;const r=$("#geStage").getBoundingClientRect(),x=(e.clientX-r.left)/r.width*100,y=(e.clientY-r.top)/r.height*100;
-    const h=HS.filter(h=>Math.hypot(h.x-x,h.y-y)<=h.r).sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y))[0];
-    if(Math.hypot(x-80,y-5)<9){radio();return}
-    if(!h){msg("","Тут нічого важливого. Оглядайте постраждалого і прилади.");return}
-    if(!seen[h.k]){seen[h.k]=1;$("#geMarks").insertAdjacentHTML("beforeend",`<span class="gm-mark n" style="left:${h.x}%;top:${h.y}%">✓</span>`)}
-    pass(1);msg("",`<b>${h.t}.</b> ${h.f()}`);if(h.k==="face")say($("#geStage"),31,30,V.sbp>=90?"Я чую… нога болить":"Холодно… голова паморочиться",V.sbp<90);if(h.k==="tq")say($("#geStage"),52,55,"Ай! Тисне сильно!")});
+  const LBL={face:"Свідомість",chest:"Дихання",bp:"Тиск",ox:"Пульс, SpO₂",tq:"Турнікет",wound:"Пов’язка"};
+  const PIN={face:[24,23],chest:[62,37],bp:[13,46],ox:[41,53],tq:[62,62],wound:[76,76]};
+  function pins(){$("#geMarks").innerHTML=HS.map(h=>`<button class="ge-pin ${seen[h.k]?"seen":""}" data-k="${h.k}" style="left:${PIN[h.k][0]}%;top:${PIN[h.k][1]}%">${seen[h.k]?"✓ ":""}${LBL[h.k]}</button>`).join("")+`<button class="ge-pin radio ${coord?"seen":""}" data-k="radio" style="left:80%;top:9%">📻 Рація</button><span class="ge-tqlbl">14:20</span>`}
+  $("#geMarks").addEventListener("click",e=>{const b=e.target.closest(".ge-pin");if(!b||failed||ph>1)return;const k=b.dataset.k;
+    if(k==="radio"){radio();pins();return}
+    const h=HS.find(x=>x.k===k);seen[k]=1;pass(1);pins();msg("",`<b>${h.t}.</b> ${h.f()}`);
+    if(k==="face")say($("#geStage"),31,22,V.sbp>=90?"Я чую… нога болить":"Холодно… голова паморочиться",V.sbp<90);if(k==="tq")say($("#geStage"),52,56,"Ай! Тисне сильно!")});
   function radio(){if(coord){msg("","Координатор уже на зв’язку.");return}coord=true;pass(2);
     msg("ok","<b>Координатор:</b> «ЦРЛ переповнена — 12 постраждалих, судинного хірурга немає. Обласна лікарня приймає: вільна операційна, судинна хірургія, їхати 25 хв. Інфекційно хворого — окремою машиною в інфекційну лікарню, машину направляю».")}
   function toCard(){const need=["face","bp","ox","tq"].filter(k=>!seen[k]);
@@ -1795,23 +1903,28 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
     $("#gePanel").innerHTML=`<div class="ge-card"><h4>ПЕРВИННА МЕДИЧНА КАРТКА (Ф. 002/о) · навчальна модель</h4>
       <div class="ge-row"><span>Механізм</span>${seg("mech",["Вибухова травма","Падіння з висоти","ДТП"])}</div>
       <div class="ge-row"><span>Локалізація ушкодження</span>${seg("loc",["Праве стегно","Ліве стегно","Права гомілка"])}</div>
-      <div class="ge-row"><span>Турнікет — час накладання</span>${seg("tq",["14:10","14:20","14:35","Не вказувати"])}</div>
+      <div class="ge-row"><span>Турнікет — час накладання (написаний маркером на турнікеті)</span>${seg("tq",["14:10","14:20","14:35","Не вказувати"])}</div>
       <div class="ge-row"><span>Показники (з часом)</span><div class="small">${clock()}: АТ ${V.sbp}/${Math.round(V.sbp*.62)}, ЧСС ${V.hr}, ЧД ${V.rr}, SpO₂ ${V.spo}%, притомний</div></div>
       <div class="ge-row"><span>Евакуаційний пріоритет</span>${seg("pr",["I — терміново (до 1 год)","II — до 4 год","III — до 24 год"])}</div>
-      <div class="ge-row"><span>Заклад</span>${seg("dst",["ЦРЛ (10 хв)","Обласна лікарня (25 хв)","Інфекційна лікарня"])}</div>
+      <div class="ge-row"><span>Заклад</span><div id="geDst"></div></div>
       <div class="ge-row"><span>Хворий з гарячкою й кашлем</span>${seg("inf",["Взяти в цю машину","Окремо, з інфекційним контролем","Залишити як є"])}</div>
       <button class="btn primary" id="geSign">Підписати картку</button></div>`;
     root.querySelectorAll("#gePanel .gm-seg").forEach(s=>s.onclick=e=>{const b=e.target.closest("button");if(!b)return;card[s.dataset.f]=+b.dataset.i;s.querySelectorAll("button").forEach(x=>x.classList.toggle("sel",x===b))});
-    $("#geSign").onclick=sign}
+    dstUI();$("#geSign").onclick=sign}
+  function dstUI(){const el=$("#geDst");if(!el)return;
+    if(!coord){el.innerHTML=`<div class="small">Куди везти, узгоджують з координатором.</div><button class="btn" id="geCall">📻 Зв’язатися з координатором</button>`;$("#geCall").onclick=()=>{radio();pins();dstUI()};return}
+    const O=["ЦРЛ, 10 хв — 12 постраждалих, судинного хірурга немає","Обласна лікарня, 25 хв — судинна хірургія, вільна операційна","Інфекційна лікарня, 15 хв — профіль: інфекційні хвороби"];
+    el.innerHTML=`<div class="gm-seg ge-col" data-f="dst">${O.map((o,i)=>`<button data-i="${i}" class="${card.dst===i?"sel":""}">${o}</button>`).join("")}</div>`;
+    el.querySelector(".gm-seg").onclick=e=>{const b=e.target.closest("button");if(!b)return;card.dst=+b.dataset.i;el.querySelectorAll("button").forEach(x=>x.classList.toggle("sel",x===b))}}
   function sign(){if(failed)return;const miss=["mech","loc","tq","pr","dst","inf"].filter(k=>card[k]==null);if(miss.length){msg("warn","Заповніть усі поля картки.");return}
     if(card.inf===0){fail("Хворий з гарячкою й кашлем їхав разом із травмованим. Через 2 доби в обох — респіраторна інфекція; приймальне відділення обласної лікарні закрито на карантин. Інфекційно підозрілих транспортують окремо, з інфекційним контролем, у визначений заклад.");return}
     const E=[];
     if(card.mech!==0)E.push("механізм — вибухова травма");if(card.loc!==0)E.push("ушкодження — праве стегно");
-    if(card.tq!==1)E.push(card.tq===3?"час турнікета обов’язковий — від нього залежить рішення про кінцівку":"час турнікета — 14:20 (написано на турнікеті)");
+    if(card.tq!==1)E.push(card.tq===3?"час турнікета обов’язковий — від нього залежить рішення про кінцівку":"час накладання турнікета — 14:20, він написаний маркером на турнікеті (зараз — інший час)");
     if(card.pr!==0)E.push("турнікет — I пріоритет, евакуація до 1 год");
-    if(card.dst===0)E.push("ЦРЛ переповнена й без судинного хірурга: заклад обирають за профілем і спроможністю");
+    if(card.dst===0)E.push("у ЦРЛ немає судинного хірурга і вона переповнена — заклад обирають за профілем і спроможністю, а не за відстанню");
     if(card.dst===2)E.push("травмованого не везуть в інфекційну лікарню");
-    if(card.dst===1&&!coord)E.push("заклад не узгоджено з координатором (рація в руці медика на фото)");
+    
     if(card.inf===2)E.push("хворого з гарячкою не можна лишати без ізоляції");
     if(E.length){err("Картку не прийнято: "+E.join("; ")+".",3);return}
     ph=2;pass(2);msg("ok","Картку заповнено. Бригада готова прийняти постраждалого — передайте за схемою MIST.");mist_()}
@@ -1831,6 +1944,8 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
 (function(){const sel=document.getElementById("simSel");if(!sel)return;const IDS=["gInsp", "gCamp", "gDis", "gPpe", "simStart", "gEvac"];
 const show=id=>{sel.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.s===id));IDS.forEach(i=>document.getElementById(i).hidden=i!==id)};
 sel.onclick=e=>{const b=e.target.closest("button");if(b){show(b.dataset.s);window.scrollTo(0,0)}};window.__showGame=show;
+document.addEventListener("click",e=>{const b=e.target.closest(".gm-start,.gm-info");if(!b)return;const g=b.closest(".gm");if(!g)return;g.classList.toggle("gm-pre",b.classList.contains("gm-info"));window.scrollTo(0,0)});
+document.addEventListener("contextmenu",e=>{if(e.target.closest("#v-sim"))e.preventDefault()});
 const MAP={insp:"gInsp",camp:"gCamp",dis:"gDis",ppe:"gPpe",evac:"gEvac"};window.__gameDone=(g,r)=>{let s={};try{s=JSON.parse(localStorage.getItem("vg"+LESSON)||"{}")}catch(e){}const k=MAP[g],o=s[k]||{done:0,fails:0,best:-2};if(r<0)o.fails++;else{o.done++;o.best=Math.max(o.best,r)}s[k]=o;try{localStorage.setItem("vg"+LESSON,JSON.stringify(s))}catch(e){}if(window.__vhub)window.__vhub()}})();
 
 /* ---------- practice ---------- */

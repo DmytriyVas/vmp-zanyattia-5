@@ -276,7 +276,7 @@ body{margin:0}
 .sk-prog{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.sk-prog i{display:block;height:100%;background:var(--olive)}
 .vic{display:block;background-size:300% 300%;background-repeat:no-repeat;aspect-ratio:1;width:100%;border-radius:10px;background-color:#DADCD6}
 .vic.sm{width:44px;flex:none}
-.vic.big,.vthumb{width:100%;max-height:140px;aspect-ratio:16/9;object-fit:cover;border-radius:8px}
+.vic.big,.vthumb{width:100%;max-height:140px;aspect-ratio:16/9;object-fit:cover;object-position:50% 22%;border-radius:8px}
 .vic.big{background-size:300% 300%;aspect-ratio:16/9}
 .vopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 @media (max-width:520px){.vopts{grid-template-columns:1fr}.vopt{flex-direction:row!important;align-items:center}.vopt .vic{width:72px;flex:none}}
@@ -340,7 +340,7 @@ body{margin:0}
 .ring.on{animation:beat var(--hr,1s) linear infinite}
 .blanch{position:absolute;left:42.5%;top:15%;width:15.5%;height:17%;border-radius:40% 40% 30% 30%;background:#FBF6F1;opacity:0}
 .faceImg{transform:scale(2.3);transform-origin:50% 20%}
-@keyframes breathe{0%,100%{transform:scale(1,1)}45%{transform:scale(1.025,1.045)}}
+@keyframes breathe{0%,100%{transform:scale(1,1)}45%{transform:scale(1.05,1.08)}}
 @keyframes beat{0%,100%{transform:scale(.7);opacity:0}10%{transform:scale(1.1);opacity:.95}35%{transform:scale(1.5);opacity:0}}
 .timer{font:700 22px var(--f-mono);color:#B9F08C;position:absolute;top:8px;right:12px}
 .resp{text-shadow:0 1px 3px #000,0 0 8px #000;font-weight:600;position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#F4F7EF;font-size:14px;padding:0 10px}
@@ -371,6 +371,7 @@ body{margin:0}
   </div>
   <div class="chips" id="ptChips"></div>
   <div class="pt"><span class="tag" id="ptNo"></span><b id="ptText"></b></div>
+  <div id="walkNote" class="note" hidden><b>Постраждалий підійшов до вас сам</b>, розмовляє, дихає рівно, на ногах тримається. Подальші вимірювання за START для того, хто ходить, не проводять — оберіть категорію нижче.</div>
   <div class="simgrid">
     <div class="st"><h3>Дихання <small>15 с × 4</small></h3>
       <div class="stage">
@@ -829,6 +830,7 @@ const SPECIAL={"3": {"img": "img/s6-undressed.webp", "sub": "simDecon"}, "5": {"
   function show(i){cur=i;P=PTS[i];picked=tags[i]!=null;airwayOpened=false;clearInterval(brTimer);clearInterval(swTimer);chips();
     $("#ptNo").textContent=`Постраждалий № ${i+1} з ${N} · відсортовано ${tags.filter(x=>x!=null).length}`;
     $("#ptText").textContent=P.walk?"Після команди «Хто може ходити — йдіть до мене» підводиться і йде, кашляє, сльозяться очі.":"Лежить, на команду «Хто може ходити — йдіть до мене» не підвівся.";
+    {const g=document.querySelector("#simStart .simgrid");if(g)g.hidden=!!P.walk;const w=document.getElementById("walkNote");if(w)w.hidden=!P.walk;}
     setBreath();$("#brT").textContent="";$("#brResp").textContent=P.apnea?"Рухів грудної клітки не видно":"";$("#rrIn").value="";
     const ring=$("#pulseRing");if(P.pulse){ring.style.setProperty("--hr",(60/P.hr).toFixed(2)+"s");ring.classList.add("on")}else ring.classList.remove("on");
     $("#plResp").textContent="Пальці на променевій артерії";$("#crT").textContent="";$("#crResp").textContent="Натисніть і утримуйте, потім відпустіть";$("#nail").style.transition="none";$("#nail").style.opacity=0;
