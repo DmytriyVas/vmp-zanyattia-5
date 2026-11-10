@@ -521,7 +521,7 @@ function errList(){
 }
 /* ---------- send to teacher's register ---------- */
 const RETAKE_PIN="7531";
-const ENDPOINT="https://script.google.com/macros/s/AKfycbyUVNslEAKRWEeJv2gsUC-XO2ZFtdiiW3IAXZrbzykMjwzrweY2BhUHQR29YcEmW_jH/exec";
+const ENDPOINT="https://script.google.com/macros/s/AKfycbxzWnZyTOn50rCaQTg2ax-DwRlJK9tvHY4Nuan0Dcb9wEUInJDWhz9GcvUEgyZzUhKq/exec";
 function send(type){
   if(!ENDPOINT)return;
   const d={type,lesson:LESSON,attempt:"z"+LESSON+"-"+S.attempt+"|"+JSON.stringify(S.ans),blocks:"Заняття "+LESSON+(S.retake?" (перездача "+S.retake+")":""),name:S.name,group:S.group,variant:S.variant,answered:ITEMS.filter(answered).length,total:ITEMS.length,device:navigator.userAgent.slice(0,120)};
