@@ -182,6 +182,9 @@ label.chk input{margin-top:5px;accent-color:var(--olive)}
 @media (prefers-reduced-motion:reduce){.card .in{transition:none}}
 footer{border-top:1px solid var(--line);padding-block:20px 90px;font-size:13px;color:var(--muted)}
 .rp-topic{margin:4px 0 0;font:600 15px/1.35 var(--f-body);max-width:60ch}
+#simSel{display:none!important}
+.simback{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+button,a,.gm-stage,.gd-acts button{-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 body{margin:0}
 </style>
@@ -197,7 +200,6 @@ body{margin:0}
     <nav class="tabs" aria-label="Розділи">
       <a href="#control">Підсумковий контроль</a>
       <a href="#skills">Навички</a>
-      <a href="#sim">Симулятор</a>
       <a href="#practice">Тренування</a>
       <a href="#tools">Калькулятори</a>
     </nav>
@@ -315,6 +317,7 @@ body{margin:0}
 
 <!-- ================= SIM ================= -->
 <section class="view" id="v-sim" hidden>
+<div class="simback"><a class="btn" href="#skills">← Усі навички</a><span class="eyebrow">Практичні навички</span></div>
 <style>
 .dz{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:14px;align-items:start}
 @media (max-width:700px){.dz{grid-template-columns:1fr}}
@@ -487,7 +490,7 @@ const views=["control","skills","sim","practice","tools"].filter(v=>document.get
 function route(){
   let h=(location.hash||"").slice(1); if(!views.includes(h)) h="control";
   views.forEach(v=>{$("#v-"+v).hidden=v!==h});
-  document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.getAttribute("href")==="#"+h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  const nh=h==="sim"?"skills":h;document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.getAttribute("href")==="#"+nh)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   $("#bar").hidden=!(h==="control"&&S&&S.started&&!S.done);
 }
 window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0)});
