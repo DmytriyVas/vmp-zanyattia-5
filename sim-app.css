@@ -18,3 +18,184 @@ body.sim-app:has(#missions:not([hidden]) #game:not([hidden]) .drag-game) main.wr
 @media(max-width:740px) and (max-height:700px){.sim-app .drag-game .simulation-world.ppe-teaching-world{min-height:280px}.ppe-why p{font-size:9px}.sim-app .ppe-gear-dock .inventory-item{min-height:69px!important}}
 .sim-app .objective .ppe-fault-card{position:static;margin-top:14px;box-shadow:none;pointer-events:auto;padding:13px}.sim-app .objective .ppe-fault-card>b{font-size:12px}.sim-app .objective .ppe-fault-card p{font-size:10px}.sim-app .objective .ppe-fault-card>strong{font-size:10px}.ppe-sources{font-size:9px!important;line-height:1.7;color:#819299!important;margin-top:20px!important}.ppe-sources a{color:#087f80}@media(max-width:740px){.sim-app .objective:has(.ppe-fault-card) h2{font-size:13px}.sim-app .objective:has(.ppe-fault-card) .app-step-track{margin-bottom:7px}.sim-app .objective .ppe-fault-card{margin-top:8px;padding:10px}.sim-app .objective .ppe-fault-card p{font-size:9px;line-height:1.5}.sim-app .objective .ppe-fault-card>b{font-size:11px}.sim-app .objective .ppe-fault-card>strong{font-size:9px;padding:6px}.sim-app .objective .ppe-fault-card>small{font-size:7px}.sim-app .drag-game .ppe-teaching-world:has(.ppe-fix-pickup){min-height:285px!important;height:36svh!important}.sim-app .ppe-teaching-world .ppe-fix-pickup span{font-size:8px}}
 .app-course-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.app-course-card{display:block;border:1px solid #e3e9ec;border-radius:20px;background:white;color:#172d35;text-decoration:none;overflow:hidden;transition:transform .2s,box-shadow .2s}.app-course-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px #17494b0d}.app-course-photo{height:220px;background:#d9e4e3;position:relative;overflow:hidden}.app-course-photo img{width:100%;height:100%;object-fit:cover}.app-course-photo>span{position:absolute;top:15px;left:15px;background:#fffffff0;color:#3f6269;padding:6px 9px;border-radius:8px;font-size:9px;letter-spacing:.8px}.app-stress-course{background-image:url('img/z5-stress.jpg');background-size:300% 100%;background-position:50% 0}.app-course-card>div:last-child{padding:24px}.app-course-card small{font-size:8px;letter-spacing:1px;color:#087f80}.app-course-card h2{font-size:24px;margin-top:10px}.app-course-card p{font-size:12px;line-height:1.8;color:#71828a;min-height:65px;margin:12px 0 24px}.app-course-card b{display:flex;justify-content:space-between;font-size:12px;color:#087f80}.app-home footer{margin-top:45px}.app-home footer a{color:#71828a;font-size:10px}@media(max-width:740px){body.sim-app.app-home{padding-bottom:0}.app-home .app-welcome{padding-top:30px}.app-home .app-welcome h1{font-size:35px;max-width:320px}.app-home .app-welcome p{max-width:300px;font-size:12px}.app-course-list{grid-template-columns:1fr;gap:18px}.app-course-photo{height:185px}.app-course-card>div:last-child{padding:20px}.app-course-card h2{font-size:24px}.app-course-card p{min-height:0;margin-bottom:20px}.app-home .app-section-heading>span{font-size:8px}}
+
+/* v10 — programme titles, exact atlas viewports and direct object controls. */
+.sim-app .photo-window,.photo-window{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0!important;overflow:hidden;background:#dce5e3}
+.atlas-crop{display:block;width:100%;height:100%;overflow:hidden}
+.atlas-crop image{max-width:none}
+.sim-app .app-skill-visual>.photo-window{position:absolute;inset:0}
+.sim-app .app-skills{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sim-app button.app-skill{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:180px}
+.sim-app .app-skill-visual{height:100%;min-height:180px}
+.sim-app .app-skill-content{align-self:center}
+.sim-app .app-skill-icon{display:none}
+.sim-app .app-skill-copy strong{font-size:16px;line-height:1.45}
+.sim-app .app-welcome h1{font-size:27px;line-height:1.42;max-width:930px;letter-spacing:-.5px}
+.sim-app .app-welcome p{font-size:12px;line-height:1.7;max-width:900px;margin-top:15px}
+.sim-app .app-welcome{align-items:flex-start}
+.sim-app .app-progress{margin-top:24px}
+.sim-app .app-course-card h2{font-size:19px;line-height:1.5;letter-spacing:-.3px}
+.sim-app .app-course-card p{min-height:0}
+.sim-app .app-course-card{display:flex;flex-direction:column}
+.sim-app .app-course-card>div:last-child{display:flex;flex-direction:column;flex:1}
+.sim-app .app-course-card b{margin-top:auto;padding-top:15px}
+.sim-app .app-vmp-mark{font-size:11px;letter-spacing:-.4px;font-weight:750}
+.sim-app .app-brand{font-size:17px}
+.sim-app .app-brand small{font-size:7px;letter-spacing:.7px}
+.sim-app .body-world.clinician-world{aspect-ratio:3/4}
+.sim-app .stress-person{aspect-ratio:512/524;background-size:300% 100%}
+.sim-app .decon-person{aspect-ratio:1/2;background-size:300% 100%}
+.sim-app .desk-scene{object-fit:cover}
+.sim-app .cleaned-surface{background:linear-gradient(110deg,#d5f0ed11,#f4ffff33,#d5f0ed11);border:1px solid #b5e6d955;box-shadow:none}
+.touch-current-gesture{font-size:11px;line-height:1.6;color:#087f80;margin:12px 0 0}
+.touch-action-note{display:flex;gap:12px;align-items:flex-start;color:#71828a;font-size:11px;line-height:1.7;padding:16px 0}
+.touch-action-note p{margin:0}
+.touch-action-note>span{font-size:23px;color:#087f80}
+.touch-contact{touch-action:none!important;user-select:none;-webkit-user-select:none;cursor:pointer;--contact:0deg}
+.touch-contact.contact-pressed{background:#19c4b52e!important;box-shadow:inset 0 0 0 3px #fff8!important}
+.touch-contact.contact-pressed:after{content:'';position:absolute;left:50%;top:50%;width:40px;height:40px;transform:translate(-50%,-50%);border-radius:50%;background:conic-gradient(#078f88 var(--contact),#ffffff40 0);mask:radial-gradient(circle,transparent 52%,black 55%);pointer-events:none}
+.touch-contact-label{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);background:#087f80;color:white;padding:4px 7px;border-radius:6px;font-size:9px;white-space:nowrap}
+.touch-world .drop-zone{border:0;background:transparent}
+.touch-world .touch-object-button{cursor:pointer}
+.touch-world .touch-object-button:active{background:#1ac1b927}
+.touch-decision-label{font-size:11px;font-weight:600;color:#294950;margin:0 0 12px}
+.touch-decisions{display:flex;flex-direction:column;gap:8px}
+.sim-app .touch-decisions>button{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #dce8eb;background:#f7fafa;color:#294950;text-align:left;padding:13px 14px;min-height:56px;font-size:12px;line-height:1.6}
+.touch-decisions>button>span{color:#087f80;flex-shrink:0}
+.touch-movable{touch-action:none!important;cursor:grab;user-select:none;-webkit-user-select:none;z-index:7}
+.touch-movable.object-in-hand{cursor:grabbing;z-index:18;filter:drop-shadow(0 12px 12px #153d4b40);transition:none!important;scale:1.02}
+.touch-world .touch-solid-wall{opacity:1;left:24%;top:20%}
+.touch-device-button{position:absolute;left:41%;top:59%;width:20%;aspect-ratio:1;min-height:0!important;background:#283c38!important;color:#f3f6e9!important;border:1px solid #81958a!important;border-radius:50%!important;padding:0!important;font-size:20px!important;z-index:8}
+.touch-device-modes{position:absolute;left:15%;right:15%;top:60%;display:flex;flex-direction:column;gap:5px;z-index:8}
+.sim-app .touch-device-modes>button{font-size:10px;min-height:34px;background:#293f37;color:#e5f1d5;border:1px solid #718978;border-radius:8px;padding:6px}
+.touch-wipe-surface{position:absolute;left:29%;top:22%;width:40%;height:58%;border-radius:12px;z-index:16;touch-action:none;overflow:hidden;cursor:crosshair;background:#e8f0ee15;border:1px solid #c4e2da77;user-select:none}
+.touch-raddecon .touch-wipe-surface{left:34%;top:17%;width:32%;height:60%}
+.touch-dirt{position:absolute;width:25%;height:19%;background:radial-gradient(ellipse,#7b6144a8,#9b805d55 45%,transparent 70%);border-radius:45%;transition:opacity .18s;pointer-events:none}
+.touch-dirt.wiped{opacity:0}
+.touch-wipe-caption{position:absolute;bottom:7px;left:5px;right:5px;font-size:9px;color:#fff;background:#164f45de;padding:7px;border-radius:6px;text-align:center;pointer-events:none}
+.touch-exposure{position:absolute;left:32%;right:32%;top:40%;z-index:16;border:1px solid #badcd8!important;background:#fffffff5!important;color:#087f80!important;box-shadow:0 8px 30px #193d4422!important;padding:22px 10px!important;display:flex;flex-direction:column;align-items:center;gap:8px;border-radius:20px!important}
+.touch-exposure>b{font:500 35px ui-monospace,monospace}
+.touch-exposure>span{font-size:10px}
+.touch-camp-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.85) brightness(.86)}
+.touch-camp-caption{position:absolute;bottom:14px;left:14px;right:14px;font-size:9px;color:white;background:#214b57aa;padding:9px;border-radius:8px;pointer-events:none}
+.sim-app .touch-pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;box-shadow:none;min-height:44px;padding:0;z-index:5;cursor:pointer;overflow:visible}
+.touch-pin>i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#fffffff5;box-shadow:0 4px 16px #1647553d;color:#087f80;font-size:21px;font-style:normal;border:3px solid #ffffff80}
+.touch-pin.visited>i{background:#087f80;color:white;font-size:15px}
+.touch-pin>span{background:#ffffffed;border-radius:6px;color:#31595f;padding:4px 7px;font-size:9px;white-space:nowrap}
+.touch-observation{position:absolute;z-index:25;left:18px;right:18px;bottom:18px;padding:18px;background:#fff;border:1px solid #dfebed;border-radius:17px;box-shadow:0 10px 40px #183e4b30}
+.touch-observation>b{font-size:12px;color:#087f80}
+.touch-observation p{font-size:12px;line-height:1.7;color:#627b83;margin:8px 0 14px}
+.sim-app .touch-observation button{font-size:11px;color:#087f80;background:#eef7f6;border:0;padding:8px 14px;min-height:38px}
+.touch-evac{background:#e8efee!important}
+.touch-evac-context{position:absolute;top:11%;left:5%;right:5%;font-size:10px;color:#71828a}
+.touch-patient{position:absolute;left:5%;top:18%;height:50%;width:39%;background:#c9d3d1;border-radius:16px;overflow:hidden;cursor:pointer}
+.touch-patient>img{height:100%;width:100%;object-fit:contain}
+.touch-patient>span{position:absolute;bottom:0;left:0;right:0;padding:9px;background:#ffffffed;font-size:10px;text-align:center;color:#31595f}
+.touch-vital-sticker{position:absolute;top:12px;left:10px;right:10px;padding:8px;border-radius:8px;background:#ffffffed;color:#71828a;font-size:9px;line-height:1.7}
+.touch-vital-sticker>b{font-size:10px;color:#294950}
+.touch-paper{position:absolute;left:50%;right:5%;top:18%;height:50%;padding:20px;background:white;box-shadow:0 6px 22px #22424e13;border-radius:4px 4px 12px 12px;border-top:7px solid #6a838a;color:#294950;cursor:pointer;overflow:hidden}
+.touch-paper>small{font-size:7px;letter-spacing:.6px;color:#71828a}
+.touch-paper>b{display:block;font-size:25px;margin-top:10px;font-weight:550}
+.touch-paper>p{font-size:11px;line-height:1.8;margin:6px 0 13px}
+.touch-paper-lines{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.touch-paper-lines>span{border-bottom:1px solid #e2e9eb;color:#91a1a6;padding:4px 0;font-size:8px}
+.touch-paper-lines>span.filled{color:#087f80}
+.touch-paper>span{display:block;font-size:8px;color:#71828a;margin-top:12px}
+.touch-route{position:absolute;left:5%;right:5%;top:73%;display:flex;align-items:center;gap:10px}
+.sim-app .touch-route>button{flex:1;padding:13px 10px;background:#fff;color:#294950;text-align:left;border:1px solid #d3e2e4;border-radius:12px;box-shadow:none;font-size:11px}
+.touch-route>i{font-style:normal;color:#087f80}
+.touch-route>button>span{display:block;color:#71828a;font-size:8px;margin-top:4px;line-height:1.5}
+.sim-app .touch-radio{position:absolute;left:5%;right:5%;bottom:4%;width:90%;background:#1d555b;color:white;border:0;box-shadow:none;padding:10px 15px;display:flex;justify-content:space-between;align-items:center;font-size:10px;text-align:left;border-radius:10px}
+.touch-radio>span{color:#c0e4de;font-size:8px}
+.touch-world .field-avatar{aspect-ratio:3/4;background-size:400% 200%}
+.course-aim{padding:18px 20px;background:#fff;border:1px solid #e0e9eb;border-radius:15px;margin-bottom:14px}
+.course-aim>b{font-size:12px;color:#087f80}
+.course-aim p{font-size:13px;line-height:1.7;margin:7px 0 10px;max-width:900px}
+.course-aim small{font-size:10px;line-height:1.7;color:#71828a;display:block}
+.curriculum-goal{background:#eaf4f3;border-radius:13px;padding:15px;margin-bottom:20px;color:#31595f}
+.curriculum-goal>span{display:block;font-size:8px;letter-spacing:.7px;color:#087f80;margin-bottom:8px}
+.curriculum-goal>b{display:block;font-size:12px;line-height:1.7}
+.curriculum-goal details{font-size:10px;line-height:1.7;margin-top:10px}
+.curriculum-goal summary{cursor:pointer}
+.curriculum-goal ul{padding-left:17px}
+.curriculum-goal li{margin:6px 0}
+.practical-plan{color:#31595f}
+.practical-plan>p{font-size:10px;line-height:1.7;color:#71828a}
+.practical-plan fieldset{border:1px solid #dce8e9;padding:12px;margin:12px 0;border-radius:12px}
+.practical-plan legend{font-size:11px;font-weight:650;padding:0 5px}
+.practical-plan label{display:block;font-size:9px;margin:9px 0;color:#627b83}
+.sim-app .practical-plan select{display:block;width:100%;font-family:inherit;font-size:11px;line-height:1.5;color:#294950;border:1px solid #dce8e9;border-radius:8px;min-height:43px;background:#fff;padding:8px;margin-top:4px}
+.practical-plan .practical-invalid select{border-color:#c36b51!important;background:#fff1ec!important}
+.practical-plan>button{width:100%;font-size:11px}
+.sim-app .drag-game:has([data-practical-widget]) .simulation-world{position:sticky;top:16px;align-self:start;height:660px!important;min-height:600px}
+@media(max-width:740px){
+ .sim-app .app-welcome h1{font-size:20px;line-height:1.5;max-width:none}
+ .sim-app .app-welcome{display:block}
+ .sim-app .app-welcome p{font-size:11px;max-width:none}
+ .sim-app .app-progress{width:55px;height:55px;margin:12px 0 0}
+ .sim-app .app-progress b{font-size:18px}
+ .sim-app .app-progress>span>small{font-size:7px}
+ .sim-app .app-skills{display:flex}
+ .sim-app button.app-skill{grid-template-columns:100px minmax(0,1fr);min-height:160px}
+ .sim-app .app-skill-visual{min-height:160px}
+ .sim-app .app-skill-copy strong{font-size:13px}
+ .sim-app .app-brand{font-size:14px}
+ .sim-app .app-brand small{font-size:6px;letter-spacing:.3px}
+ .sim-app .app-course-card h2{font-size:17px;line-height:1.55}
+ .touch-current-gesture{font-size:10px;margin-top:8px;line-height:1.5}
+ .touch-action-note{font-size:10px;padding:5px 0;gap:9px}
+ .touch-decision-label{font-size:10px;margin-bottom:8px}
+ .sim-app .touch-decisions>button{font-size:10px;line-height:1.5;padding:10px 12px;min-height:44px}
+ .touch-decisions{gap:6px}
+ .touch-device-button{font-size:15px!important}
+ .touch-device-modes{left:5%;right:5%;gap:4px}
+ .sim-app .touch-device-modes>button{font-size:8px;padding:5px;min-height:29px}
+ .touch-wipe-caption{font-size:7px;padding:5px}
+ .touch-exposure{left:27%;right:27%;padding:17px 8px!important}
+ .touch-exposure>b{font-size:28px}
+ .touch-exposure>span{font-size:8px}
+ .touch-pin>span{font-size:7px;padding:4px 6px}
+ .touch-pin>i{width:29px;height:29px;font-size:18px}
+ .touch-camp-caption{font-size:7px;padding:7px;bottom:10px;left:10px;right:10px}
+ .touch-observation{left:10px;right:10px;bottom:10px;padding:14px}
+ .touch-observation p{font-size:10px;line-height:1.6}
+ .touch-observation>b{font-size:11px}
+ .touch-evac-context{font-size:8px;top:12%}
+ .touch-paper{padding:12px 10px;border-top-width:5px}
+ .touch-paper>small{font-size:6px}
+ .touch-paper>b{font-size:20px;margin-top:7px}
+ .touch-paper>p{font-size:9px;line-height:1.7;margin-bottom:7px}
+ .touch-paper-lines{gap:3px}
+ .touch-paper-lines>span{font-size:6px;padding:3px 0}
+ .touch-paper>span{font-size:6px;margin-top:8px;line-height:1.4}
+ .touch-vital-sticker{top:7px;left:6px;right:6px;padding:6px;font-size:7px}
+ .touch-vital-sticker>b{font-size:8px}
+ .touch-patient{border-radius:11px}
+ .touch-patient>span{font-size:7px;padding:7px 3px}
+ .sim-app .touch-route>button{font-size:9px;padding:10px 8px;min-height:55px}
+ .touch-route>button>span{font-size:7px}
+ .sim-app .touch-radio{font-size:8px;padding:8px 10px;min-height:35px}
+ .touch-radio>span{font-size:7px}
+ .touch-contact-label{font-size:7px;padding:4px 5px}
+ .course-aim{padding:14px}
+ .course-aim p{font-size:11px}
+ .course-aim small{font-size:9px}
+ .curriculum-goal{padding:12px}
+ .curriculum-goal>b{font-size:11px}
+ .sim-app .drag-game:has([data-practical-widget]) .simulation-world{position:relative;top:0;height:285px!important;min-height:285px;flex:0 0 auto}
+ .sim-app .practical-plan select{font-size:12px;min-height:46px}
+ .practical-plan fieldset{margin:10px 0}
+ .practical-plan label{font-size:10px}
+}
+@media(max-width:360px){
+ .sim-app button.app-skill{grid-template-columns:85px minmax(0,1fr)}
+ .sim-app .app-skill-copy strong{font-size:12px}
+ .sim-app .app-welcome h1{font-size:18px}
+ .sim-app .app-brand small{max-width:180px;letter-spacing:0}
+}
+
+.sim-app .subject-preview{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#e7eeee;color:#31595f;text-align:center;padding:12px}
+.subject-preview>small{font-size:7px;letter-spacing:.7px;color:#71828a}
+.subject-preview>b{font:500 45px/1 ui-monospace,monospace;color:#087f80}
+.subject-preview>span{font-size:9px;line-height:1.8;color:#627b83}
+.shield-preview>b{font-size:26px}

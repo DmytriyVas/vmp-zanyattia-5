@@ -24,6 +24,8 @@ if(APP_LESSON===10){
  ppeMission.steps[1].why='Халат закриває одяг і шкіру при очікуваному контакті з кров’ю. Дихання й очі він не захищає.';
  ppeMission.steps[2].why='Обрано респіратор для аерогенного ризику. Наступна дія — перевірити його прилягання; сам факт надягання ще недостатній.';
  ppeMission.steps[5].why='Рукавички надягнуті поверх манжет. Після умовної допомоги їх зовнішню поверхню вважатимемо забрудненою.';
+ const originalReasons=new Map(ppeMission.steps.map((s,i)=>[s,reasons[i]]));
+ const reasonFor=s=>s.rationale||originalReasons.get(s)||[s.title,s.why];
  const baseIntro=showIntro;
  showIntro=function(id){baseIntro(id);if(id!=='ppe')return;
  const copy=$('.app-briefing-copy');copy.insertAdjacentHTML('beforeend','<p class="ppe-sources">Опора: <a href="https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-figure.html" target="_blank" rel="noopener">CDC · надягання та знімання ЗІЗ</a> · <a href="https://www.cdc.gov/infection-control/hcp/measles/index.html" target="_blank" rel="noopener">CDC · кір</a>. Відпрацьовується заданий сценарій; повний інфекційний контроль також включає ізоляцію, вентиляцію та організаційні заходи.</p>');copy.querySelector('.app-briefing-gesture').insertAdjacentHTML('beforebegin',`<div class="ppe-learning-goals"><b>Що ти тут відпрацюєш</b><ul><li>Зв’язок «ризик → потрібний бар’єр».</li><li>Перевірку прилягання та перекриття манжет.</li><li>Виправлення помилок і безпечне знімання.</li></ul><p>Помилковий предмет може залишитися на лікарі. Побачиш незахищену ділянку й усунеш причину. Червоні позначки — умовний шлях перенесення, а не факт зараження.</p></div>`);
@@ -57,7 +59,7 @@ if(APP_LESSON===10){
   if(correctRegion[payload.tool]===target){
    if(payload.tool==='gown'&&a.k===0)return reportUnsafe(a,{type:'dirty-hands',tool:'gown',label:'Халат надягнуто до гігієни рук.',reason:'Під час підготовки забруднені руки можуть торкнутися чистих ЗІЗ. Наявність халата цього не виправляє.',fix:'Зніми щойно надягнений халат. Підготуй руки перед новою спробою.',frame:1,repair:'remove',critical:false});
    if(payload.tool==='gloves'&&a.k<5)return reportUnsafe(a,{type:'early-gloves',tool:'gloves',label:'Рукавички надягнуто завчасно.',reason:!worn.includes('gown')?'Халат і манжети ще не підготовлені. Після надягання халата рукавички мають перекривати манжети.':'Далі ще потрібно поправляти ЗІЗ біля обличчя. У цій послідовності рукавички надягають останніми.',fix:'Зніми рукавички й оброби руки. Повернись до поточної дії.',frame:frameFor(worn),repair:'remove',hygieneAfter:true,critical:false});
-   return reportUnsafe(a,{type:'sequence',tool:payload.tool,label:'Предмет надягнуто, але підготовка ще не завершена.',reason:reasons[a.k][1],fix:'Зніми щойно надягнений предмет. Виконай поточну дію, а потім продовжуй.',frame:frameFor([...worn,payload.tool]),repair:'remove',critical:false});
+   return reportUnsafe(a,{type:'sequence',tool:payload.tool,label:'Предмет надягнуто, але підготовка ще не завершена.',reason:reasonFor(s)[1],fix:'Зніми щойно надягнений предмет. Виконай поточну дію, а потім продовжуй.',frame:frameFor([...worn,payload.tool]),repair:'remove',critical:false});
   }
  }
  if(payload.tool==='remove'&&target==='waste-bin'&&payload.item!==s.unwear)return reportUnsafe(a,{type:'transfer',tool:payload.item,label:'Під час неправильного знімання умовне забруднення перенесено на руки.',reason:'Ти почав з іншого предмета. У цій навчальній моделі виник контакт із забрудненою передньою поверхнею, поки рукавички ще на руках. Це можливий шлях самозабруднення, а не прогноз інфекції.',fix:'Зніми забруднені рукавички в контейнер і оброби руки. Після цього повтори безпечну послідовність.',frame:7,repair:'remove',hygieneAfter:true,critical:true});
@@ -68,7 +70,7 @@ if(APP_LESSON===10){
  const baseGame=renderGame;
  renderGame=function(){baseGame();const a=state.active;if(a?.id!=='ppe'||!$('#simulationWorld'))return;
  const s=ppeMission.steps[a.k],f=a.ppeFault,world=$('#simulationWorld'),dock=$('.inventory-dock'),objective=$('.objective'),worn=actualWorn(a);
- objective.insertAdjacentHTML('beforeend',`<div class="ppe-why"><b>${reasons[a.k][0]}</b><p>${reasons[a.k][1]}</p></div>`);
+ objective.insertAdjacentHTML('beforeend',`<div class="ppe-why"><b>${reasonFor(s)[0]}</b><p>${reasonFor(s)[1]}</p></div>`);
  world.classList.add('ppe-teaching-world');
  const checks=[['Дихання',worn.includes('resp')&&(a.k>=4||a.k===3&&a.outcome)],['Очі',worn.includes('glasses')],['Одяг',worn.includes('gown')],['Руки',worn.includes('gloves')]];
  world.insertAdjacentHTML('beforeend',`<div class="ppe-barriers"><span>${a.k<6?'БАР’ЄРИ ДО КОНТАКТУ':'ПІСЛЯ КОНТАКТУ'}</span>${checks.map(([name,on])=>`<span class="${on?'protected':''}">${on?'✓':'○'} ${name}</span>`).join('')}<small>${a.k<6?'Перевіряємо захист поступово':'Зовнішні поверхні умовно забруднені'}</small></div>`);
