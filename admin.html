@@ -250,7 +250,7 @@ function drawList(){
   const cnt={};list.forEach(x=>{const k=(x.name||"").toLowerCase().trim();cnt[k]=(cnt[k]||0)+1});
   list.sort((a,b)=>(a.group+a.name).localeCompare(b.group+b.name,"uk"));
   window._list=list;
-  $("#list").innerHTML=list.length?`<div class="box"><table><tr><th>ПІБ</th><th>Група</th><th>Варіант</th><th>Почав</th><th>Завершив</th><th>Оцінка</th><th class="num">Бали</th><th class="num">%</th></tr>${list.map((x,i)=>`<tr class="${x.answers?"click":""}" data-i="${i}"><td>${esc(x.name)} ${cnt[(x.name||"").toLowerCase().trim()]>1?'<span class="pill bad">кілька спроб</span>':""}</td><td>${esc(x.group)}</td><td class="num">${x.variant||"—"}</td><td class="num">${esc((x.start||"").slice(11,16))}</td><td class="num">${x.done?esc(x.fin.slice(11,16)):'<span class="pill">виконує</span>'}</td><td class="g g${x.grade}">${x.done?x.grade:""}</td><td class="num">${x.done?esc(x.score)+" / "+esc(x.max):""}</td><td class="num">${x.done?esc(x.pct):""}</td></tr>`).join("")}</table></div><p class="muted">Натисніть рядок, щоб побачити відповіді студента.</p>`:'<p class="muted">Поки немає результатів з цього заняття.</p>';
+  $("#list").innerHTML=list.length?`<div class="box"><table><tr><th>ПІБ</th><th>Група</th><th>Варіант</th><th>Почав</th><th>Завершив</th><th>Оцінка</th><th class="num">Бали</th><th class="num">%</th></tr>${list.map((x,i)=>`<tr class="${x.answers?"click":""}" data-i="${i}"><td>${esc(x.name)} ${cnt[(x.name||"").toLowerCase().trim()]>1?'<span class="pill bad">кілька спроб</span>':""}</td><td>${esc(x.group)}</td><td class="num">${x.variant||"—"}${x.variant>30?' <span class="pill">перездача</span>':""}</td><td class="num">${esc((x.start||"").slice(11,16))}</td><td class="num">${x.done?esc(x.fin.slice(11,16)):'<span class="pill">виконує</span>'}</td><td class="g g${x.grade}">${x.done?x.grade:""}</td><td class="num">${x.done?esc(x.score)+" / "+esc(x.max):""}</td><td class="num">${x.done?esc(x.pct):""}</td></tr>`).join("")}</table></div><p class="muted">Натисніть рядок, щоб побачити відповіді студента.</p>`:'<p class="muted">Поки немає результатів з цього заняття.</p>';
 }
 $("#list").onclick=e=>{const tr=e.target.closest("tr.click");if(!tr)return;const x=window._list[+tr.dataset.i];showDetail(x)};
 function ansText(it,a){if(a==null||a==="")return "—";
@@ -272,7 +272,7 @@ function showDetail(x){const ord=items(x.lesson,x.variant,x.answers);
   $("#back").onclick=()=>{$("#detail").hidden=true;$("#list").hidden=false};window.scrollTo(0,0)}
 let kv=1;
 function drawKey(){const ord=items(cur,kv,{});
-  $("#key").innerHTML=`<div class="row">Варіант <select id="kv">${Array.from({length:30},(_,i)=>`<option ${i+1===kv?"selected":""}>${i+1}</option>`).join("")}</select></div>
+  $("#key").innerHTML=`<div class="row">Варіант <select id="kv">${Array.from({length:90},(_,i)=>`<option ${i+1===kv?"selected":""}>${i+1}</option>`).join("")}</select></div>
   <div class="box"><table><tr><th>№</th><th>Завдання</th><th>Правильна відповідь</th></tr>${ord.map((it,i)=>`<tr><td class="num">${i+1}</td><td>${esc(qText(it))}</td><td><b>${esc(rightText(it))}</b></td></tr>`).join("")}</table></div>`;
   $("#kv").onchange=e=>{kv=+e.target.value;drawKey()}}
 try{if(sessionStorage.getItem("pw"))load()}catch(e){}

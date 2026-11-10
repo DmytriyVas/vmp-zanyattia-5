@@ -387,7 +387,7 @@ function renderControl(){
   if(!S||!S.started){$("#startBox").hidden=false;$("#testBox").hidden=true;$("#resultBox").hidden=true;route();return}
   $("#startBox").hidden=true;$("#testBox").hidden=false;
   ITEMS=build(S.seed);
-  let n=0,html=`<div class="panel row" style="justify-content:space-between"><div><b>${esc(S.name)}</b> <span class="muted">· група ${esc(S.group)}</span></div><span class="small muted">Варіант ${S.variant||"тренувальний"}</span></div>`;
+  let n=0,html=`<div class="panel row" style="justify-content:space-between"><div><b>${esc(S.name)}</b> <span class="muted">· група ${esc(S.group)}</span></div><span class="small muted">Варіант ${S.variant}${S.retake?" · перездача":""}</span></div>`;
   ["A","B","C","D"].forEach(b=>{
     const its=ITEMS.filter(i=>i.block===b),max=its.reduce((s,i)=>s+i.pts,0);
     html+=`<div class="bhead"><h2>${BLOCKS[b]}</h2><small>${its.length} завд. · ${max} балів</small></div>`;
@@ -415,7 +415,11 @@ function renderResult(){
   $("#resultBox").innerHTML=`<div class="result"><div class="top"><div class="who"><span class="eyebrow">Результат</span><b>${esc(S.name)}</b><span class="muted">Група ${esc(S.group)}</span></div><div class="gradebox"><div class="g ${gc}">${gn} <span style="font-size:.6em">(${g})</span></div><div class="p">${fmt(got,2)} з ${max} балів · ${p} %</div></div></div>
   <div class="tablebox" style="border:0;border-top:1px solid var(--line);border-radius:0"><table><tr><th>Блок</th><th class="num">Бали</th></tr>${rows.map(x=>`<tr><td>${x[0]}</td><td class="num">${fmt(x[1],2)} / ${x[2]}</td></tr>`).join("")}</table></div>
   <div class="lcd"><span>Заняття № 6 · варіант ${S.variant}</span><b>${dt.toLocaleDateString("uk-UA")} ${dt.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})}</b></div></div>
-  <p class="small muted">Результат передано викладачу. Розбір завдань буде на занятті.</p>`;
+  <p class="small muted">Результат передано викладачу. Розбір завдань буде на занятті.</p>
+  <div class="panel stack" id="retakeBox"><b>Перездача</b><p class="small muted">Лише з дозволу викладача: він вводить свій код на цьому телефоні. Ви отримаєте інший варіант, попередній результат лишиться у викладача.</p>
+  <div class="row"><input type="password" inputmode="numeric" id="rtPin" placeholder="Код викладача" aria-label="Код викладача" style="max-width:180px"><button class="btn" id="rtGo">Почати перездачу</button><span class="err" id="rtErr"></span></div></div>`;
+  $("#rtGo").onclick=()=>{if($("#rtPin").value.trim()!==RETAKE_PIN){$("#rtErr").textContent="Невірний код.";return}
+    const v=S.variant+30;S={name:S.name,group:S.group,variant:v,retake:(S.retake||0)+1,seed:v*104729+7,started:true,ans:{},attempt:Date.now().toString(36)+Math.random().toString(36).slice(2,6)};save();renderControl();send("start");window.scrollTo(0,0)};
 }
 
 function errList(){
@@ -427,11 +431,12 @@ function errList(){
   return out.join("; ")||"без помилок";
 }
 /* ---------- send to teacher's register ---------- */
+const RETAKE_PIN="7531";
 const ENDPOINT="https://script.google.com/macros/s/AKfycbyUVNslEAKRWEeJv2gsUC-XO2ZFtdiiW3IAXZrbzykMjwzrweY2BhUHQR29YcEmW_jH/exec";
 function send(type){
   if(!ENDPOINT)return;
-  const d={type,lesson:LESSON,attempt:"z"+LESSON+"-"+S.attempt+"|"+JSON.stringify(S.ans),blocks:"Заняття "+LESSON,name:S.name,group:S.group,variant:S.variant,answered:ITEMS.filter(answered).length,total:ITEMS.length,device:navigator.userAgent.slice(0,120)};
-  if(type==="finish"){const r=computeResult();Object.assign(d,{score:Math.round(r.got*100)/100,max:r.max,pct:r.p,grade:r.g[2],blocks:"Заняття "+LESSON+" ‖ "+r.rows.map(x=>x[0]+": "+fmt(x[1],2)+"/"+x[2]).join("; ")+" ‖ Помилки: "+errList()})}
+  const d={type,lesson:LESSON,attempt:"z"+LESSON+"-"+S.attempt+"|"+JSON.stringify(S.ans),blocks:"Заняття "+LESSON+(S.retake?" (перездача "+S.retake+")":""),name:S.name,group:S.group,variant:S.variant,answered:ITEMS.filter(answered).length,total:ITEMS.length,device:navigator.userAgent.slice(0,120)};
+  if(type==="finish"){const r=computeResult();Object.assign(d,{score:Math.round(r.got*100)/100,max:r.max,pct:r.p,grade:r.g[2],blocks:"Заняття "+LESSON+(S.retake?" (перездача "+S.retake+")":"")+" ‖ "+r.rows.map(x=>x[0]+": "+fmt(x[1],2)+"/"+x[2]).join("; ")+" ‖ Помилки: "+errList()})}
   try{fetch(ENDPOINT,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)}).catch(()=>{})}catch(e){}
 }
 
