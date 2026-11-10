@@ -299,6 +299,13 @@ body{margin:0}
 .vfail .vcons{grid-template-columns:1fr}
 .vcard .failed{color:var(--bad)}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.sk-grade{background:var(--surface);border:2px solid var(--ink);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.sk-gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.sk-gh span{font:600 13px var(--f-mono);color:var(--muted)}
+.sk-gl{display:flex;flex-wrap:wrap;gap:4px}.sk-gl span{font:600 12px var(--f-mono);padding:3px 7px;border-radius:6px;background:var(--bg);border:1px solid var(--line)}
+.sk-gl span.ok{background:var(--ok-soft);border-color:var(--ok)}.sk-gl span.mid{background:#FFF1D6;border-color:#C98A12}.sk-gl span.no{background:var(--bad-soft);border-color:var(--bad)}
+.sk-res{display:flex;align-items:center;gap:12px}.sk-res b{font:800 40px/1 var(--f-mono);width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--ok-soft)}
+.sk-res b.g2{background:var(--bad-soft)}.sk-res b.g3{background:#FFF1D6}
+.sk-send{display:flex;flex-wrap:wrap;gap:6px}.sk-send input{flex:1;min-width:140px}
 .vdone{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .vdone li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:6px 8px;font-size:14px}
 .vdone li small{display:block;color:var(--muted);font-size:12px}
@@ -307,7 +314,7 @@ body{margin:0}
 .vcard{position:relative}
 </style>
   <div class="stack" id="skHead">
-    <span class="eyebrow">Навички з РПОК · на оцінку не впливає</span>
+    <span class="eyebrow">Практичні навички з РП</span>
     <h2>Практичні навички заняття</h2>
     <p class="muted">Кожна навичка — практичне вміння з РП у вигляді ситуації або міні-гри з реальною сценою. Неправильна дія має наслідок: ви бачите, що сталося з людьми, а шкала стану падає. Критична помилка — <b>невдача</b>, навичку доведеться почати заново. Після правильного кроку бачите обґрунтування.</p>
   </div>
@@ -423,6 +430,7 @@ body{margin:0}
  .gm-msg{font-size:14px;padding:8px 10px}
  .note{font-size:14px}
 }
+.gb-note{margin:0;font-size:14px;background:#FFF1D6;border-radius:8px;padding:8px 10px}
 #simSel{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}#simSel .btn{white-space:nowrap}
 </style>
 <div class="row" id="simSel" role="group" aria-label="Міні-ігри"><button class="btn" data-s="gInsp" aria-pressed="true">Огляд пункту</button><button class="btn" data-s="gCamp" aria-pressed="false">Табір</button><button class="btn" data-s="gDis" aria-pressed="false">Дезрозчин</button><button class="btn" data-s="gPpe" aria-pressed="false">ЗІЗ</button><button class="btn" data-s="simStart" aria-pressed="false">START</button><button class="btn" data-s="gEvac" aria-pressed="false">Евакуація</button></div>
@@ -431,6 +439,7 @@ body{margin:0}
 <div class="gb-sec"><b>Що робити</b><ol><li>Номери вгорі — постраждалі. Для кожного прочитайте, що він робить, і оцініть за START.</li><li><b>Дихання:</b> «Рахувати 15 с» і рахуйте підйоми грудної клітки, ×4. Якщо не дихає — «Відкрити дихальні шляхи».</li><li><b>Пульс:</b> дивіться, чи пульсує червоне коло на зап’ясті. <b>Капілярне наповнення:</b> утримуйте «Натиснути на ніготь», відпустіть і стежте, за скільки секунд повернеться колір.</li><li><b>Свідомість:</b> «Стисніть мою руку». Позначте ознаки інфекції і оберіть колір бирки.</li></ol></div>
 <div class="gb-sec ok"><b>Критерії успіху</b><ul><li>правильна категорія для всіх 10</li><li>правильно позначено ознаки інфекції (окремий потік)</li><li>до 60 с на одного постраждалого</li></ul></div>
 <details class="gb-th" open><summary>Коротка теорія</summary><p><b>START:</b> ходить → <b>зелений</b>. Не ходить → дихання: немає → відкрити дихальні шляхи → не з’явилося → <b>чорний</b>, з’явилося → <b>червоний</b>. ЧД понад 30 → <b>червоний</b>. Немає пульсу на променевій артерії або капілярне наповнення понад 2 с → <b>червоний</b>. Не виконує прості команди → <b>червоний</b>. Інакше → <b>жовтий</b>.<br>Гарячка, кашель, діарея, висип → позначка «інфекція», окремий потік і транспорт з інфекційним контролем. Сортування повторюють: на пункті збору, після втручань, перед евакуацією.</p></details>
+<p class="gb-note">⚠ <b>Перша повна спроба — залікова</b> (іде в оцінку за навички). Далі можна тренуватися скільки завгодно.</p>
 <button class="btn primary gm-start">Почати</button></div>
 <button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
 
@@ -490,6 +499,7 @@ body{margin:0}
 <div class="gb-sec"><b>Що робити</b><ol><li><b>Огляд.</b> На фото — 9 точок огляду (білі кружечки з номерами). Торкніться кожної, прочитайте, що там видно, і вирішіть: <b>це ризик поширення інфекції чи норма</b>.</li><li><b>Оцінка стану.</b> Визначте санітарно-епідемічний стан пункту.</li><li><b>План.</b> До кожного ризику оберіть захід і строк.</li><li><b>Результат.</b> Програма покаже, скільки людей захворіє за наступний тиждень за вашим планом.</li></ol></div>
 <div class="gb-sec ok"><b>Критерії успіху</b><ul><li>усі 7 ризиків розпізнано, норму не сплутано з ризиком</li><li>стан визначено правильно</li><li>для кожного ризику — дієвий захід у правильний строк</li><li>за 7 діб — не більше 15 нових випадків («спалах локалізовано»)</li></ul></div>
 <details class="gb-th" open><summary>Коротка теорія</summary><p><b>Що оцінюють:</b> воду (джерело, знезараження, зберігання, видача через кран), харчування (холодовий ланцюг, захист від мух, персонал), туалети і миття рук (1 туалет на 20 осіб, мило), розміщення (не менше 3,5 м² на особу, провітрювання), відходи (закриті контейнери, вивезення), хворих (виявлення, ізоляція), переносників.<br><b>Стан:</b> благополучний — поодинокі непов’язані випадки; нестійкий — поодинокі пов’язані випадки, умови погіршуються; неблагополучний — груповий спалах; надзвичайний — масове швидке поширення.<br><b>Заходи</b> діють на ланки: джерело (виявлення, ізоляція), механізм передачі (вода, їжа, руки, туалети), сприйнятливих (гігієна, щеплення). План: захід — відповідальний — ресурс — строк.</p></details>
+<p class="gb-note">⚠ <b>Перша повна спроба — залікова</b> (іде в оцінку за навички). Далі можна тренуватися скільки завгодно.</p>
 <button class="btn primary gm-start">Почати</button></div>
 <button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
 
@@ -505,15 +515,16 @@ body{margin:0}
 @keyframes pinp{50%{box-shadow:0 0 0 7px rgba(255,211,77,.25),0 2px 8px rgba(0,0,0,.5)}}
 .gi-card p{font-size:15px}
 </style><div id="gCamp" class="gm gm-pre" hidden><div class="gm-brief"><span class="eyebrow">Практична навичка</span><h3>Санітарні зони табору</h3>
-<div class="gb-sec"><b>Ситуація</b><p>Розгортаєте польовий табір на 120 осіб на 7 діб. Аерофото ділянки: вгорі дорога, ліворуч угорі — артезіанська свердловина (джерело води), праворуч унизу — заболочена низина. Ділянка має схил до низини. Вітер західний — дме зліва направо. Ширина ділянки близько 200 м.</p></div>
+<div class="gb-sec"><b>Ситуація</b><p>Розгортаєте польовий табір на 120 осіб на 7 діб. Аерофото ділянки: вгорі дорога, ліворуч угорі — артезіанська свердловина (джерело води), праворуч унизу — заболочена низина. Ділянка має схил униз праворуч — до низини. На мапі пунктиром показано висоту над низиною (+1…+5 м): ліворуч угорі найвище, праворуч — найнижче. Біля кожного кола підписано його висоту. Вітер західний — дме зліва направо. Ширина ділянки близько 200 м.</p></div>
 <div class="gb-sec"><b>Що робити</b><ol><li>Торкніться об’єкта внизу (кухня, туалети, вода…), потім — кола на фото, куди його поставити. Щоб переставити, торкніться поставленого об’єкта.</li><li>Розмістіть усі 7 об’єктів.</li><li>Натисніть «Запустити табір» і подивіться, що відбуватиметься 7 діб: дощі, вітер, стоки.</li></ol></div>
 <div class="gb-sec ok"><b>Критерії успіху</b><ul><li>жодної критичної помилки (спалаху)</li><li>не більше одного порушення</li></ul></div>
 <details class="gb-th" open><summary>Коротка теорія</summary><p><b>Вода:</b> не менше 15 л на особу на добу; закриті промарковані ємності, видача через кран; пункт видачі — на підвищенні, далеко від стоків.<br><b>Туалети:</b> 1 на 20 осіб; нижче за рельєфом від води, кухні й житла; не далі ≈50 м від житла; не ближче 50 м від кухні та води; поруч — миття рук.<br><b>Кухня</b> — з навітряного боку від туалетів і відходів. <b>Відходи</b> — закриті контейнери, окремий майданчик, не ближче 50 м від кухні й води, вивезення щодня.<br><b>Ізолятор</b> — окремо від житла (з окремим туалетом), але досяжний для медика. <b>Медпункт</b> — біля під’їзної дороги. Низину і заболочені ділянки під табір не використовують. Площа — не менше 3,5 м² на особу.</p></details>
+<p class="gb-note">⚠ <b>Перша повна спроба — залікова</b> (іде в оцінку за навички). Далі можна тренуватися скільки завгодно.</p>
 <button class="btn primary gm-start">Почати</button></div>
 <button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
 
-  <div class="gm-bar"><span class="pill">🌬 вітер →</span><span class="pill">⬊ схил до низини</span><span class="pill" id="gcLeft">Розміщено 0 з 7</span></div>
-  <div class="gm-stage" id="gcStage"><img src="img/g10-field.webp" alt="Аерофото ділянки під табір" width="1000" height="1000"><div class="gc-rain" id="gcRain"></div><div id="gcFx"></div><div id="gcSlots"></div><span class="gc-dayb" id="gcDay" hidden></span><span class="gc-well">свердловина</span><span class="gc-low">низина</span></div>
+  <div class="gm-bar"><span class="pill" id="gcLeft">Розміщено 0 з 7</span></div><p class="small muted" style="margin:0">Пунктирні лінії — висота над низиною (+1…+5 м). Чим більше число, тим вище місце; дощова вода й стоки стікають від більших чисел до менших — праворуч униз, до болота. Вітер дме зліва направо.</p>
+  <div class="gm-stage" id="gcStage"><img src="img/g10-field.webp" alt="Аерофото ділянки під табір" width="1000" height="1000"><svg class="gc-topo" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="85" y1="0" x2="45" y2="100" class="ct"/><line x1="75" y1="0" x2="35" y2="100" class="ct"/><line x1="65" y1="0" x2="25" y2="100" class="ct"/><line x1="55" y1="0" x2="15" y2="100" class="ct"/><line x1="45" y1="0" x2="5" y2="100" class="ct"/><line x1="95" y1="0" x2="55" y2="100" class="ct0"/></svg><span class="gc-ctl" style="left:45.599999999999994%;top:94%">+1 м</span><span class="gc-ctl" style="left:35.599999999999994%;top:94%">+2 м</span><span class="gc-ctl" style="left:25.599999999999994%;top:94%">+3 м</span><span class="gc-ctl" style="left:15.599999999999994%;top:94%">+4 м</span><span class="gc-ctl" style="left:5.599999999999994%;top:94%">+5 м</span><span class="gc-wind">вітер ➜</span><span class="gc-slope">схил ↘ до низини</span><div class="gc-rain" id="gcRain"></div><div id="gcFx"></div><div id="gcSlots"></div><span class="gc-dayb" id="gcDay" hidden></span><span class="gc-well">свердловина</span><span class="gc-low">низина, болото</span><span class="gc-road">дорога</span></div>
   <div class="gc-tray" id="gcTray"></div>
   <div id="gcMsg"></div>
   <button class="btn primary" id="gcRun" disabled>Запустити табір на 7 діб</button>
@@ -548,12 +559,21 @@ body{margin:0}
 .gc-day.no{background:var(--bad-soft);border-color:var(--bad)}.gc-day.warn{background:#FFF6E0;border-color:#C98A12}.gc-day.ok{background:var(--ok-soft);border-color:var(--ok)}
 .gc-day b{font:700 13px var(--f-mono)}
 @keyframes pop2{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.gc-topo{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.gc-topo .ct{stroke:rgba(255,255,255,.7);stroke-width:1.6;stroke-dasharray:1.5 1.2;vector-effect:non-scaling-stroke}
+.gc-topo .ct0{stroke:rgba(120,190,255,.9);stroke-width:2;vector-effect:non-scaling-stroke}
+.gc-topo .ctl{fill:#fff;font:700 3px var(--f-mono);paint-order:stroke;stroke:rgba(0,0,0,.6);stroke-width:.6}
+.gc-h{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font:700 9px var(--f-mono);color:#fff;background:rgba(30,60,110,.75);padding:0 4px;border-radius:3px;white-space:nowrap;text-shadow:none}
+.gc-ctl{position:absolute;transform:translateX(-50%);font:700 10px var(--f-mono);color:#fff;background:rgba(30,60,110,.75);padding:1px 4px;border-radius:3px;pointer-events:none}
+.gc-wind,.gc-slope,.gc-road{position:absolute;font:700 11px var(--f-body);color:#fff;background:rgba(16,20,14,.7);padding:2px 6px;border-radius:5px;pointer-events:none}
+.gc-wind{left:2%;top:30%}.gc-slope{right:2%;top:9%}.gc-road{left:45%;top:2%}
 </style>
 <div id="gDis" class="gm gm-pre" hidden><div class="gm-brief"><span class="eyebrow">Практична навичка</span><h3>Приготування дезрозчину і знезараження поверхні</h3>
 <div class="gb-sec"><b>Ситуація</b><p>У пункті розміщення — кишкова інфекція. Треба знезаразити столи в їдальні. На столі: каністра з концентратом, мірний циліндр 250 мл, ємність 10 л з рисками, рукавички й окуляри. Яку концентрацію і скільки розчину треба — буде вказано зверху гри.</p></div>
 <div class="gb-sec"><b>Що робити</b><ol><li><b>Торкайтеся підписаних предметів на фото:</b> каністри — щоб прочитати етикетку; рукавичок і окулярів — щоб медик їх надягнув (його видно в кутку фото).</li><li><b>Розрахуйте</b> об’єм концентрату V₁ і впишіть у поле.</li><li><b>Утримуйте</b> кнопку «Наливати концентрат» — рівень у циліндрі росте; відпустіть на потрібній позначці (шкала — під фото).</li><li>Перелийте в ємність і <b>утримуйте</b> «Доливати воду» до кінцевого об’єму (шкала ємності).</li><li>Перемішайте, промаркуйте, потім обробіть стіл: ганчіркою — бруд, розпилювачем — розчин (ведіть пальцем по столу).</li></ol></div>
 <div class="gb-sec ok"><b>Критерії успіху</b><ul><li>ЗІЗ надягнуто до роботи з концентратом</li><li>концентрація правильна (об’єм у межах ±3 %)</li><li>етикетка повна</li><li>стіл спершу очищено, потім оброблено; експозицію 60 хв витримано</li><li>жодного змішування засобів</li></ul></div>
 <details class="gb-th" open><summary>Коротка теорія</summary><p><b>Формула:</b> V₁ = C₂ × V₂ / C₁, де C₁ — концентрація концентрату, C₂ — потрібна концентрація (%), V₂ — кінцевий об’єм у мл. Приклад: 5 л 0,2 % з 10 %: 0,2 × 5000 / 10 = 100 мл концентрату і <b>довести водою ДО 5 л</b> (не додавати до 5 л!).<br><b>Безпека:</b> рукавички й окуляри, провітрювання, засоби не змішувати. <b>Обробка:</b> спершу очищення від бруду (бруд інактивує засіб), потім нанесення, експозиція — від моменту нанесення, поверхні для їжі після експозиції змивають водою. Ємність маркують: назва, концентрація, дата і час, строк, хто приготував.</p></details>
+<p class="gb-note">⚠ <b>Перша повна спроба — залікова</b> (іде в оцінку за навички). Далі можна тренуватися скільки завгодно.</p>
 <button class="btn primary gm-start">Почати</button></div>
 <button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
 
@@ -607,6 +627,7 @@ body{margin:0}
 <div class="gb-sec"><b>Що робити</b><ol><li>Обирайте дії в тому порядку, як робили б насправді. Медик на фото змінюється після кожної дії — <b>помилки теж видно</b>.</li><li>Виконані правильні дії зникають зі списку. Неправильну можна виправити кнопкою «Зняти…».</li><li>Коли готові — «Зайти до пацієнта». Після огляду зніміть ЗІЗ у правильному порядку.</li></ol></div>
 <div class="gb-sec ok"><b>Критерії успіху</b><ul><li>респіратор FFP2 (не медична маска) з перевіркою прилягання</li><li>порядок надягання: прикраси → гігієна рук → халат → респіратор → окуляри → рукавички</li><li>під час роботи не торкатися обличчя</li><li>порядок знімання: рукавички → гігієна рук → окуляри → халат → респіратор → гігієна рук → відходи</li></ul></div>
 <details class="gb-th" open><summary>Коротка теорія</summary><p><b>ЗІЗ обирають за шляхом передачі.</b> Невідомий діагноз + респіраторні ознаки → комплект за вищим ризиком: халат, респіратор FFP2 і вище, захист очей, рукавички.<br><b>Надягання:</b> зняти прикраси й годинник → гігієна рук → халат → респіратор, перевірка прилягання (різкий видих — повітря не виходить по краях) → окуляри або щиток → рукавички поверх манжет.<br><b>Знімання</b> (найбрудніше — першим): рукавички, не торкаючись шкіри → гігієна рук → окуляри за дужки → халат, вивертаючи → респіратор за резинки останнім → гігієна рук → усе одноразове — в медичні відходи.</p></details>
+<p class="gb-note">⚠ <b>Перша повна спроба — залікова</b> (іде в оцінку за навички). Далі можна тренуватися скільки завгодно.</p>
 <button class="btn primary gm-start">Почати</button></div>
 <button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
 
@@ -642,6 +663,7 @@ body{margin:0}
 <div class="gb-sec"><b>Що робити</b><ol><li><b>Повторний огляд:</b> на фото підписані точки — свідомість, дихання, тиск, пульсоксиметр, турнікет, пов’язка. Торкніться їх — значення з’являться на моніторі. Час накладання написаний маркером на турнікеті.</li><li>Торкніться <b>рації</b> — зв’язок з координатором (куди везти).</li><li><b>Заповніть картку</b> 002/о, оберіть пріоритет, заклад і що робити з хворим з кашлем.</li><li><b>Передайте бригаді</b> за схемою MIST.</li></ol></div>
 <div class="gb-sec ok"><b>Критерії успіху</b><ul><li>огляд повний (свідомість, тиск, пульс, турнікет)</li><li>картку заповнено правильно, час турнікета вказано</li><li>пріоритет I, заклад узгоджено з координатором</li><li>інфекційно хворого — окремо</li><li>постраждалий передан до того, як тиск упаде критично</li></ul></div>
 <details class="gb-th" open><summary>Коротка теорія</summary><p><b>Картка 002/о:</b> ідентифікація, механізм, схема ушкоджень, турнікет і <b>час накладання</b>, показники з часом, надана допомога з часом. Картка їде разом із постраждалим.<br><b>Пріоритет:</b> I — терміново (до 1 год): турнікет, шок, порушення дихання; II — до 4 год; III — до 24 год. Колір START і пріоритет евакуації — не одне й те саме.<br><b>Заклад</b> обирають за профілем і спроможністю, узгоджують з координатором; потік розосереджують. Інфекційно підозрілих — окремим транспортом з інфекційним контролем.<br><b>MIST:</b> M — механізм і час, I — ушкодження, S — ознаки (показники), T — лікування (що і коли зроблено).</p></details>
+<p class="gb-note">⚠ <b>Перша повна спроба — залікова</b> (іде в оцінку за навички). Далі можна тренуватися скільки завгодно.</p>
 <button class="btn primary gm-start">Почати</button></div>
 <button class="btn gm-info" type="button">ⓘ Умови й критерії</button>
 
@@ -1379,7 +1401,24 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
   const saveSt=()=>{try{localStorage.setItem("vs"+LESSON,JSON.stringify(stats))}catch(e){}};
   const stOf=i=>{const s=stats[i];if(s==null)return null;return typeof s==="number"?{best:s,fails:0,done:1}:s};
   const oldList=q("#skList");
-  function hub(){q("#skRun").hidden=true;q("#skHead").hidden=false;oldList.hidden=false;
+  const PTS={2:100,1:75,0:50,"-1":0},GL={2:"бездоганно",1:"з помилками",0:"багато помилок","-1":"невдача"};
+  function gradeBox(){if(Object.keys(SPEC).length<SKILLS.length)return;let el=q("#skGrade");if(!el){oldList.insertAdjacentHTML("beforebegin",'<div id="skGrade" class="sk-grade"></div>');el=q("#skGrade")}
+    let G={};try{G=JSON.parse(localStorage.getItem("vg"+LESSON)||"{}")}catch(e){}
+    const rows=SKILLS.map((s,i)=>{const g=G[SPEC[i].sub];return {i,t:s.t,f:g&&g.first!=null?g.first:null}});const done=rows.filter(r=>r.f!=null);
+    const pct=done.length?Math.round(done.reduce((a,r)=>a+PTS[r.f],0)/SKILLS.length):0,all=done.length===SKILLS.length;
+    const gr=pct>=90?5:pct>=75?4:pct>=60?3:2;let sent=null;try{sent=localStorage.getItem("vgs"+LESSON)}catch(e){}
+    const nm=(typeof S!=="undefined"&&S&&S.name)||"",grp=(typeof S!=="undefined"&&S&&S.group)||"";
+    el.innerHTML=`<div class="sk-gh"><b>Оцінка за навички</b><span>${done.length} з ${SKILLS.length} залікових спроб</span></div>
+      <div class="sk-gl">${rows.map(r=>`<span class="${r.f==null?"":r.f>=1?"ok":r.f===0?"mid":"no"}">${LESSON}.${r.i+1}: ${r.f==null?"—":GL[r.f]+" · "+PTS[r.f]+"%"}</span>`).join("")}</div>
+      ${all?`<div class="sk-res"><b class="g${gr}">${gr}</b><span>${pct}% — ${gr===5?"відмінно":gr===4?"добре":gr===3?"задовільно":"незадовільно"}</span></div>
+      ${sent?`<p class="small" style="margin:0">✓ Надіслано викладачу ${sent}.</p>`:`<div class="sk-send"><input id="sgName" placeholder="Прізвище та ім’я" value="${esc(nm)}"><input id="sgGroup" placeholder="Група" value="${esc(grp)}"><button class="btn primary" id="sgSend">Надіслати оцінку викладачу</button></div>`}`
+      :`<p class="small muted" style="margin:0">Перша повна спроба кожної навички — залікова. Бали: бездоганно — 100 %, з помилками — 75 %, багато помилок — 50 %, невдача — 0. Оцінка: від 90 % — 5, від 75 % — 4, від 60 % — 3.</p>`}`;
+    const b=q("#sgSend");if(b)b.onclick=()=>{const n=q("#sgName").value.trim(),g=q("#sgGroup").value.trim();if(n.length<3||!g){q("#sgName").focus();return}
+      const d={type:"skills",lesson:LESSON,attempt:"s"+LESSON+"-"+Date.now().toString(36),name:n,group:g,variant:"",answered:SKILLS.length,total:SKILLS.length,score:pct,max:100,pct,grade:gr,
+        blocks:"Заняття "+LESSON+" · НАВИЧКИ ‖ "+rows.map(r=>LESSON+"."+(r.i+1)+": "+GL[r.f]+" ("+PTS[r.f]+"%)").join("; "),device:navigator.userAgent.slice(0,120)};
+      try{fetch(ENDPOINT,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)}).catch(()=>{})}catch(e){}
+      const t=new Date().toLocaleString("uk-UA",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});try{localStorage.setItem("vgs"+LESSON,t)}catch(e){}gradeBox()}}
+  function hub(){q("#skRun").hidden=true;q("#skHead").hidden=false;oldList.hidden=false;gradeBox();
     oldList.innerHTML=SKILLS.map((s,i)=>{const v=V[i],sp=SPEC[i];const thumb=sp?(sp.pos?`<span class="vthumb" style="display:block;aspect-ratio:16/9;background:url(${sp.img}) ${sp.pos}/300% 300%"></span>`:`<img class="vthumb" src="${sp.img}" alt="">`):v?icon(v.sprite,v.steps[0][1],"big"):"";let st=stOf(i);if(sp){let g={};try{g=JSON.parse(localStorage.getItem("vg"+LESSON)||"{}")[sp.sub]}catch(e){}if(g)st={done:g.done,fails:g.fails,best:g.best===2?0:g.best===1?"1–2":"3+"}}
       return `<button data-i="${i}" class="vcard">${thumb}<span class="n">Навичка ${LESSON}.${i+1}${sp?" · міні-гра":v?" · симулятор":" · покроковий тренажер"}</span><b>${esc(s.t)}</b><span class="st">${st&&st.done?`<span class="done">Виконано · найкраще: ${st.best} помил.${st.fails?` · невдач: ${st.fails}`:""}</span>`:st&&st.fails?`<span class="failed">Невдач: ${st.fails} — ще не виконано</span>`:"Не пройдено"}</span></button>`}).join("")}
   oldList.onclick=e=>{const b=e.target.closest("button");if(!b)return;e.stopImmediatePropagation();const i=+b.dataset.i;
@@ -1481,6 +1520,7 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
     const good=c===tc&&ip===(P.inf?1:0);
     return `<div class="simfb ${good?"ok":"no"}"><b>${c===tc?"Категорія правильна":"Неправильно, правильна категорія — "+CAT[tc]}.</b> ${why}${lines.length?`<ul>${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`:""}</div>`}
   function summary(){clearInterval(clock);const s=Math.floor((Date.now()-t0)/1000);const cnt=k=>tags.filter(x=>x===k).length,tcnt=k=>PTS.filter(p=>truth(p)[0]===k).length;
+    {const fr=ok/N;window.__gameDone&&window.__gameDone("start",fr>=.9?2:fr>=.7?1:fr>=.5?0:-1)}
     $("#simSum").innerHTML=`<div class="panel stack"><h3>Сортування завершено: ${ok} з ${N} повністю правильно (категорія + інфекція) · ${Math.floor(s/60)} хв ${s%60} с (${Math.round(s/N)} с на постраждалого)</h3>
     <div class="tablebox"><table class="sumt"><tr><th>Категорія</th><th class="num">Ви</th><th class="num">Насправді</th></tr>${CAT.map((c,k)=>`<tr><td>${c}</td><td class="num">${cnt(k)}</td><td class="num">${tcnt(k)}</td></tr>`).join("")}</table></div>
     <div class="tablebox"><table class="sumt"><tr><th>№</th><th>Ваша бирка</th><th>Інфекція</th><th>Правильно</th></tr>${PTS.map((p,i)=>{const tc=truth(p)[0],io=infs[i]===(p.inf?1:0);return `<tr><td class="num">${i+1}</td><td>${CAT[tags[i]]}</td><td>${infs[i]?"окремий потік":"—"}${io?"":" ✗"}</td><td>${tags[i]===tc?"✓":"<b>"+CAT[tc]+"</b> — "+truth(p)[1]}${io?"":" Ознаки інфекції: "+(p.inf?"є — потрібен окремий потік.":"немає.")}</td></tr>`}).join("")}</table></div>
@@ -1600,7 +1640,8 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
 (function(){
   const root=document.getElementById("gCamp");if(!root)return;
   const $=s=>root.querySelector(s);
-  const SL=[{x:35,y:24,h:5},{x:58,y:22,h:4},{x:80,y:24,h:3},{x:30,y:46,h:4},{x:52,y:45,h:3},{x:70,y:42,h:2},{x:30,y:70,h:3},{x:50,y:68,h:1.5},{x:30,y:90,h:2},{x:52,y:88,h:1},{x:84,y:62,h:0,wet:1}];
+  const HGT=(x,y)=>Math.round((95-0.4*y-x)/10*10)/10;
+  const SL=[{x:35,y:24},{x:58,y:22},{x:80,y:24},{x:30,y:46},{x:52,y:45},{x:70,y:42},{x:30,y:70},{x:50,y:68},{x:30,y:90},{x:52,y:88},{x:84,y:62,wet:1}].map(o=>Object.assign(o,{h:o.wet?-1:Math.max(0.3,HGT(o.x,o.y))}));
   const OB=[["L",0,"Житлові намети"],["K",1,"Кухня і їдальня"],["W",2,"Пункт видачі води"],["T",3,"Туалети"],["O",4,"Відходи"],["I",5,"Ізолятор"],["M",6,"Медпункт"]];
   const PP=[2.2,50,97.8];const ic=i=>`<span class="gc-ic" style="background-position:${PP[i%3]}% ${PP[Math.floor(i/3)]}%"></span>`;
   const WELL={x:19,y:15},S=2; // 1% = 2 m
@@ -1609,7 +1650,7 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
   function reset(){pos={};sel=null;ran=false;if($("#gcFx"))$("#gcFx").innerHTML="";$("#gcOut").innerHTML="";$("#gcMsg").innerHTML="";draw()}
   function draw(){
     $("#gcSlots").innerHTML=SL.map((s,i)=>{const k=Object.keys(pos).find(k=>pos[k]===i),o=k&&OB.find(x=>x[0]===k);
-      return `<button class="gc-slot ${o?"full":sel&&!ran?"armed":""} ${s.wet?"wet":""}" data-i="${i}" style="left:${s.x}%;top:${s.y}%" aria-label="Місце ${i+1}">${o?ic(o[1])+`<span class="gc-lb">${o[2].split(" ")[0]}</span>`:""}</button>`}).join("");
+      return `<button class="gc-slot ${o?"full":sel&&!ran?"armed":""} ${s.wet?"wet":""}" data-i="${i}" style="left:${s.x}%;top:${s.y}%" aria-label="Місце ${i+1}">${o?ic(o[1])+`<span class="gc-lb">${o[2].split(" ")[0]}</span>`:""}<span class="gc-h">${s.wet?"болото":"+"+s.h+" м"}</span></button>`}).join("");
     $("#gcTray").innerHTML=OB.map(o=>`<button data-k="${o[0]}" class="${sel===o[0]?"sel":""} ${pos[o[0]]!=null?"used":""}">${ic(o[1])}${o[2]}</button>`).join("");
     const n=Object.keys(pos).length;$("#gcLeft").textContent=`Розміщено ${n} з 7`;$("#gcRun").disabled=n<7||ran}
   $("#gcTray").onclick=e=>{const b=e.target.closest("button");if(!b||ran)return;sel=sel===b.dataset.k?null:b.dataset.k;draw()};
@@ -1621,10 +1662,10 @@ const SPECIAL={"0": {"img": "img/g10-shelter.webp", "sub": "gInsp"}, "1": {"img"
     const push=(sev,day,t,why,inv,flow)=>ev.push({sev,day,t,why,inv:inv||[],flow});
     if(W.wet)push(2,2,"Пункт видачі води в низині підтопило дощем — у ємності потрапила поверхнева вода. Спалах кишкової інфекції.","Воду видають на підвищенні, далеко від стоків.",["W"],null);
     if(L.wet||K.wet||I.wet||M.wet)push(1,2,"Після нічного дощу об’єкт у низині підтопило; комарі, сирість, люди мерзнуть.","Низину і заболочені ділянки під табір не використовують.",["L","K","I","M"].filter(k=>P(k).wet),null);
-    if(T.h>=W.h||T.h>=K.h)push(2,3,"Злива: стоки з туалетів стекли схилом до "+(T.h>=W.h?"пункту видачі води":"кухні")+". За дві доби — 17 випадків діареї.","Туалети розташовують нижче за рельєфом від води, кухні й житла.",["T",T.h>=W.h?"W":"K"],["T",T.h>=W.h?"W":"K"]);
+    if(T.h>W.h+0.3||T.h>K.h+0.3){const v=T.h>W.h+0.3?"W":"K";push(2,3,`Злива: туалети стоять вище (+${T.h} м), ніж ${v==="W"?"пункт видачі води":"кухня"} (+${P(v).h} м) — стоки стекли схилом униз до ${v==="W"?"води":"кухні"}. За дві доби — 17 випадків діареї.`,"Туалети розташовують нижче за рельєфом від води, кухні й житла.",["T",v],["T",v])}
     if(d(T,WELL)<60||d(T,W)<50||d(T,K)<50)push(2,3,"Туалети занадто близько до "+(d(T,K)<50?"кухні":"води")+": мухи і стоки переносять збудників. Спалах.","Туалети — не ближче 50 м від кухні та води (від свердловини — ще далі).",["T",d(T,K)<50?"K":"W"],["T",d(T,K)<50?"K":"W"]);
     if(d(T,L)>60)push(1,2,"До туалетів понад "+Math.round(d(T,L)/10)*10+" м — уночі люди ходять у кущі біля наметів.","Туалети — не далі ≈50 м від житла.",["T","L"],null);
-    if(T.h>L.h)push(1,3,"Туалети вище за житло: після дощу стоки йдуть до наметів.","Туалети — нижче за рельєфом.",["T","L"],["T","L"]);
+    if(T.h>L.h+0.3)push(1,3,`Туалети (+${T.h} м) вище за намети (+${L.h} м): після дощу стоки стікають до житла.`,"Туалети — нижче за рельєфом.",["T","L"],["T","L"]);
     if(K.x>T.x||K.x>O.x)push(1,2,"Вітер заносить запах і мух з "+(K.x>T.x?"туалетів":"відходів")+" на кухню.","Кухню ставлять з навітряного боку від туалетів і відходів.",["K",K.x>T.x?"T":"O"],[K.x>T.x?"T":"O","K"]);
     if(d(O,K)<50||d(O,W)<50)push(1,3,"Відходи поруч із "+(d(O,K)<50?"кухнею":"водою")+": мухи, гризуни.","Відходи — не ближче 50 м від кухні та води, у закритих контейнерах.",["O",d(O,K)<50?"K":"W"],["O",d(O,K)<50?"K":"W"]);
     if(d(O,L)<25)push(1,2,"Контейнери з відходами впритул до наметів — запах, мухи.","Відходи — окремий майданчик, з підвітряного боку.",["O","L"],["O","L"]);
@@ -1946,7 +1987,7 @@ const show=id=>{sel.querySelectorAll("button").forEach(x=>x.setAttribute("aria-p
 sel.onclick=e=>{const b=e.target.closest("button");if(b){show(b.dataset.s);window.scrollTo(0,0)}};window.__showGame=show;
 document.addEventListener("click",e=>{const b=e.target.closest(".gm-start,.gm-info");if(!b)return;const g=b.closest(".gm");if(!g)return;g.classList.toggle("gm-pre",b.classList.contains("gm-info"));window.scrollTo(0,0)});
 document.addEventListener("contextmenu",e=>{if(e.target.closest("#v-sim"))e.preventDefault()});
-const MAP={insp:"gInsp",camp:"gCamp",dis:"gDis",ppe:"gPpe",evac:"gEvac"};window.__gameDone=(g,r)=>{let s={};try{s=JSON.parse(localStorage.getItem("vg"+LESSON)||"{}")}catch(e){}const k=MAP[g],o=s[k]||{done:0,fails:0,best:-2};if(r<0)o.fails++;else{o.done++;o.best=Math.max(o.best,r)}s[k]=o;try{localStorage.setItem("vg"+LESSON,JSON.stringify(s))}catch(e){}if(window.__vhub)window.__vhub()}})();
+const MAP={insp:"gInsp",camp:"gCamp",dis:"gDis",ppe:"gPpe",evac:"gEvac",start:"simStart"};window.__gameDone=(g,r)=>{let s={};try{s=JSON.parse(localStorage.getItem("vg"+LESSON)||"{}")}catch(e){}const k=MAP[g],o=s[k]||{done:0,fails:0,best:-2};if(o.first==null){o.first=r;o.firstAt=Date.now()}if(r<0)o.fails++;else{o.done++;o.best=Math.max(o.best,r)}s[k]=o;try{localStorage.setItem("vg"+LESSON,JSON.stringify(s))}catch(e){}if(window.__vhub)window.__vhub()}})();
 
 /* ---------- practice ---------- */
 (function(){

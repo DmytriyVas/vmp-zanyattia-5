@@ -299,6 +299,13 @@ body{margin:0}
 .vfail .vcons{grid-template-columns:1fr}
 .vcard .failed{color:var(--bad)}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.sk-grade{background:var(--surface);border:2px solid var(--ink);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.sk-gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.sk-gh span{font:600 13px var(--f-mono);color:var(--muted)}
+.sk-gl{display:flex;flex-wrap:wrap;gap:4px}.sk-gl span{font:600 12px var(--f-mono);padding:3px 7px;border-radius:6px;background:var(--bg);border:1px solid var(--line)}
+.sk-gl span.ok{background:var(--ok-soft);border-color:var(--ok)}.sk-gl span.mid{background:#FFF1D6;border-color:#C98A12}.sk-gl span.no{background:var(--bad-soft);border-color:var(--bad)}
+.sk-res{display:flex;align-items:center;gap:12px}.sk-res b{font:800 40px/1 var(--f-mono);width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--ok-soft)}
+.sk-res b.g2{background:var(--bad-soft)}.sk-res b.g3{background:#FFF1D6}
+.sk-send{display:flex;flex-wrap:wrap;gap:6px}.sk-send input{flex:1;min-width:140px}
 .vdone{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .vdone li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:6px 8px;font-size:14px}
 .vdone li small{display:block;color:var(--muted);font-size:12px}
@@ -307,7 +314,7 @@ body{margin:0}
 .vcard{position:relative}
 </style>
   <div class="stack" id="skHead">
-    <span class="eyebrow">Навички з РПОК · на оцінку не впливає</span>
+    <span class="eyebrow">Практичні навички з РП</span>
     <h2>Практичні навички заняття</h2>
     <p class="muted">Кожна навичка — практичне вміння з РП у вигляді ситуації або міні-гри з реальною сценою. Неправильна дія має наслідок: ви бачите, що сталося з людьми, а шкала стану падає. Критична помилка — <b>невдача</b>, навичку доведеться почати заново. Після правильного кроку бачите обґрунтування.</p>
   </div>
@@ -751,7 +758,24 @@ const SPECIAL={"3": {"img": "img/s6-undressed.webp", "sub": "simDecon"}, "5": {"
   const saveSt=()=>{try{localStorage.setItem("vs"+LESSON,JSON.stringify(stats))}catch(e){}};
   const stOf=i=>{const s=stats[i];if(s==null)return null;return typeof s==="number"?{best:s,fails:0,done:1}:s};
   const oldList=q("#skList");
-  function hub(){q("#skRun").hidden=true;q("#skHead").hidden=false;oldList.hidden=false;
+  const PTS={2:100,1:75,0:50,"-1":0},GL={2:"бездоганно",1:"з помилками",0:"багато помилок","-1":"невдача"};
+  function gradeBox(){if(Object.keys(SPEC).length<SKILLS.length)return;let el=q("#skGrade");if(!el){oldList.insertAdjacentHTML("beforebegin",'<div id="skGrade" class="sk-grade"></div>');el=q("#skGrade")}
+    let G={};try{G=JSON.parse(localStorage.getItem("vg"+LESSON)||"{}")}catch(e){}
+    const rows=SKILLS.map((s,i)=>{const g=G[SPEC[i].sub];return {i,t:s.t,f:g&&g.first!=null?g.first:null}});const done=rows.filter(r=>r.f!=null);
+    const pct=done.length?Math.round(done.reduce((a,r)=>a+PTS[r.f],0)/SKILLS.length):0,all=done.length===SKILLS.length;
+    const gr=pct>=90?5:pct>=75?4:pct>=60?3:2;let sent=null;try{sent=localStorage.getItem("vgs"+LESSON)}catch(e){}
+    const nm=(typeof S!=="undefined"&&S&&S.name)||"",grp=(typeof S!=="undefined"&&S&&S.group)||"";
+    el.innerHTML=`<div class="sk-gh"><b>Оцінка за навички</b><span>${done.length} з ${SKILLS.length} залікових спроб</span></div>
+      <div class="sk-gl">${rows.map(r=>`<span class="${r.f==null?"":r.f>=1?"ok":r.f===0?"mid":"no"}">${LESSON}.${r.i+1}: ${r.f==null?"—":GL[r.f]+" · "+PTS[r.f]+"%"}</span>`).join("")}</div>
+      ${all?`<div class="sk-res"><b class="g${gr}">${gr}</b><span>${pct}% — ${gr===5?"відмінно":gr===4?"добре":gr===3?"задовільно":"незадовільно"}</span></div>
+      ${sent?`<p class="small" style="margin:0">✓ Надіслано викладачу ${sent}.</p>`:`<div class="sk-send"><input id="sgName" placeholder="Прізвище та ім’я" value="${esc(nm)}"><input id="sgGroup" placeholder="Група" value="${esc(grp)}"><button class="btn primary" id="sgSend">Надіслати оцінку викладачу</button></div>`}`
+      :`<p class="small muted" style="margin:0">Перша повна спроба кожної навички — залікова. Бали: бездоганно — 100 %, з помилками — 75 %, багато помилок — 50 %, невдача — 0. Оцінка: від 90 % — 5, від 75 % — 4, від 60 % — 3.</p>`}`;
+    const b=q("#sgSend");if(b)b.onclick=()=>{const n=q("#sgName").value.trim(),g=q("#sgGroup").value.trim();if(n.length<3||!g){q("#sgName").focus();return}
+      const d={type:"skills",lesson:LESSON,attempt:"s"+LESSON+"-"+Date.now().toString(36),name:n,group:g,variant:"",answered:SKILLS.length,total:SKILLS.length,score:pct,max:100,pct,grade:gr,
+        blocks:"Заняття "+LESSON+" · НАВИЧКИ ‖ "+rows.map(r=>LESSON+"."+(r.i+1)+": "+GL[r.f]+" ("+PTS[r.f]+"%)").join("; "),device:navigator.userAgent.slice(0,120)};
+      try{fetch(ENDPOINT,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)}).catch(()=>{})}catch(e){}
+      const t=new Date().toLocaleString("uk-UA",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});try{localStorage.setItem("vgs"+LESSON,t)}catch(e){}gradeBox()}}
+  function hub(){q("#skRun").hidden=true;q("#skHead").hidden=false;oldList.hidden=false;gradeBox();
     oldList.innerHTML=SKILLS.map((s,i)=>{const v=V[i],sp=SPEC[i];const thumb=sp?(sp.pos?`<span class="vthumb" style="display:block;aspect-ratio:16/9;background:url(${sp.img}) ${sp.pos}/300% 300%"></span>`:`<img class="vthumb" src="${sp.img}" alt="">`):v?icon(v.sprite,v.steps[0][1],"big"):"";let st=stOf(i);if(sp){let g={};try{g=JSON.parse(localStorage.getItem("vg"+LESSON)||"{}")[sp.sub]}catch(e){}if(g)st={done:g.done,fails:g.fails,best:g.best===2?0:g.best===1?"1–2":"3+"}}
       return `<button data-i="${i}" class="vcard">${thumb}<span class="n">Навичка ${LESSON}.${i+1}${sp?" · міні-гра":v?" · симулятор":" · покроковий тренажер"}</span><b>${esc(s.t)}</b><span class="st">${st&&st.done?`<span class="done">Виконано · найкраще: ${st.best} помил.${st.fails?` · невдач: ${st.fails}`:""}</span>`:st&&st.fails?`<span class="failed">Невдач: ${st.fails} — ще не виконано</span>`:"Не пройдено"}</span></button>`}).join("")}
   oldList.onclick=e=>{const b=e.target.closest("button");if(!b)return;e.stopImmediatePropagation();const i=+b.dataset.i;
