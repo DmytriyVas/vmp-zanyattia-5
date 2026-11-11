@@ -185,11 +185,12 @@ footer{border-top:1px solid var(--line);padding-block:20px 90px;font-size:13px;c
 #simSel{display:none!important}
 .simback{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
 button,a,.gm-stage,.gd-acts button{-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.nst{margin-top:18px;font-size:14px;color:var(--muted)}.nst summary{cursor:pointer}.nst .row{margin-top:8px}
 [hidden]{display:none!important}
 body{margin:0}
 </style>
 </head>
-<body><script>(function(){var B="11.11 12:41·1794393667";window.__BUILD=B;try{fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=/window.__BUILD=B;|var B="([^"]+)"/.exec(t);var mm=/var B="([^"]+)"/.exec(t);if(mm&&mm[1]!==B){var k="rl"+mm[1];try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,1)}catch(e){}location.replace(location.pathname+"?v="+encodeURIComponent(mm[1].split("·")[1])+location.hash)}}).catch(function(){})}catch(e){}})();</script>
+<body><script>(function(){var B="11.11 13:21·1794396076";window.__BUILD=B;try{fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=/window.__BUILD=B;|var B="([^"]+)"/.exec(t);var mm=/var B="([^"]+)"/.exec(t);if(mm&&mm[1]!==B){var k="rl"+mm[1];try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,1)}catch(e){}location.replace(location.pathname+"?v="+encodeURIComponent(mm[1].split("·")[1])+location.hash)}}).catch(function(){})}catch(e){}})();</script>
 
 <header class="top">
   <div class="wrap">
@@ -255,6 +256,9 @@ body{margin:0}
 
   <!-- items -->
   <div id="testBox" class="stack" hidden></div>
+  <details class="nst" id="nstBox"><summary>Новий студент на цьому пристрої (для викладача)</summary>
+    <p class="small muted">Повністю очищає на цьому телефоні підсумковий контроль, навички й оцінку за навички цього заняття. Результати, вже надіслані в журнал, лишаються у викладача.</p>
+    <div class="row"><input type="password" inputmode="numeric" id="nstPin" placeholder="Код викладача" style="max-width:180px"><button class="btn" id="nstGo">Очистити для нового студента</button></div><span class="err" id="nstErr"></span></details>
 </section>
 
 <!-- ================= SKILLS ================= -->
@@ -728,6 +732,8 @@ function errList(){
 }
 /* ---------- send to teacher's register ---------- */
 const RETAKE_PIN="103";
+document.getElementById("nstGo").onclick=()=>{if(document.getElementById("nstPin").value.trim()!==RETAKE_PIN){document.getElementById("nstErr").textContent="Невірний код.";return}
+  try{[KEY,"vg"+LESSON,"vgs"+LESSON,"vs"+LESSON].forEach(k=>localStorage.removeItem(k))}catch(e){}location.href=location.pathname+"?n="+Date.now()+"#control"};
 const ENDPOINT="https://script.google.com/macros/s/AKfycbxzWnZyTOn50rCaQTg2ax-DwRlJK9tvHY4Nuan0Dcb9wEUInJDWhz9GcvUEgyZzUhKq/exec";
 function send(type){
   if(!ENDPOINT)return;
@@ -1015,5 +1021,5 @@ $("#pT").addEventListener("input",prim);prim();
 })();
 </script>
 
-<p style="text-align:center;font:500 11px monospace;color:#999;margin:8px 0 16px">версія 11.11 12:41</p></body>
+<p style="text-align:center;font:500 11px monospace;color:#999;margin:8px 0 16px">версія 11.11 13:21</p></body>
 </html>
